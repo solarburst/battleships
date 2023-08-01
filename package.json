@@ -2,7 +2,9 @@
   "name": "@battleships/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "dev": "npx nx run-many --parallel --target=serve --projects=backend,frontend"
+  },
   "private": true,
   "dependencies": {
     "@hapi/joi": "^17.1.1",

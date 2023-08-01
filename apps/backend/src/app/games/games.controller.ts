@@ -8,8 +8,13 @@ export class GamesController {
         private readonly gamesService: GamesService
     ) {}
 
+    // @Post()
+    // async createGame(@Body() game: GameDto) {
+    //     return this.gamesService.createGame(game);
+    // }
+
     @Post()
-    async createGame(@Body() game: GameDto) {
-        return this.gamesService.createGame(game);
+    async createGame() {
+        return this.gamesService.createGame();
     }
 }

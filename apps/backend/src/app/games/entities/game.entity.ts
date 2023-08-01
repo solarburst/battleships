@@ -18,12 +18,12 @@ export class GameEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(() => UserEntity)
-    @JoinColumn()
+    @ManyToOne(() => UserEntity, (firstUser) => firstUser.id)
+    @JoinColumn({ name: 'firstUserId' })
     firstUser: UserEntity;
 
-    @ManyToOne(() => UserEntity)
-    @JoinColumn()
+    @ManyToOne(() => UserEntity, (secondUser) => secondUser.id)
+    @JoinColumn({ name: 'secondUserId' })
     secondUser: UserEntity;
 
     @Column({

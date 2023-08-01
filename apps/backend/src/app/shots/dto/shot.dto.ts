@@ -1,4 +1,4 @@
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty, IsNumber, Min, Max } from "class-validator";
 
 export class ShotDto {
     @IsNotEmpty()
@@ -8,8 +8,14 @@ export class ShotDto {
     gameId: number;
 
     @IsNotEmpty()
+    @IsNumber()
+    @Min(0)
+    @Max(10)
     x: number;
 
     @IsNotEmpty()
+    @IsNumber()
+    @Min(0)
+    @Max(10)
     y: number;
 }
