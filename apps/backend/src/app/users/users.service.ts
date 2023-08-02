@@ -20,4 +20,9 @@ export class UsersService {
         await this.usersRepository.save(newUser);
         return newUser;
     }
+
+    async getUserById(id: number) {
+        const user = await this.usersRepository.findOne({ where: { id } })
+        return user
+    }
 }

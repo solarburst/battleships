@@ -44,8 +44,10 @@ export class ShipEntity {
     orientation: Orientation;
 
     @Column()
+    @Exclude()
     userId: number;
 
     @Column()
+    @Exclude()
     gameId: number;
 }

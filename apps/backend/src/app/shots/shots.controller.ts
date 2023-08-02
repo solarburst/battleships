@@ -16,11 +16,11 @@ export class ShotsController {
 
     @Get(':id')
     async getShotsByGame(@Param('id') id: string) {
-        return this.shotsService.getShotsByGame(+id);
+        return this.shotsService.getShotsByGame(Number(id));
     }
 
     @Get(':gameId/:userId')
     async getShotsByUserAndGame(@Param('userId') userId: string, @Param('gameId') gameId: string) {
-        return this.shotsService.getShotsByUserAndGame(+userId, +gameId);
+        return this.shotsService.getShotsByUserAndGame(Number(userId), Number(gameId));
     }
 }

@@ -1,11 +1,10 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus, forwardRef, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { GameEntity, Stage } from './entities/game.entity';
 import { GameDto } from './dto/game.dto';
 import { UsersService } from '../users/users.service';
-import { ShipEntity } from '../ships/entities/ship.entity';
-import { amountShipType } from '../utils/amountShipType';
+import { ShipsService } from '../ships/ships.service';
 
 @Injectable()
 export class GamesService {
@@ -13,6 +12,8 @@ export class GamesService {
         @InjectRepository(GameEntity)
         private gamesRepository: Repository<GameEntity>,
         private usersService: UsersService,
+        @Inject(forwardRef(() => ShipsService))
+        private shipsService: ShipsService,
     ) {}
 
     async createGame() {
@@ -27,7 +28,9 @@ export class GamesService {
         });
         await this.gamesRepository.save(newGame);
         return {
-            ...newGame,
+            id: newGame.id,
+            isFirstUserTurn: newGame.isFirstUserTurn,
+            stage: newGame.stage,
             firstUser: firstUser.code,
             secondUser: secondUser.code
         }
@@ -39,11 +42,34 @@ export class GamesService {
         if (updatedGame) {
             return updatedGame;
         }
-        throw new HttpException('Game not found', HttpStatus.NOT_FOUND);
+        throw new HttpException('Игра не найдена', HttpStatus.NOT_FOUND);
     }
 
     async getAllGames() {
         const games = await this.gamesRepository.find({});
         return games;
+    }
+
+    async getGameById(id: number) {
+        const game = await this.gamesRepository.findOne({ where: { id }});
+        return game;
+    }
+
+    async getGameUserInfo(gameId: number, userId: number) {
+        const game = await this.gamesRepository.findOne({ where: { id: gameId }});
+        if (!game) {
+            throw new HttpException('Игра не найдена', HttpStatus.NOT_FOUND);
+        }
+        if ((game.firstUserId !== userId) && (game.secondUserId !== userId)) {
+            throw new HttpException('Такого игрока нет в игре', HttpStatus.BAD_REQUEST);
+        }
+        const ships = await this.shipsService.getShipsByUserAndGame(userId, gameId);
+        return {
+            gameId,
+            userId,
+            stage: game.stage,
+            isFirstUserTurn: game.isFirstUserTurn,
+            ships: [...ships],
+        }
     }
 }

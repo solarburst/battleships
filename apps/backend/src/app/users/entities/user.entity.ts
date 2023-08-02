@@ -4,6 +4,7 @@ import {
     Entity,
     PrimaryGeneratedColumn,
 } from 'typeorm';
+import { PositionChecker } from '../../utils/positionChecker';
 
 @Entity('users')
 export class UserEntity {
@@ -12,4 +13,6 @@ export class UserEntity {
 
     @Column()
     code: string;
+
+    positionChecker: PositionChecker = new PositionChecker;
 }

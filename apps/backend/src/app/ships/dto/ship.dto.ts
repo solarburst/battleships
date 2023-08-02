@@ -3,12 +3,6 @@ import { Orientation } from "../entities/ship.entity";
 
 export class ShipDto {
     @IsNotEmpty()
-    userId: number;
-
-    @IsNotEmpty()
-    gameId: number;
-
-    @IsNotEmpty()
     @IsNumber()
     @Min(0)
     @Max(10)
