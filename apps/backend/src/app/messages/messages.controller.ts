@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Patch, Post } from '@nestjs/common';
+import { Body, ClassSerializerInterceptor, Controller, Get, Patch, Post, UseInterceptors } from '@nestjs/common';
 import { MessagesService } from './messages.service';
 import { MessageDto } from './dto/message.dto';
 
 @Controller('messages')
+@UseInterceptors(ClassSerializerInterceptor)
 export class MessagesController {
     constructor(
         private readonly messagesService: MessagesService

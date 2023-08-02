@@ -8,12 +8,12 @@ import { MessageDto } from './dto/message.dto';
 export class MessagesService {
     constructor(
         @InjectRepository(MessageEntity)
-        private messageRepository: Repository<MessageEntity>,
+        private messagesRepository: Repository<MessageEntity>,
     ) {}
 
     async createMessage(message: MessageDto) {
-        const newMessage = await this.messageRepository.create(message);
-        await this.messageRepository.save(newMessage);
+        const newMessage = await this.messagesRepository.create(message);
+        await this.messagesRepository.save(newMessage);
         return newMessage;
     }
 }

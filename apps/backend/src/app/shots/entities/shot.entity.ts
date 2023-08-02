@@ -7,18 +7,19 @@ import {
 } from 'typeorm';
 import { UserEntity } from '../../users/entities/user.entity';
 import { GameEntity } from '../../games/entities/game.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity('shots')
 export class ShotEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(() => UserEntity)
-    @JoinColumn()
+    @ManyToOne(() => UserEntity, (user) => user.id)
+    @JoinColumn({ name: 'userId' })
     user: UserEntity;
 
-    @ManyToOne(() => GameEntity)
-    @JoinColumn()
+    @ManyToOne(() => GameEntity, (game) => game.id)
+    @JoinColumn({ name: 'gameId' })
     game: GameEntity;
 
     @Column()
@@ -26,4 +27,12 @@ export class ShotEntity {
 
     @Column()
     y: number;
+
+    @Column()
+    @Exclude()
+    userId: number;
+
+    @Column()
+    @Exclude()
+    gameId: number;
 }

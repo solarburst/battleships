@@ -1,8 +1,9 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Get, Body, Param, ClassSerializerInterceptor, UseInterceptors } from '@nestjs/common';
 import { ShotsService } from './shots.service';
 import { ShotDto } from './dto/shot.dto';
 
 @Controller('shots')
+@UseInterceptors(ClassSerializerInterceptor)
 export class ShotsController {
     constructor(
         private readonly shotsService: ShotsService
@@ -11,5 +12,15 @@ export class ShotsController {
     @Post()
     async createShot(@Body() shot: ShotDto) {
         return this.shotsService.createShot(shot);
+    }
+
+    @Get(':id')
+    async getShotsByGame(@Param('id') id: string) {
+        return this.shotsService.getShotsByGame(+id);
+    }
+
+    @Get(':gameId/:userId')
+    async getShotsByUserAndGame(@Param('userId') userId: string, @Param('gameId') gameId: string) {
+        return this.shotsService.getShotsByUserAndGame(+userId, +gameId);
     }
 }

@@ -4,23 +4,23 @@ import {
     PrimaryGeneratedColumn,
     JoinColumn,
     ManyToOne,
-    OneToOne,
     CreateDateColumn
 } from 'typeorm';
 import { GameEntity } from '../../games/entities/game.entity';
 import { UserEntity } from '../../users/entities/user.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity('messages')
 export class MessageEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(() => UserEntity)
-    @JoinColumn()
+    @ManyToOne(() => UserEntity, (user) => user.id)
+    @JoinColumn({ name: 'userId' })
     user: UserEntity;
 
-    @ManyToOne(() => GameEntity)
-    @JoinColumn()
+    @ManyToOne(() => GameEntity, (game) => game.id)
+    @JoinColumn({ name: 'gameId' })
     game: GameEntity;
 
     @Column()
@@ -28,4 +28,12 @@ export class MessageEntity {
 
     @CreateDateColumn()
     created_at: Date;
+
+    @Column()
+    @Exclude()
+    userId: number;
+
+    @Column()
+    @Exclude()
+    gameId: number;
 }

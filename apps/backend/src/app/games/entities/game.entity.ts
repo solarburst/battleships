@@ -6,6 +6,7 @@ import {
     ManyToOne
 } from 'typeorm';
 import { UserEntity } from '../../users/entities/user.entity';
+import { Exclude } from 'class-transformer';
 
 export enum Stage {
     SETUP = "setup",
@@ -32,4 +33,15 @@ export class GameEntity {
         default: Stage.SETUP
     })
     stage: Stage;
+
+    @Column()
+    isFirstUserTurn: boolean;
+
+    @Column()
+    @Exclude()
+    firstUserId: number;
+
+    @Column()
+    @Exclude()
+    secondUserId: number;
 }

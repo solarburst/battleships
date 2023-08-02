@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { UserEntity } from '../../users/entities/user.entity';
 import { GameEntity } from '../../games/entities/game.entity';
+import { Exclude } from 'class-transformer';
 
 export enum Orientation {
     HORIZONTAL = "horizontal",
@@ -18,12 +19,12 @@ export class ShipEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(() => UserEntity)
-    @JoinColumn()
+    @ManyToOne(() => UserEntity, (user) => user.id)
+    @JoinColumn({ name: 'userId' })
     user: UserEntity;
 
-    @ManyToOne(() => GameEntity)
-    @JoinColumn()
+    @ManyToOne(() => GameEntity, (game) => game.id)
+    @JoinColumn({ name: 'gameId' })
     game: GameEntity;
 
     @Column()
@@ -41,4 +42,10 @@ export class ShipEntity {
         default: Orientation.HORIZONTAL
     })
     orientation: Orientation;
+
+    @Column()
+    userId: number;
+
+    @Column()
+    gameId: number;
 }
