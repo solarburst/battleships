@@ -56,13 +56,16 @@ export class GamesService {
     }
 
     async getGameUserInfo(gameId: number, userId: number) {
-        const game = await this.gamesRepository.findOne({ where: { id: gameId }});
+        const game = await this.gamesRepository.findOne({ where: [
+            { id: gameId, firstUserId: userId },
+            { id: gameId, secondUserId: userId }
+        ]});
         if (!game) {
             throw new HttpException('Игра не найдена', HttpStatus.NOT_FOUND);
         }
-        if ((game.firstUserId !== userId) && (game.secondUserId !== userId)) {
-            throw new HttpException('Такого игрока нет в игре', HttpStatus.BAD_REQUEST);
-        }
+        // if ((game.firstUserId !== userId) && (game.secondUserId !== userId)) {
+        //     throw new HttpException('Такого игрока нет в игре', HttpStatus.BAD_REQUEST);
+        // }
         const ships = await this.shipsService.getShipsByUserAndGame(userId, gameId);
         return {
             gameId,

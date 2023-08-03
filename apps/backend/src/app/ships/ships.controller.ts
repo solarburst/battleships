@@ -10,8 +10,8 @@ export class ShipsController {
     ) {}
 
     @Post('/:gameId/:userId')
-    async createShip(@Param('gameId') gameId: string, @Param('userId') userId: string, @Body() ship: ShipDto) {
-        return this.shipsService.createShip(Number(gameId), Number(userId), ship);
+    async createShip(@Param('gameId') gameId: string, @Param('userId') userId: string, @Body() ships: ShipDto[]) {
+        return this.shipsService.createShip(Number(gameId), Number(userId), ships);
     }
 
     @Get(':id')
@@ -22,5 +22,10 @@ export class ShipsController {
     @Get('/:gameId/:userId')
     async getShipsByUserAndGame(@Param('userId') userId: string, @Param('gameId') gameId: string) {
         return this.shipsService.getShipsByUserAndGame(Number(userId), Number(gameId));
+    }
+
+    @Patch('/:gameId/:userId/:shipId')
+    async moveShip(@Param('gameId') gameId: string, @Param('userId') userId: string, @Param('shipId') shipId: string, @Body() shipInfo: ShipDto) {
+        return this.shipsService.moveShip(Number(gameId), Number(userId), Number(shipId), shipInfo);
     }
 }

@@ -19,16 +19,6 @@ export class GamesController {
         return this.gamesService.updateGame(Number(id), gameDto);
     }
 
-    @Get('/all')
-    async getAllGames() {
-        return this.gamesService.getAllGames();
-    }
-
-    @Get(':id')
-    async getGameById(@Param('id') id: string) {
-        return this.gamesService.getGameById(Number(id));
-    }
-
     @Get('/:gameId/:userId')
     async getGameUserInfo(@Param('gameId') gameId: string, @Param('userId') userId: string) {
         return this.gamesService.getGameUserInfo(Number(gameId), Number(userId));

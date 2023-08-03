@@ -8,6 +8,6 @@ export class MessageDto {
     gameId: number;
 
     @IsNotEmpty()
-    @MaxLength(100)
+    @MaxLength(250)
     message: string;
 }

@@ -1,11 +1,11 @@
 import { IsNotEmpty, IsNumber, Min, Max } from "class-validator";
 
 export class ShotDto {
-    @IsNotEmpty()
-    userId: number;
+    // @IsNotEmpty()
+    // userId: number;
 
-    @IsNotEmpty()
-    gameId: number;
+    // @IsNotEmpty()
+    // gameId: number;
 
     @IsNotEmpty()
     @IsNumber()
