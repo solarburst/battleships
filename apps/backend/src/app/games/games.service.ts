@@ -24,14 +24,14 @@ export class GamesService {
             stage: Stage.SETUP,
             firstUser,
             secondUser,
-            isFirstUserTurn: true,
+            userTurn: true,
         });
 
         await this.gamesRepository.save(newGame);
 
         return {
             id: newGame.id,
-            isFirstUserTurn: newGame.isFirstUserTurn,
+            isFirstUserTurn: newGame.userTurn,
             stage: newGame.stage,
             firstUser: firstUser.code,
             secondUser: secondUser.code,
@@ -75,7 +75,7 @@ export class GamesService {
             gameId,
             userId,
             stage: game.stage,
-            isFirstUserTurn: game.isFirstUserTurn,
+            isFirstUserTurn: game.userTurn,
             ships: [...ships],
         };
     }

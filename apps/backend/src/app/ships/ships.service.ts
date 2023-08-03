@@ -28,7 +28,6 @@ export class ShipsService {
         const user = await this.usersService.getUserById(userId);
 
         user.positionChecker.putShipsIntoField(shipsCheck);
-        console.log(user.positionChecker.positions);
 
         const newShips: ShipEntity[] = [];
 
@@ -81,6 +80,20 @@ export class ShipsService {
     async getShipsByUserAndGame(userId: number, gameId: number) {
         const foundedShips = await this.shipsRepository.find({ where: { userId, gameId } });
 
-        return foundedShips;
+        if (foundedShips) {
+            return foundedShips;
+        }
+        throw new HttpException('Корабли не найдены', HttpStatus.NOT_FOUND);
+    }
+
+    async deleteShips(gameId: number, userId: number) {
+        const foundedShips = await this.shipsRepository.find({ where: { userId, gameId } });
+
+        if (foundedShips) {
+            await this.shipsRepository.delete({ userId, gameId });
+
+            return foundedShips;
+        }
+        throw new HttpException('Корабли не найдены', HttpStatus.NOT_FOUND);
     }
 }

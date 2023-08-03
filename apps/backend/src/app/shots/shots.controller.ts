@@ -9,18 +9,13 @@ export class ShotsController {
         private readonly shotsService: ShotsService,
     ) {}
 
-    @Post()
-    async createShot(@Body() shot: ShotDto) {
-        return this.shotsService.createShot(shot);
+    @Post('/:gameId/:userId')
+    async createShot(@Param('gameId') gameId: string, @Param('userId') userId: string, @Body() shot: ShotDto) {
+        return this.shotsService.createShot(Number(gameId), Number(userId), shot);
     }
 
-    @Get(':id')
-    async getShotsByGame(@Param('id') id: string) {
-        return this.shotsService.getShotsByGame(Number(id));
-    }
-
-    @Get(':gameId/:userId')
-    async getShotsByUserAndGame(@Param('userId') userId: string, @Param('gameId') gameId: string) {
+    @Get('/:gameId/:userId')
+    async getShotsByUserAndGame(@Param('gameId') gameId: string, @Param('userId') userId: string) {
         return this.shotsService.getShotsByUserAndGame(Number(userId), Number(gameId));
     }
 }

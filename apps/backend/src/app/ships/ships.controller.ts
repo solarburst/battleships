@@ -1,4 +1,14 @@
-import { Body, Controller, Get, Patch, Post, Param, ClassSerializerInterceptor, UseInterceptors } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Get,
+    Patch,
+    Delete,
+    Post,
+    Param,
+    ClassSerializerInterceptor,
+    UseInterceptors,
+} from '@nestjs/common';
 import { ShipsService } from './ships.service';
 import { ShipDto } from './dto/ship.dto';
 
@@ -27,5 +37,10 @@ export class ShipsController {
         @Body() shipInfo: ShipDto,
     ) {
         return this.shipsService.moveShip(Number(gameId), Number(userId), Number(shipId), shipInfo);
+    }
+
+    @Delete('/:gameId/:userId')
+    async deleteShips(@Param('gameId') gameId: string, @Param('userId') userId: string) {
+        return this.shipsService.deleteShips(Number(gameId), Number(userId));
     }
 }
