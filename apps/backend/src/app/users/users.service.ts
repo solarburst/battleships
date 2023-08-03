@@ -14,15 +14,18 @@ export class UsersService {
 
     async createUser() {
         const user: UserDto = {
-            code: generateCode()
-        }
+            code: generateCode(),
+        };
         const newUser = await this.usersRepository.create(user);
+
         await this.usersRepository.save(newUser);
+
         return newUser;
     }
 
     async getUserById(id: number) {
-        const user = await this.usersRepository.findOne({ where: { id } })
-        return user
+        const user = await this.usersRepository.findOne({ where: { id } });
+
+        return user;
     }
 }

@@ -1,16 +1,16 @@
-import { HttpException, HttpStatus } from "@nestjs/common";
-import { ShipDto } from "../ships/dto/ship.dto";
-import { amountShipType } from "./amountShipType";
+import { HttpException, HttpStatus } from '@nestjs/common';
+import { ShipDto } from '../ships/dto/ship.dto';
+import { amountShipType } from './amountShipType';
 
 export class PositionChecker {
-    positions: number[][]
-    fieldSize: number
-    shipTypes: number[]
+    positions: number[][];
+    fieldSize: number;
+    shipTypes: number[];
 
     constructor() {
         this.positions = [];
         this.fieldSize = 9;
-        this.shipTypes = [4, 3, 2, 1]
+        this.shipTypes = [4, 3, 2, 1];
 
         for (let i = 0; i <= this.fieldSize; i++) {
             this.positions[i] = new Array(this.fieldSize + 1).fill(0);
@@ -24,8 +24,8 @@ export class PositionChecker {
             }
         });
 
-        ships.forEach((ship) => {
-            if (ship.orientation === "horizontal") {
+        ships.forEach(ship => {
+            if (ship.orientation === 'horizontal') {
                 if (ship.x + ship.length - 1 > this.fieldSize) {
                     throw new HttpException('Корабль за границами', HttpStatus.BAD_REQUEST);
                 }
@@ -41,17 +41,17 @@ export class PositionChecker {
                     if (this.positions[ship.y][i] === 0) {
                         this.positions[ship.y][i] = 2;
                         if ((i >= 0) && (ship.y > 0)) {
-							this.positions[ship.y - 1][i] = 1;
+                            this.positions[ship.y - 1][i] = 1;
                         }
-                      	if ((i <= this.fieldSize) && (ship.y + 1 < this.fieldSize)) {
-                          	this.positions[ship.y + 1][i] = 1;
+                        if ((i <= this.fieldSize) && (ship.y + 1 < this.fieldSize)) {
+                            this.positions[ship.y + 1][i] = 1;
                         }
                     } else {
                         throw new HttpException('Корабль в пределах другого', HttpStatus.BAD_REQUEST);
                     }
                 }
             }
-            if (ship.orientation === "vertical") {
+            if (ship.orientation === 'vertical') {
                 if ((ship.y + ship.length - 1) > this.fieldSize) {
                     throw new HttpException('Корабль за границами', HttpStatus.BAD_REQUEST);
                 }
@@ -66,18 +66,18 @@ export class PositionChecker {
                 for (let i = ship.y; i < ship.length + ship.y; i++) {
                     if (this.positions[i][ship.x] === 0) {
                         this.positions[i][ship.x] = 2;
-                      	if ((i >= 0) && (ship.x > 0)) {
-							this.positions[i][ship.x - 1] = 1;
+                        if ((i >= 0) && (ship.x > 0)) {
+                            this.positions[i][ship.x - 1] = 1;
                         }
-                      	if ((i <= this.fieldSize) && (ship.x + 1 < this.fieldSize)) {
-                          	this.positions[i][ship.x + 1] = 1;
+                        if ((i <= this.fieldSize) && (ship.x + 1 < this.fieldSize)) {
+                            this.positions[i][ship.x + 1] = 1;
                         }
                     } else {
                         throw new HttpException('Корабль в пределах другого', HttpStatus.BAD_REQUEST);
                     }
                 }
             }
-        })
+        });
 
         return this.positions;
     }

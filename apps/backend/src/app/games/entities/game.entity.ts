@@ -3,45 +3,45 @@ import {
     Entity,
     PrimaryGeneratedColumn,
     JoinColumn,
-    ManyToOne
+    ManyToOne,
 } from 'typeorm';
 import { UserEntity } from '../../users/entities/user.entity';
 import { Exclude } from 'class-transformer';
 
 export enum Stage {
-    SETUP = "setup",
-    GAME = "game",
-    OVER = "over"
+    SETUP = 'setup',
+    GAME = 'game',
+    OVER = 'over'
 }
 
 @Entity('games')
 export class GameEntity {
     @PrimaryGeneratedColumn()
-    id: number;
+        id: number;
 
-    @ManyToOne(() => UserEntity, (firstUser) => firstUser.id)
+    @ManyToOne(() => UserEntity, firstUser => firstUser.id)
     @JoinColumn({ name: 'firstUserId' })
-    firstUser: UserEntity;
+        firstUser: UserEntity;
 
-    @ManyToOne(() => UserEntity, (secondUser) => secondUser.id)
+    @ManyToOne(() => UserEntity, secondUser => secondUser.id)
     @JoinColumn({ name: 'secondUserId' })
-    secondUser: UserEntity;
+        secondUser: UserEntity;
 
     @Column({
-        type: "enum",
-        enum: Stage,
-        default: Stage.SETUP
+        type: 'enum',
+        'enum': Stage,
+        'default': Stage.SETUP,
     })
-    stage: Stage;
+        stage: Stage;
 
     @Column()
-    isFirstUserTurn: boolean;
-
-    @Column()
-    @Exclude()
-    firstUserId: number;
+        isFirstUserTurn: boolean;
 
     @Column()
     @Exclude()
-    secondUserId: number;
+        firstUserId: number;
+
+    @Column()
+    @Exclude()
+        secondUserId: number;
 }

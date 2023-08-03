@@ -6,7 +6,7 @@ import { ShotDto } from './dto/shot.dto';
 @UseInterceptors(ClassSerializerInterceptor)
 export class ShotsController {
     constructor(
-        private readonly shotsService: ShotsService
+        private readonly shotsService: ShotsService,
     ) {}
 
     @Post()

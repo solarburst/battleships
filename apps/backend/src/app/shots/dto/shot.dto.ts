@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, Min, Max } from "class-validator";
+import { IsNotEmpty, IsNumber, Min, Max } from 'class-validator';
 
 export class ShotDto {
     // @IsNotEmpty()
@@ -11,11 +11,11 @@ export class ShotDto {
     @IsNumber()
     @Min(0)
     @Max(10)
-    x: number;
+        x: number;
 
     @IsNotEmpty()
     @IsNumber()
     @Min(0)
     @Max(10)
-    y: number;
+        y: number;
 }

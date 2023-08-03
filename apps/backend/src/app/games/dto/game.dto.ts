@@ -3,10 +3,10 @@ import { Stage } from '../entities/game.entity';
 
 export class GameDto {
   @IsNotEmpty()
-  @ValidateIf((o) => o.stage)
-  stage: Stage;
+  @ValidateIf(o => o.stage)
+      stage: Stage;
 
   @IsNotEmpty()
   @IsBoolean()
-  isFirstUserTurn: boolean;
+      isFirstUserTurn: boolean;
 }

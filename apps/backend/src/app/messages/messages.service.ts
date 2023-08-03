@@ -13,7 +13,9 @@ export class MessagesService {
 
     async createMessage(message: MessageDto) {
         const newMessage = await this.messagesRepository.create(message);
+
         await this.messagesRepository.save(newMessage);
+
         return newMessage;
     }
 }

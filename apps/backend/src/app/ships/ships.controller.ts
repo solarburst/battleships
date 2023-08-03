@@ -6,17 +6,12 @@ import { ShipDto } from './dto/ship.dto';
 @UseInterceptors(ClassSerializerInterceptor)
 export class ShipsController {
     constructor(
-        private readonly shipsService: ShipsService
+        private readonly shipsService: ShipsService,
     ) {}
 
     @Post('/:gameId/:userId')
     async createShip(@Param('gameId') gameId: string, @Param('userId') userId: string, @Body() ships: ShipDto[]) {
         return this.shipsService.createShip(Number(gameId), Number(userId), ships);
-    }
-
-    @Get(':id')
-    async getShipsByGame(@Param('id') id: string) {
-        return this.shipsService.getShipsByGame(Number(id));
     }
 
     @Get('/:gameId/:userId')
@@ -25,7 +20,12 @@ export class ShipsController {
     }
 
     @Patch('/:gameId/:userId/:shipId')
-    async moveShip(@Param('gameId') gameId: string, @Param('userId') userId: string, @Param('shipId') shipId: string, @Body() shipInfo: ShipDto) {
+    async moveShip(
+        @Param('gameId') gameId: string,
+        @Param('userId') userId: string,
+        @Param('shipId') shipId: string,
+        @Body() shipInfo: ShipDto,
+    ) {
         return this.shipsService.moveShip(Number(gameId), Number(userId), Number(shipId), shipInfo);
     }
 }

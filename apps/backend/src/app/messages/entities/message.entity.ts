@@ -4,7 +4,7 @@ import {
     PrimaryGeneratedColumn,
     JoinColumn,
     ManyToOne,
-    CreateDateColumn
+    CreateDateColumn,
 } from 'typeorm';
 import { GameEntity } from '../../games/entities/game.entity';
 import { UserEntity } from '../../users/entities/user.entity';
@@ -13,27 +13,27 @@ import { Exclude } from 'class-transformer';
 @Entity('messages')
 export class MessageEntity {
     @PrimaryGeneratedColumn()
-    id: number;
+        id: number;
 
-    @ManyToOne(() => UserEntity, (user) => user.id)
+    @ManyToOne(() => UserEntity, user => user.id)
     @JoinColumn({ name: 'userId' })
-    user: UserEntity;
+        user: UserEntity;
 
-    @ManyToOne(() => GameEntity, (game) => game.id)
+    @ManyToOne(() => GameEntity, game => game.id)
     @JoinColumn({ name: 'gameId' })
-    game: GameEntity;
+        game: GameEntity;
 
     @Column()
-    message: string;
+        message: string;
 
     @CreateDateColumn()
-    created_at: Date;
+        created_at: Date;
 
     @Column()
     @Exclude()
-    userId: number;
+        userId: number;
 
     @Column()
     @Exclude()
-    gameId: number;
+        gameId: number;
 }

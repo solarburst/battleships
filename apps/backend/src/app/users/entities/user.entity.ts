@@ -9,10 +9,10 @@ import { PositionChecker } from '../../utils/positionChecker';
 @Entity('users')
 export class UserEntity {
     @PrimaryGeneratedColumn()
-    id: number;
+        id: number;
 
     @Column()
-    code: string;
+        code: string;
 
-    positionChecker: PositionChecker = new PositionChecker;
+    positionChecker: PositionChecker = new PositionChecker();
 }

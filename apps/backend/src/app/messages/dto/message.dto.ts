@@ -1,13 +1,13 @@
-import { IsNotEmpty, MaxLength } from "class-validator";
+import { IsNotEmpty, MaxLength } from 'class-validator';
 
 export class MessageDto {
     @IsNotEmpty()
-    userId: number;
+        userId: number;
 
     @IsNotEmpty()
-    gameId: number;
+        gameId: number;
 
     @IsNotEmpty()
     @MaxLength(250)
-    message: string;
+        message: string;
 }

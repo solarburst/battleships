@@ -5,9 +5,9 @@ import { ShotsController } from './shots.controller';
 import { ShotEntity } from './entities/shot.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ShotEntity])],
-  providers: [ShotsService],
-  controllers: [ShotsController],
-  exports: [ShotsService],
+    imports: [TypeOrmModule.forFeature([ShotEntity])],
+    providers: [ShotsService],
+    controllers: [ShotsController],
+    exports: [ShotsService],
 })
 export class ShotsModule {}

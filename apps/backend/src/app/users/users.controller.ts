@@ -1,11 +1,11 @@
-import { Body, ClassSerializerInterceptor, Controller, Get, Param, Post, UseInterceptors } from '@nestjs/common';
+import { ClassSerializerInterceptor, Controller, Get, Param, Post, UseInterceptors } from '@nestjs/common';
 import { UsersService } from './users.service';
 
 @Controller('users')
 @UseInterceptors(ClassSerializerInterceptor)
 export class UsersController {
     constructor(
-        private readonly usersService: UsersService
+        private readonly usersService: UsersService,
     ) {}
 
     @Post()

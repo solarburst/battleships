@@ -6,7 +6,7 @@ import { MessageDto } from './dto/message.dto';
 @UseInterceptors(ClassSerializerInterceptor)
 export class MessagesController {
     constructor(
-        private readonly messagesService: MessagesService
+        private readonly messagesService: MessagesService,
     ) {}
 
     @Post()

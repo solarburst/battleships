@@ -13,17 +13,21 @@ export class ShotsService {
 
     async createShot(shot: ShotDto) {
         const newShot = await this.shotsRepository.create(shot);
+
         await this.shotsRepository.save(newShot);
+
         return newShot;
     }
 
     async getShotsByGame(gameId: number) {
         const gameShots = await this.shotsRepository.find({ where: { gameId }});
+
         return gameShots;
     }
 
     async getShotsByUserAndGame(userId: number, gameId: number) {
-        const foundedShots = await this.shotsRepository.find({ where: { userId, gameId } })
+        const foundedShots = await this.shotsRepository.find({ where: { userId, gameId } });
+
         return foundedShots;
     }
 }

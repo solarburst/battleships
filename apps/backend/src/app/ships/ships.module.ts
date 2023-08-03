@@ -7,13 +7,13 @@ import { GamesModule } from '../games/games.module';
 import { UsersModule } from '../users/users.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([ShipEntity]),
-    forwardRef(() => GamesModule),
-    UsersModule,
-  ],
-  providers: [ShipsService],
-  controllers: [ShipsController],
-  exports: [ShipsService],
+    imports: [
+        TypeOrmModule.forFeature([ShipEntity]),
+        forwardRef(() => GamesModule),
+        UsersModule,
+    ],
+    providers: [ShipsService],
+    controllers: [ShipsController],
+    exports: [ShipsService],
 })
 export class ShipsModule {}

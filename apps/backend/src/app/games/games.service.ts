@@ -22,23 +22,26 @@ export class GamesService {
 
         const newGame = this.gamesRepository.create({
             stage: Stage.SETUP,
-            firstUser: firstUser,
-            secondUser: secondUser,
+            firstUser,
+            secondUser,
             isFirstUserTurn: true,
         });
+
         await this.gamesRepository.save(newGame);
+
         return {
             id: newGame.id,
             isFirstUserTurn: newGame.isFirstUserTurn,
             stage: newGame.stage,
             firstUser: firstUser.code,
-            secondUser: secondUser.code
-        }
+            secondUser: secondUser.code,
+        };
     }
 
     async updateGame(id: number, gameDto: GameDto) {
         await this.gamesRepository.update(id, gameDto);
         const updatedGame = await this.gamesRepository.findOne({ where: { id } });
+
         if (updatedGame) {
             return updatedGame;
         }
@@ -47,32 +50,33 @@ export class GamesService {
 
     async getAllGames() {
         const games = await this.gamesRepository.find({});
+
         return games;
     }
 
     async getGameById(id: number) {
         const game = await this.gamesRepository.findOne({ where: { id }});
+
         return game;
     }
 
     async getGameUserInfo(gameId: number, userId: number) {
         const game = await this.gamesRepository.findOne({ where: [
             { id: gameId, firstUserId: userId },
-            { id: gameId, secondUserId: userId }
+            { id: gameId, secondUserId: userId },
         ]});
+
         if (!game) {
             throw new HttpException('Игра не найдена', HttpStatus.NOT_FOUND);
         }
-        // if ((game.firstUserId !== userId) && (game.secondUserId !== userId)) {
-        //     throw new HttpException('Такого игрока нет в игре', HttpStatus.BAD_REQUEST);
-        // }
         const ships = await this.shipsService.getShipsByUserAndGame(userId, gameId);
+
         return {
             gameId,
             userId,
             stage: game.stage,
             isFirstUserTurn: game.isFirstUserTurn,
             ships: [...ships],
-        }
+        };
     }
 }

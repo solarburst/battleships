@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "dev": "npx nx run-many --parallel --target=serve --projects=backend,frontend"
+    "dev": "npx nx run-many --parallel --target=serve --projects=backend,frontend",
+    "lint": "eslint \"apps/**/**/app/*.ts\" --fix"
   },
   "private": true,
   "dependencies": {
