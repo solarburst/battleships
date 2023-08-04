@@ -7,7 +7,6 @@ import { GamesService } from '../games/games.service';
 import { Stage } from '../games/entities/game.entity';
 import { ShipsService } from '../ships/ships.service';
 import { UsersService } from '../users/users.service';
-import { HitChecker } from '../utils/hitChecker';
 
 @Injectable()
 export class ShotsService {
@@ -27,22 +26,25 @@ export class ShotsService {
             throw new HttpException('Стадия игры не началась', HttpStatus.BAD_REQUEST);
         }
 
-        if (game.firstUserId === userId) {
-            enemyId = game.secondUserId;
-        } else {
-            enemyId = game.firstUserId;
+        const checkShot = await this.shotsRepository.findOne({ where: { x: shot.x, y: shot.y, gameId, userId } });
+
+        if (checkShot) {
+            throw new HttpException('Такой выстрел уже был', HttpStatus.BAD_REQUEST);
         }
+
+        (game.firstUserId === userId) ? (enemyId = game.secondUserId) : (enemyId = game.firstUserId);
 
         const enemyShips = await this.shipsService.getShipsByUserAndGame(enemyId, gameId);
 
         const enemy = await this.usersService.getUserById(enemyId);
 
         enemy.positionChecker.putShipsIntoField(enemyShips);
-        const checkShot = await this.shotsRepository.findOne({ where: { x: shot.x, y: shot.y } });
 
-        if (checkShot) {
-            throw new HttpException('Такой выстрел уже был', HttpStatus.BAD_REQUEST);
-        }
+        const allShots = await this.getShotsByUserAndGame(userId, gameId);
+
+        allShots.forEach(shotFromAllShots => {
+            enemy.positionChecker.putShotIntoField(shotFromAllShots);
+        });
 
         const makeShot = await this.shotsRepository.create({
             ...shot,
@@ -52,18 +54,42 @@ export class ShotsService {
 
         await this.shotsRepository.save(makeShot);
 
-        const hitChecker = new HitChecker(enemy.positionChecker.positions);
+        const shotResult = enemy.positionChecker.putShotIntoField(makeShot);
 
-        if (hitChecker.checkHit(makeShot)) {
-            console.log('Попадание');
-        } else {
+        if (shotResult.message === 'kill') {
+            console.log(enemy.positionChecker.positions);
+        }
+        if (shotResult.additionalShots.length > 0) {
+            shotResult.additionalShots.forEach(async additionalShot => {
+                const shotToAdd = this.shotsRepository.create({
+                    ...additionalShot,
+                    userId,
+                    gameId,
+                });
+
+                await this.shotsRepository.save(shotToAdd);
+
+                enemy.positionChecker.putShotIntoField(additionalShot);
+            });
+        }
+        if (shotResult.message === 'hit') {
+            console.log(enemy.positionChecker.positions);
+        }
+        if (shotResult.message === 'miss') {
             await this.gamesService.updateGame(gameId, {
-                stage: Stage.GAME,
-                userTurn: !game.userTurn,
+                isFirstUserTurn: !game.isFirstUserTurn,
+            });
+        }
+        if (enemy.positionChecker.shipPositions.length === 0) {
+            this.gamesService.updateGame(gameId, {
+                stage: Stage.OVER,
             });
         }
 
-        return makeShot;
+        return {
+            ...makeShot,
+            message: shotResult.message,
+        };
     }
 
     async getShotsByUserAndGame(userId: number, gameId: number) {
@@ -73,5 +99,11 @@ export class ShotsService {
             return foundedShots;
         }
         throw new HttpException('Выстрелы не найдены', HttpStatus.NOT_FOUND);
+    }
+
+    async getShotByPosition(userId: number, gameId: number, shot: Partial<ShotDto>) {
+        const foundedShot = await this.shotsRepository.find({ where: { userId, gameId, x: shot.x, y: shot.y } });
+
+        return foundedShot;
     }
 }

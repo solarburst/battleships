@@ -35,7 +35,7 @@ export class GameEntity {
         stage: Stage;
 
     @Column()
-        userTurn: boolean;
+        isFirstUserTurn: boolean;
 
     @Column()
     @Exclude()

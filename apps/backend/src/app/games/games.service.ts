@@ -24,21 +24,21 @@ export class GamesService {
             stage: Stage.SETUP,
             firstUser,
             secondUser,
-            userTurn: true,
+            isFirstUserTurn: true,
         });
 
         await this.gamesRepository.save(newGame);
 
         return {
             id: newGame.id,
-            isFirstUserTurn: newGame.userTurn,
+            isFirstUserTurn: newGame.isFirstUserTurn,
             stage: newGame.stage,
             firstUser: firstUser.code,
             secondUser: secondUser.code,
         };
     }
 
-    async updateGame(id: number, gameDto: GameDto) {
+    async updateGame(id: number, gameDto: Partial<GameDto>) {
         await this.gamesRepository.update(id, gameDto);
         const updatedGame = await this.gamesRepository.findOne({ where: { id } });
 
@@ -75,7 +75,7 @@ export class GamesService {
             gameId,
             userId,
             stage: game.stage,
-            isFirstUserTurn: game.userTurn,
+            isFirstUserTurn: game.isFirstUserTurn,
             ships: [...ships],
         };
     }

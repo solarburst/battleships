@@ -50,4 +50,8 @@ export class ShipEntity {
     @Column()
     @Exclude()
         gameId: number;
+
+    // hits = 0;
+
+    // coordinates: object[];
 }

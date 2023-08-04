@@ -1,17 +1,18 @@
 import { IsNotEmpty, IsNumber, Min, Max } from 'class-validator';
 import { Orientation } from '../entities/ship.entity';
+import { FIELD_SIZE } from '../../utils/constants';
 
 export class ShipDto {
     @IsNotEmpty()
     @IsNumber()
     @Min(0)
-    @Max(10)
+    @Max(FIELD_SIZE)
         x: number;
 
     @IsNotEmpty()
     @IsNumber()
     @Min(0)
-    @Max(10)
+    @Max(FIELD_SIZE)
         y: number;
 
     @IsNotEmpty()
@@ -22,4 +23,6 @@ export class ShipDto {
 
     @IsNotEmpty()
         orientation: Orientation;
+
+    // coordinates: [];
 }

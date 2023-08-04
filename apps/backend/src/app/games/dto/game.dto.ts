@@ -9,5 +9,5 @@ export class GameDto {
   @IsNotEmpty()
   @IsBoolean()
   @ValidateIf(o => o.isFirstUserTurn)
-      userTurn: boolean;
+      isFirstUserTurn: boolean;
 }
