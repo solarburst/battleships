@@ -1,0 +1,14 @@
+.cell {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+    color: #717C96;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &--bg {
+        background-color: #464F87;
+        border-radius: 4px;
+    }
+}

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Battleships</title>
+    <link rel="stylesheet" href="styles/index.css">
+</head>
+<body>
+    <header class="header">
+        <h1 class="header__title">SEA BATTLE</h1>
+        <div class="header__invite">
+            <svg width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14.2174 3.78271H1V17.0001H14.2174V3.78271Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M14.2174 3.78271H1V17.0001H14.2174V3.78271Z" stroke="#676B97" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4.47852 3.78261V1H17.6959V13.5217H14.2176" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4.47852 3.78261V1H17.6959V13.5217H14.2176" stroke="#676B97" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <p class="header__invite-text">Пригласить игрока</p>
+        </div>
+    </header>
+    <main class="main container">
+        <div class="main__playground">
+            <div class="main__playground-buttons">
+                <div class="main__playground-buttons-item">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4.04842 9.06735L1 12.0021L4.04842 14.9326" stroke="#676B97" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M11.4965 12.0022L1.31543 12.0022" stroke="#676B97" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M11.9512 1.06736L14.9996 4.00209L11.9512 6.93262" stroke="#676B97" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M4.49902 4.0022L14.6801 4.0022" stroke="#676B97" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <p class="main__playground-buttons-text">
+                        Расставить рандомно
+                    </p>
+                </div>
+                <div class="main__playground-buttons-item">
+                    <svg width="15" height="16" viewBox="0 0 15 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12.1278 3.51294H2.43555V15H12.1278V3.51294Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12.1278 3.51294H2.43555V15H12.1278V3.51294Z" stroke="#676B97" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M9.42119 1H5.13867V3.51279H9.42119V1Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M9.42119 1H5.13867V3.51279H9.42119V1Z" stroke="#676B97" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M1 3.49829H13.564" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M1 3.49829H13.564" stroke="#676B97" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M5.66602 6.56396V14.4613" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M5.66602 6.56396V14.4613" stroke="#676B97" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M8.89648 6.56396V14.4613" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M8.89648 6.56396V14.4613" stroke="#676B97" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>                        
+                    <p class="main__playground-buttons-text">
+                        Очистить все
+                    </p>
+                </div>
+            </div>
+            <div class="main__playground-field">
+                    <div class="main__playground-field__letter-stroke">
+                        <div class="cell">
+                            А
+                        </div>
+                        <div class="cell">
+                            Б
+                        </div>
+                        <div class="cell">
+                            В
+                        </div>
+                        <div class="cell">
+                            Г
+                        </div>
+                        <div class="cell">
+                            Д
+                        </div>
+                        <div class="cell">
+                            Е
+                        </div>
+                        <div class="cell">
+                            Ж
+                        </div>
+                        <div class="cell">
+                            З
+                        </div>
+                        <div class="cell">
+                            И
+                        </div>
+                        <div class="cell">
+                            К
+                        </div>
+                    </div>
+                    <div class="main__playground-field__number-stroke">
+                        <div class="cell">
+                            1
+                        </div>
+                        <div class="cell">
+                            2
+                        </div>
+                        <div class="cell">
+                            3
+                        </div>
+                        <div class="cell">
+                            4
+                        </div>
+                        <div class="cell">
+                            5
+                        </div>
+                        <div class="cell">
+                            6
+                        </div>
+                        <div class="cell">
+                            7
+                        </div>
+                        <div class="cell">
+                            8
+                        </div>
+                        <div class="cell">
+                            9
+                        </div>
+                        <div class="cell">
+                            10
+                        </div>
+                    </div>
+                    <div class="main__playground-field__cells">
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                        <div class="cell cell--bg"></div>
+                    </div>
+                    <div class="ship11">
+                        <svg width="34" height="32" viewBox="0 0 34 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M11.9438 -9.57019e-07C20.09 -6.03553e-07 27.5938 4.42362 31.5382 11.5513L33.6031 15.2827C33.85 15.729 33.85 16.271 33.6031 16.7173L31.5382 20.4487C27.5938 27.5764 20.09 32 11.9438 32C5.34741 32 -1.17365e-06 26.6526 -8.8318e-07 20.0562L-5.25946e-07 11.9438C-2.35474e-07 5.3474 5.34741 -1.24324e-06 11.9438 -9.57019e-07Z" fill="#4CB5C4"/>
+                            <ellipse cx="15.8667" cy="16" rx="6.75" ry="6.8" transform="rotate(90 15.8667 16)" fill="black" fill-opacity="0.1"/>
+                        </svg>
+                    </div>
+                    <div class="ship21">
+                        <svg width="32" height="69" viewBox="0 0 32 69" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M32 52.6621L32 25.7943C32 15.164 26.156 5.366 16.7259 0.185869C16.2747 -0.0619564 15.7253 -0.0619564 15.2741 0.185869C5.844 5.366 -4.72042e-07 15.164 0 25.7943L1.19307e-06 52.6621C1.57933e-06 61.3606 7.16344 68.4121 16 68.4121C24.8366 68.4121 32 61.3606 32 52.6621Z" fill="#46A6F8"/>
+                            <circle cx="15.75" cy="15.5371" r="6.75" fill="black" fill-opacity="0.1"/>
+                            <circle cx="15.75" cy="51.5371" r="6.75" fill="black" fill-opacity="0.1"/>
+                        </svg>    
+                    </div>
+                    <div class="ship12">
+                        <svg width="32" height="34" viewBox="0 0 32 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M32 11.9438C32 20.09 27.5764 27.5938 20.4487 31.5382L16.7173 33.6031C16.271 33.85 15.729 33.85 15.2827 33.6031L11.5513 31.5382C4.42363 27.5938 3.11892e-06 20.09 3.82848e-06 11.9438C4.40303e-06 5.34741 5.34741 -2.33867e-06 11.9438 -1.75987e-06L20.0562 -1.04802e-06C26.6526 -4.69216e-07 32 5.34741 32 11.9438Z" fill="#4CB5C4"/>
+                            <ellipse cx="16" cy="15.8667" rx="6.75" ry="6.8" transform="rotate(-180 16 15.8667)" fill="black" fill-opacity="0.1"/>
+                        </svg>                            
+                    </div>
+                    <div class="ship22">
+                        <svg width="69" height="32" viewBox="0 0 69 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15.75 32L42.6178 32C53.2481 32 63.0461 26.156 68.2262 16.7259C68.4741 16.2747 68.4741 15.7253 68.2262 15.2741C63.0461 5.844 53.2481 -1.13488e-06 42.6178 -1.12751e-06L15.75 -1.10886e-06C7.05149 -1.10283e-06 -3.08307e-05 7.16344 -3.1217e-05 16C-3.16032e-05 24.8366 7.05149 32 15.75 32Z" fill="#46A6F8"/>
+                            <circle cx="52.875" cy="15.75" r="6.75" transform="rotate(90 52.875 15.75)" fill="black" fill-opacity="0.1"/>
+                            <circle cx="16.875" cy="15.75" r="6.75" transform="rotate(90 16.875 15.75)" fill="black" fill-opacity="0.1"/>
+                        </svg>                            
+                    </div>
+                    <div class="ship31">
+                        <svg width="105" height="32" viewBox="0 0 105 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15.75 32H78.6178C89.2482 32 99.0461 26.156 104.226 16.7259C104.474 16.2747 104.474 15.7253 104.226 15.2741C99.0461 5.844 89.2482 0 78.6178 0H15.75C7.05152 0 0 7.16344 0 16C0 24.8366 7.05151 32 15.75 32Z" fill="#695AFE"/>
+                            <circle cx="88.875" cy="15.75" r="6.75" transform="rotate(90 88.875 15.75)" fill="black" fill-opacity="0.1"/>
+                            <circle cx="52.875" cy="15.75" r="6.75" transform="rotate(90 52.875 15.75)" fill="black" fill-opacity="0.1"/>
+                            <circle cx="16.875" cy="15.75" r="6.75" transform="rotate(90 16.875 15.75)" fill="black" fill-opacity="0.1"/>
+                        </svg>                            
+                    </div>
+                    <div class="ship13">
+                        <svg width="34" height="32" viewBox="0 0 34 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M11.9438 -9.57019e-07C20.09 -6.03553e-07 27.5938 4.42362 31.5382 11.5513L33.6031 15.2827C33.85 15.729 33.85 16.271 33.6031 16.7173L31.5382 20.4487C27.5938 27.5764 20.09 32 11.9438 32C5.34741 32 -1.17365e-06 26.6526 -8.8318e-07 20.0562L-5.25946e-07 11.9438C-2.35474e-07 5.3474 5.34741 -1.24324e-06 11.9438 -9.57019e-07Z" fill="#4CB5C4"/>
+                            <ellipse cx="15.8667" cy="16" rx="6.75" ry="6.8" transform="rotate(90 15.8667 16)" fill="black" fill-opacity="0.1"/>
+                        </svg>
+                    </div>
+                    <div class="ship41">
+                        <svg width="141" height="32" viewBox="0 0 141 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15.75 32L114.618 32C125.248 32 135.046 26.156 140.226 16.7259C140.474 16.2747 140.474 15.7253 140.226 15.2741C135.046 5.844 125.248 0 114.618 0H15.75C7.05152 0 0 7.16344 0 16C0 24.8366 7.05151 32 15.75 32Z" fill="#794DE2"/>
+                            <circle cx="124.875" cy="15.75" r="6.75" transform="rotate(90 124.875 15.75)" fill="black" fill-opacity="0.1"/>
+                            <circle cx="88.875" cy="15.75" r="6.75" transform="rotate(90 88.875 15.75)" fill="black" fill-opacity="0.1"/>
+                            <circle cx="52.875" cy="15.75" r="6.75" transform="rotate(90 52.875 15.75)" fill="black" fill-opacity="0.1"/>
+                            <circle cx="16.875" cy="15.75" r="6.75" transform="rotate(90 16.875 15.75)" fill="black" fill-opacity="0.1"/>
+                        </svg>                            
+                    </div>
+            </div>
+        </div>
+        <div class="main__info">
+            <h2 class="main__info-title">
+                Запуск игры
+            </h2>
+            <div class="main__info-instructions">
+                <div class="main__info-instructions-item">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="3.00043" y1="15.3789" x2="28.0004" y2="15.3789" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M26.0004 11.3789L30.2431 15.6215L26.0004 19.8642" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M5.24261 19.8643L0.999974 15.6216L5.24261 11.379" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <line x1="15.3793" y1="28.2434" x2="15.3793" y2="3.24342" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M11.3793 5.24297L15.622 1.00033L19.8646 5.24297" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M19.8647 26.0008L15.622 30.2434L11.3794 26.0008" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <p class="main__info-instructions-item-text">
+                        С помощью мыши расставь <br> корабли на игровом поле
+                    </p>
+                </div>
+                <div class="main__info-instructions-item">
+                    <svg width="30" height="28" viewBox="0 0 30 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M22.8769 23.116C21.0159 24.9778 18.6266 26.2214 16.0339 26.6774C13.4412 27.1335 10.7709 26.7799 8.38622 25.6648C6.00154 24.5497 4.01817 22.7273 2.70582 20.4452C1.39346 18.1631 0.815825 15.5322 1.05144 12.9103C1.28705 10.2884 2.32449 7.8026 4.02267 5.79107C5.72086 3.77954 7.99737 2.33985 10.5426 1.66778C13.0879 0.995717 15.7784 1.12388 18.2483 2.03486C20.7181 2.94584 22.8475 4.59542 24.3468 6.75927L26.2387 10.4376" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M28.138 3.89502L26.2084 10.6638L19.5225 8.46283" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <p class="main__info-instructions-item-text">
+                        Двойным нажатием ЛКМ <br> поворачивай корабли
+                    </p>
+                </div>
+                <div class="main__info-instructions-item">
+                    <svg width="26" height="25" viewBox="0 0 26 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 5H1V24H20V5Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M6 5V1H25V19H20" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>                        
+                    <p class="main__info-instructions-item-text">
+                        Пригласи соперника к битве по ссылке <br> https://battleships.dev.sibirix.ru/czePjBbqZs
+                    </p>
+                </div>
+            </div>
+            <button class="main__info-button-start">НАЧНИ ИГРУ</button>
+        </div>
+    </main>
+    <section class="ships container">
+        <div class="ships-big">
+            <div class="ship41 ship41--menu ship41--menu--placed">
+                <svg width="141" height="32" viewBox="0 0 141 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15.75 32L114.618 32C125.248 32 135.046 26.156 140.226 16.7259C140.474 16.2747 140.474 15.7253 140.226 15.2741C135.046 5.844 125.248 0 114.618 0H15.75C7.05152 0 0 7.16344 0 16C0 24.8366 7.05151 32 15.75 32Z" fill="#794DE2"/>
+                    <circle cx="124.875" cy="15.75" r="6.75" transform="rotate(90 124.875 15.75)" fill="black" fill-opacity="0.1"/>
+                    <circle cx="88.875" cy="15.75" r="6.75" transform="rotate(90 88.875 15.75)" fill="black" fill-opacity="0.1"/>
+                    <circle cx="52.875" cy="15.75" r="6.75" transform="rotate(90 52.875 15.75)" fill="black" fill-opacity="0.1"/>
+                    <circle cx="16.875" cy="15.75" r="6.75" transform="rotate(90 16.875 15.75)" fill="black" fill-opacity="0.1"/>
+                </svg>    
+            </div>
+            <div class="ship31 ship31--menu">
+                <svg width="105" height="32" viewBox="0 0 105 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15.75 32H78.6178C89.2482 32 99.0461 26.156 104.226 16.7259C104.474 16.2747 104.474 15.7253 104.226 15.2741C99.0461 5.844 89.2482 0 78.6178 0H15.75C7.05152 0 0 7.16344 0 16C0 24.8366 7.05151 32 15.75 32Z" fill="#695AFE"/>
+                    <circle cx="88.875" cy="15.75" r="6.75" transform="rotate(90 88.875 15.75)" fill="black" fill-opacity="0.1"/>
+                    <circle cx="52.875" cy="15.75" r="6.75" transform="rotate(90 52.875 15.75)" fill="black" fill-opacity="0.1"/>
+                    <circle cx="16.875" cy="15.75" r="6.75" transform="rotate(90 16.875 15.75)" fill="black" fill-opacity="0.1"/>
+                </svg>
+            </div>
+            <div class="ship31 ship31--menu ship31--menu--placed">
+                <svg width="105" height="32" viewBox="0 0 105 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15.75 32H78.6178C89.2482 32 99.0461 26.156 104.226 16.7259C104.474 16.2747 104.474 15.7253 104.226 15.2741C99.0461 5.844 89.2482 0 78.6178 0H15.75C7.05152 0 0 7.16344 0 16C0 24.8366 7.05151 32 15.75 32Z" fill="#695AFE"/>
+                    <circle cx="88.875" cy="15.75" r="6.75" transform="rotate(90 88.875 15.75)" fill="black" fill-opacity="0.1"/>
+                    <circle cx="52.875" cy="15.75" r="6.75" transform="rotate(90 52.875 15.75)" fill="black" fill-opacity="0.1"/>
+                    <circle cx="16.875" cy="15.75" r="6.75" transform="rotate(90 16.875 15.75)" fill="black" fill-opacity="0.1"/>
+                </svg>
+            </div>
+        </div>
+        <div class="ships-small">
+            <div class="ship22 ship22--menu ship22--menu--placed">
+                <svg width="69" height="32" viewBox="0 0 69 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15.75 32L42.6178 32C53.2481 32 63.0461 26.156 68.2262 16.7259C68.4741 16.2747 68.4741 15.7253 68.2262 15.2741C63.0461 5.844 53.2481 -1.13488e-06 42.6178 -1.12751e-06L15.75 -1.10886e-06C7.05149 -1.10283e-06 -3.08307e-05 7.16344 -3.1217e-05 16C-3.16032e-05 24.8366 7.05149 32 15.75 32Z" fill="#46A6F8"/>
+                    <circle cx="52.875" cy="15.75" r="6.75" transform="rotate(90 52.875 15.75)" fill="black" fill-opacity="0.1"/>
+                    <circle cx="16.875" cy="15.75" r="6.75" transform="rotate(90 16.875 15.75)" fill="black" fill-opacity="0.1"/>
+                </svg>                            
+            </div>
+            <div class="ship22 ship22--menu ship22--menu--placed">
+                <svg width="69" height="32" viewBox="0 0 69 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15.75 32L42.6178 32C53.2481 32 63.0461 26.156 68.2262 16.7259C68.4741 16.2747 68.4741 15.7253 68.2262 15.2741C63.0461 5.844 53.2481 -1.13488e-06 42.6178 -1.12751e-06L15.75 -1.10886e-06C7.05149 -1.10283e-06 -3.08307e-05 7.16344 -3.1217e-05 16C-3.16032e-05 24.8366 7.05149 32 15.75 32Z" fill="#46A6F8"/>
+                    <circle cx="52.875" cy="15.75" r="6.75" transform="rotate(90 52.875 15.75)" fill="black" fill-opacity="0.1"/>
+                    <circle cx="16.875" cy="15.75" r="6.75" transform="rotate(90 16.875 15.75)" fill="black" fill-opacity="0.1"/>
+                </svg>                            
+            </div>
+            <div class="ship22 ship22--menu ship22--menu">
+                <svg width="69" height="32" viewBox="0 0 69 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15.75 32L42.6178 32C53.2481 32 63.0461 26.156 68.2262 16.7259C68.4741 16.2747 68.4741 15.7253 68.2262 15.2741C63.0461 5.844 53.2481 -1.13488e-06 42.6178 -1.12751e-06L15.75 -1.10886e-06C7.05149 -1.10283e-06 -3.08307e-05 7.16344 -3.1217e-05 16C-3.16032e-05 24.8366 7.05149 32 15.75 32Z" fill="#46A6F8"/>
+                    <circle cx="52.875" cy="15.75" r="6.75" transform="rotate(90 52.875 15.75)" fill="black" fill-opacity="0.1"/>
+                    <circle cx="16.875" cy="15.75" r="6.75" transform="rotate(90 16.875 15.75)" fill="black" fill-opacity="0.1"/>
+                </svg>                            
+            </div>
+            <div class="ship11 ship11--menu ship11--menu--placed">
+                <svg width="34" height="32" viewBox="0 0 34 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11.9438 -9.57019e-07C20.09 -6.03553e-07 27.5938 4.42362 31.5382 11.5513L33.6031 15.2827C33.85 15.729 33.85 16.271 33.6031 16.7173L31.5382 20.4487C27.5938 27.5764 20.09 32 11.9438 32C5.34741 32 -1.17365e-06 26.6526 -8.8318e-07 20.0562L-5.25946e-07 11.9438C-2.35474e-07 5.3474 5.34741 -1.24324e-06 11.9438 -9.57019e-07Z" fill="#4CB5C4"/>
+                    <ellipse cx="15.8667" cy="16" rx="6.75" ry="6.8" transform="rotate(90 15.8667 16)" fill="black" fill-opacity="0.1"/>
+                </svg>
+            </div>
+            <div class="ship11 ship11--menu ship11--menu--placed">
+                <svg width="34" height="32" viewBox="0 0 34 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11.9438 -9.57019e-07C20.09 -6.03553e-07 27.5938 4.42362 31.5382 11.5513L33.6031 15.2827C33.85 15.729 33.85 16.271 33.6031 16.7173L31.5382 20.4487C27.5938 27.5764 20.09 32 11.9438 32C5.34741 32 -1.17365e-06 26.6526 -8.8318e-07 20.0562L-5.25946e-07 11.9438C-2.35474e-07 5.3474 5.34741 -1.24324e-06 11.9438 -9.57019e-07Z" fill="#4CB5C4"/>
+                    <ellipse cx="15.8667" cy="16" rx="6.75" ry="6.8" transform="rotate(90 15.8667 16)" fill="black" fill-opacity="0.1"/>
+                </svg>
+            </div>
+            <div class="ship11 ship11--menu ship11--menu--placed">
+                <svg width="34" height="32" viewBox="0 0 34 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11.9438 -9.57019e-07C20.09 -6.03553e-07 27.5938 4.42362 31.5382 11.5513L33.6031 15.2827C33.85 15.729 33.85 16.271 33.6031 16.7173L31.5382 20.4487C27.5938 27.5764 20.09 32 11.9438 32C5.34741 32 -1.17365e-06 26.6526 -8.8318e-07 20.0562L-5.25946e-07 11.9438C-2.35474e-07 5.3474 5.34741 -1.24324e-06 11.9438 -9.57019e-07Z" fill="#4CB5C4"/>
+                    <ellipse cx="15.8667" cy="16" rx="6.75" ry="6.8" transform="rotate(90 15.8667 16)" fill="black" fill-opacity="0.1"/>
+                </svg>
+            </div>
+            <div class="ship11 ship11--menu">
+                <svg width="34" height="32" viewBox="0 0 34 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11.9438 -9.57019e-07C20.09 -6.03553e-07 27.5938 4.42362 31.5382 11.5513L33.6031 15.2827C33.85 15.729 33.85 16.271 33.6031 16.7173L31.5382 20.4487C27.5938 27.5764 20.09 32 11.9438 32C5.34741 32 -1.17365e-06 26.6526 -8.8318e-07 20.0562L-5.25946e-07 11.9438C-2.35474e-07 5.3474 5.34741 -1.24324e-06 11.9438 -9.57019e-07Z" fill="#4CB5C4"/>
+                    <ellipse cx="15.8667" cy="16" rx="6.75" ry="6.8" transform="rotate(90 15.8667 16)" fill="black" fill-opacity="0.1"/>
+                </svg>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

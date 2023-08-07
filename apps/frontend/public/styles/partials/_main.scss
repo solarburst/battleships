@@ -1,0 +1,193 @@
+.main {
+    margin-top: 100px;
+    display: flex;
+    justify-content: space-between;
+
+    &__playground {
+        background: linear-gradient(#33375B, #323763);
+        border-radius: 8px;
+        min-width: 452px;
+
+        &-buttons {
+            display: flex;
+            justify-content: space-between;
+            padding: 24px 48px;
+
+            &-item {
+                display: flex;
+                justify-content: space-between;
+                gap: 10px;
+            }
+
+            &-item:hover {
+                cursor: pointer;
+            }
+
+            &-item:hover &-text {
+                color: $text-default;
+            }
+
+            &-item:hover svg path {
+                stroke: $text-default;
+            }
+
+            &-text {
+                font-weight: normal;
+                font-size: 14px;
+                color: $interactive-text-default;
+            }
+        }
+
+        &-field {
+            background: linear-gradient(#3E4376, #3E4376);
+            border-radius: 8px;
+            height: 452px;
+            position: relative;
+
+            &__letter-stroke {
+                display: flex;
+                gap: 4px;
+                position: absolute;
+                top: 12px;
+                left: 48px;
+            }
+
+            &__number-stroke {
+                position: absolute;
+                top: 52px;
+                left: 12px;
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            &__cells {
+                width: 356px;
+                display: flex;
+                flex-wrap: wrap;
+                position: absolute;
+                left: 48px;
+                top: 48px;
+                gap: 4px;
+            }
+        }
+    }
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+        gap: 56px;
+        align-self: flex-end;
+
+        &-title {
+            font-weight: bold;
+            font-size: 30px;
+            color: $text-default;
+        }
+
+        &-instructions {
+            display: flex;
+            flex-direction: column;
+            gap: 64px;
+
+            &-item {
+                display: flex;
+                gap: 24px;
+                align-items: center;
+
+                &-text {
+                    font-weight: normal;
+                    font-size: 14px;
+                    color: $text-default;
+                }
+            }
+        }
+
+        &-button-start {
+            max-width: 200px;
+            border: none;
+            border-radius: 25px;
+            padding: 20px 40px;
+            background: #FDCC1D;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 18px;
+        }
+    }
+}
+
+.ship21 {
+    position: absolute;
+    left: calc(36px * 1 + 48px);
+    top: calc(36px * 1 + 48px);
+}
+
+.ship11 {
+    position: absolute;
+    left: calc(36px * 7 + 48px);
+    top: calc(36px * 1 + 48px);
+
+    &--menu {
+        position: initial;
+
+        &--placed svg path {
+            fill: #323763;
+        }
+    }
+}
+
+.ship12 {
+    position: absolute;
+    left: calc(36px * 1 + 48px);
+    top: calc(36px * 5 + 48px);
+}
+
+.ship22 {
+    position: absolute;
+    left: calc(36px * 5 + 48px);
+    top: calc(36px * 6 + 48px);
+
+    &--menu {
+        position: initial;
+
+        &--placed svg path {
+            fill: #323763;
+        }
+    }
+}
+
+.ship31 {
+    position: absolute;
+    left: calc(36px * 1 + 48px);
+    top: calc(36px * 7 + 48px);
+
+    &--menu {
+        position: initial;
+
+        &--placed svg path {
+            fill: #323763;
+        }
+    }
+}
+
+.ship13 {
+    position: absolute;
+    left: calc(36px * 6 + 48px);
+    top: calc(36px * 8 + 48px);
+
+
+}
+
+.ship41 {
+    position: absolute;
+    left: calc(36px * 0 + 48px);
+    top: calc(36px * 9 + 48px);
+
+    &--menu {
+        position: initial;
+
+        &--placed svg path {
+            fill: #323763;
+        }
+    }
+}

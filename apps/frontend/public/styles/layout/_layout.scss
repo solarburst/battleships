@@ -1,0 +1,18 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Stolzl", sans-serif;
+}
+
+body {
+    background: url(../assets/background.png), linear-gradient(to bottom, #353C67, #181D3C);
+    background-repeat: no-repeat;
+    background-position: top;
+    height: 1000px;
+}
+
+.container {
+    margin: 0 auto;
+    max-width: 1000px;
+}
