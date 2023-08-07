@@ -1,4 +1,4 @@
-import { Body, ClassSerializerInterceptor, Controller, Get, Patch, Post, UseInterceptors } from '@nestjs/common';
+import { Body, ClassSerializerInterceptor, Controller, Get, Param, Post, UseInterceptors } from '@nestjs/common';
 import { MessagesService } from './messages.service';
 import { MessageDto } from './dto/message.dto';
 
@@ -9,8 +9,13 @@ export class MessagesController {
         private readonly messagesService: MessagesService,
     ) {}
 
-    @Post()
-    async createMessage(@Body() message: MessageDto) {
-        return this.messagesService.createMessage(message);
+    @Post('/:gameId/:userId')
+    async createMessage(@Param('gameId') gameId: string, @Param('userId') userId: string, @Body() message: MessageDto) {
+        return this.messagesService.createMessage(Number(gameId), Number(userId), message);
+    }
+
+    @Post('/:gameId')
+    async getGameMessages(@Param('gameId') gameId: string) {
+        return this.messagesService.getGameMessages(Number(gameId));
     }
 }

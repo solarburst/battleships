@@ -7,6 +7,7 @@ import { GamesService } from '../games/games.service';
 import { Stage } from '../games/entities/game.entity';
 import { ShipsService } from '../ships/ships.service';
 import { UsersService } from '../users/users.service';
+import { ShotResult } from '../utils/positionChecker';
 
 @Injectable()
 export class ShotsService {
@@ -27,59 +28,60 @@ export class ShotsService {
             throw new HttpException('Такой выстрел уже был', HttpStatus.BAD_REQUEST);
         }
 
-        if ((userId === game.firstUserId && game.isFirstUserTurn === true) || (userId === game.secondUserId && game.isFirstUserTurn === false)) {
-            const enemyId = game.firstUserId === userId ? game.secondUserId : game.firstUserId;
+        const isNotPlayerTurn = (userId === game.firstUserId && game.isFirstUserTurn === false)
+        || (userId === game.secondUserId && game.isFirstUserTurn === true)
 
-            const enemyShips = await this.shipsService.getShipsByUserAndGame(enemyId, gameId);
-
-            const enemy = await this.usersService.getUserById(enemyId);
-
-            enemy.positionChecker.putShipsIntoField(enemyShips);
-
-            const allShots = await this.getShotsByUserAndGame(userId, gameId);
-
-            allShots.forEach(shotFromAllShots => {
-                enemy.positionChecker.putShotIntoField(shotFromAllShots);
-            });
-
-            const makeShot = await this.shotsRepository.save({
-                ...shot,
-                userId,
-                gameId,
-            });
-
-            const shotResult = enemy.positionChecker.putShotIntoField(makeShot);
-
-            if (shotResult.additionalShots.length > 0) {
-                shotResult.additionalShots.forEach(async additionalShot => {
-                    await this.shotsRepository.save({
-                        ...additionalShot,
-                        userId,
-                        gameId,
-                    });
-                });
-            }
-
-            console.log(enemy.positionChecker.positions);
-
-            if (shotResult.message === 'miss') {
-                await this.gamesService.updateGame(gameId, {
-                    isFirstUserTurn: !game.isFirstUserTurn,
-                });
-            }
-            if (enemy.positionChecker.aliveShips.length === 0) {
-                this.gamesService.updateGame(gameId, {
-                    stage: Stage.OVER,
-                });
-            }
-
-            return {
-                ...makeShot,
-                message: shotResult.message,
-            };
+        if (isNotPlayerTurn) {
+            throw new HttpException('Сейчас ход другого игрока', HttpStatus.BAD_REQUEST);
         }
 
-        throw new HttpException('Сейчас ход другого игрока', HttpStatus.BAD_REQUEST);
+        const enemyId = game.firstUserId === userId ? game.secondUserId : game.firstUserId;
+
+        const enemyShips = await this.shipsService.getShipsByUserAndGame(enemyId, gameId);
+
+        const enemy = await this.usersService.getUserById(enemyId);
+
+        enemy.positionChecker.putShipsIntoField(enemyShips);
+
+        const allShots = await this.getShotsByUserAndGame(userId, gameId);
+
+        allShots.forEach(shotFromAllShots => {
+            enemy.positionChecker.putShotIntoField(shotFromAllShots);
+        });
+
+        const makeShot = await this.shotsRepository.save({
+            ...shot,
+            userId,
+            gameId,
+        });
+
+        const shotResult = enemy.positionChecker.putShotIntoField(makeShot);
+
+        if (shotResult.additionalShots.length > 0) {
+            shotResult.additionalShots.forEach(async additionalShot => {
+                await this.shotsRepository.save({
+                    ...additionalShot,
+                    userId,
+                    gameId,
+                });
+            });
+        }
+
+        if (shotResult.status === ShotResult.MISS) {
+            await this.gamesService.updateGame(gameId, {
+                isFirstUserTurn: !game.isFirstUserTurn,
+            });
+        }
+        if (enemy.positionChecker.aliveShips.length === 0) {
+            this.gamesService.updateGame(gameId, {
+                stage: Stage.OVER,
+            });
+        }
+
+        return {
+            ...makeShot,
+            status: shotResult.status,
+        };
     }
 
     async getShotsByUserAndGame(userId: number, gameId: number) {

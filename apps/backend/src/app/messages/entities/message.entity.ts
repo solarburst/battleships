@@ -27,7 +27,7 @@ export class MessageEntity {
         message: string;
 
     @CreateDateColumn()
-        created_at: Date;
+        createdAt: Date;
 
     @Column()
     @Exclude()

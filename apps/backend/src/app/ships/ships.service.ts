@@ -75,10 +75,7 @@ export class ShipsService {
     async getShipsByUserAndGame(userId: number, gameId: number) {
         const foundedShips = await this.shipsRepository.find({ where: { userId, gameId } });
 
-        if (foundedShips) {
-            return foundedShips;
-        }
-        throw new HttpException('Корабли не найдены', HttpStatus.NOT_FOUND);
+        return foundedShips;
     }
 
     async deleteShips(gameId: number, userId: number) {

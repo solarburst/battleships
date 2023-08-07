@@ -117,7 +117,7 @@ export class PositionChecker {
 
     putShotIntoField(shot: ShotDto) {
         const shotResult = {
-            message: ShotResult.MISS,
+            status: ShotResult.MISS,
             additionalShots: [],
         };
 
@@ -126,7 +126,7 @@ export class PositionChecker {
         } else {
             this.positions[shot.y][shot.x] = CellType.MISS;
 
-            shotResult.message = ShotResult.MISS;
+            shotResult.status = ShotResult.MISS;
 
             return shotResult;
         }
@@ -143,7 +143,7 @@ export class PositionChecker {
 
             if (shipInfo.hits < shipInfo.length) continue;
 
-            shotResult.message = ShotResult.KILL;
+            shotResult.status = ShotResult.KILL;
             shotResult.additionalShots = this.putAdditionalShots(shipInfo);
 
             this.aliveShips.splice(i, 1);
@@ -151,7 +151,7 @@ export class PositionChecker {
             return shotResult;
         }
 
-        shotResult.message = ShotResult.HIT;
+        shotResult.status = ShotResult.HIT;
 
         return shotResult;
     }

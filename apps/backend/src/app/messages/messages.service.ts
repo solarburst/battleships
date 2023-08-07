@@ -11,11 +11,21 @@ export class MessagesService {
         private messagesRepository: Repository<MessageEntity>,
     ) {}
 
-    async createMessage(message: MessageDto) {
-        const newMessage = await this.messagesRepository.create(message);
+    async createMessage(gameId: number, userId: number, message: MessageDto) {
+        const newMessage = await this.messagesRepository.create({
+            ...message,
+            gameId,
+            userId,
+        });
 
         await this.messagesRepository.save(newMessage);
 
         return newMessage;
+    }
+
+    async getGameMessages(gameId: number) {
+        const gameMessages = await this.messagesRepository.find({ where: { gameId }});
+
+        return gameMessages;
     }
 }
