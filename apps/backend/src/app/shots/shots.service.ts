@@ -27,55 +27,59 @@ export class ShotsService {
             throw new HttpException('Такой выстрел уже был', HttpStatus.BAD_REQUEST);
         }
 
-        const enemyId = game.firstUserId === userId ? game.secondUserId : game.firstUserId;
+        if ((userId === game.firstUserId && game.isFirstUserTurn === true) || (userId === game.secondUserId && game.isFirstUserTurn === false)) {
+            const enemyId = game.firstUserId === userId ? game.secondUserId : game.firstUserId;
 
-        const enemyShips = await this.shipsService.getShipsByUserAndGame(enemyId, gameId);
+            const enemyShips = await this.shipsService.getShipsByUserAndGame(enemyId, gameId);
 
-        const enemy = await this.usersService.getUserById(enemyId);
+            const enemy = await this.usersService.getUserById(enemyId);
 
-        enemy.positionChecker.putShipsIntoField(enemyShips);
+            enemy.positionChecker.putShipsIntoField(enemyShips);
 
-        const allShots = await this.getShotsByUserAndGame(userId, gameId);
+            const allShots = await this.getShotsByUserAndGame(userId, gameId);
 
-        allShots.forEach(shotFromAllShots => {
-            enemy.positionChecker.putShotIntoField(shotFromAllShots);
-        });
+            allShots.forEach(shotFromAllShots => {
+                enemy.positionChecker.putShotIntoField(shotFromAllShots);
+            });
 
-        const makeShot = await this.shotsRepository.save({
-            ...shot,
-            userId,
-            gameId,
-        });
+            const makeShot = await this.shotsRepository.save({
+                ...shot,
+                userId,
+                gameId,
+            });
 
-        const shotResult = enemy.positionChecker.putShotIntoField(makeShot);
+            const shotResult = enemy.positionChecker.putShotIntoField(makeShot);
 
-        if (shotResult.additionalShots.length > 0) {
-            shotResult.additionalShots.forEach(async additionalShot => {
-                await this.shotsRepository.save({
-                    ...additionalShot,
-                    userId,
-                    gameId,
+            if (shotResult.additionalShots.length > 0) {
+                shotResult.additionalShots.forEach(async additionalShot => {
+                    await this.shotsRepository.save({
+                        ...additionalShot,
+                        userId,
+                        gameId,
+                    });
                 });
-            });
+            }
+
+            console.log(enemy.positionChecker.positions);
+
+            if (shotResult.message === 'miss') {
+                await this.gamesService.updateGame(gameId, {
+                    isFirstUserTurn: !game.isFirstUserTurn,
+                });
+            }
+            if (enemy.positionChecker.aliveShips.length === 0) {
+                this.gamesService.updateGame(gameId, {
+                    stage: Stage.OVER,
+                });
+            }
+
+            return {
+                ...makeShot,
+                message: shotResult.message,
+            };
         }
 
-        console.log(enemy.positionChecker.positions);
-
-        if (shotResult.message === 'miss') {
-            await this.gamesService.updateGame(gameId, {
-                isFirstUserTurn: !game.isFirstUserTurn,
-            });
-        }
-        if (enemy.positionChecker.aliveShips.length === 0) {
-            this.gamesService.updateGame(gameId, {
-                stage: Stage.OVER,
-            });
-        }
-
-        return {
-            ...makeShot,
-            message: shotResult.message,
-        };
+        throw new HttpException('Сейчас ход другого игрока', HttpStatus.BAD_REQUEST);
     }
 
     async getShotsByUserAndGame(userId: number, gameId: number) {
