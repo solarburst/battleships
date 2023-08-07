@@ -1,3 +1,4 @@
+import { ShipDto } from '../ships/dto/ship.dto';
 import { Orientation } from '../ships/entities/ship.entity';
 
 export interface IPosition {
@@ -5,11 +6,7 @@ export interface IPosition {
     y: number,
 }
 
-export interface IShipWithPosition {
+export interface IShipWithPosition extends ShipDto {
     position: IPosition[];
-    x: number;
-    y: number;
-    length: number;
-    orientation: Orientation;
     hits: number;
 }

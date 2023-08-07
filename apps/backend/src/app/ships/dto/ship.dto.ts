@@ -23,6 +23,4 @@ export class ShipDto {
 
     @IsNotEmpty()
         orientation: Orientation;
-
-    // coordinates: [];
 }

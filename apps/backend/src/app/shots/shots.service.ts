@@ -20,11 +20,6 @@ export class ShotsService {
 
     async createShot(gameId: number, userId: number, shot: ShotDto) {
         const game = await this.gamesService.getGameById(gameId);
-        let enemyId;
-
-        if (game.stage !== Stage.GAME) {
-            throw new HttpException('Стадия игры не началась', HttpStatus.BAD_REQUEST);
-        }
 
         const checkShot = await this.shotsRepository.findOne({ where: { x: shot.x, y: shot.y, gameId, userId } });
 
@@ -32,7 +27,7 @@ export class ShotsService {
             throw new HttpException('Такой выстрел уже был', HttpStatus.BAD_REQUEST);
         }
 
-        (game.firstUserId === userId) ? (enemyId = game.secondUserId) : (enemyId = game.firstUserId);
+        const enemyId = game.firstUserId === userId ? game.secondUserId : game.firstUserId;
 
         const enemyShips = await this.shipsService.getShipsByUserAndGame(enemyId, gameId);
 
@@ -46,41 +41,32 @@ export class ShotsService {
             enemy.positionChecker.putShotIntoField(shotFromAllShots);
         });
 
-        const makeShot = await this.shotsRepository.create({
+        const makeShot = await this.shotsRepository.save({
             ...shot,
             userId,
             gameId,
         });
 
-        await this.shotsRepository.save(makeShot);
-
         const shotResult = enemy.positionChecker.putShotIntoField(makeShot);
 
-        if (shotResult.message === 'kill') {
-            console.log(enemy.positionChecker.positions);
-        }
         if (shotResult.additionalShots.length > 0) {
             shotResult.additionalShots.forEach(async additionalShot => {
-                const shotToAdd = this.shotsRepository.create({
+                await this.shotsRepository.save({
                     ...additionalShot,
                     userId,
                     gameId,
                 });
-
-                await this.shotsRepository.save(shotToAdd);
-
-                enemy.positionChecker.putShotIntoField(additionalShot);
             });
         }
-        if (shotResult.message === 'hit') {
-            console.log(enemy.positionChecker.positions);
-        }
+
+        console.log(enemy.positionChecker.positions);
+
         if (shotResult.message === 'miss') {
             await this.gamesService.updateGame(gameId, {
                 isFirstUserTurn: !game.isFirstUserTurn,
             });
         }
-        if (enemy.positionChecker.shipPositions.length === 0) {
+        if (enemy.positionChecker.aliveShips.length === 0) {
             this.gamesService.updateGame(gameId, {
                 stage: Stage.OVER,
             });

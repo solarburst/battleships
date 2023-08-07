@@ -20,15 +20,10 @@ export class ShipsService {
     async createShip(gameId: number, userId: number, ships: ShipDto[]) {
         const gameInfo = await this.gamesService.getGameUserInfo(gameId, userId);
 
-        if (gameInfo.stage !== Stage.SETUP) {
-            throw new HttpException('Стадия расстановки закончилась', HttpStatus.BAD_REQUEST);
-        }
         const shipsInGame: ShipDto[] = gameInfo.ships;
         const shipsCheck = shipsInGame.concat(ships);
 
         const user = await this.usersService.getUserById(userId);
-
-        console.log(user.positionChecker.putShipsIntoField(shipsInGame));
 
         user.positionChecker.putShipsIntoField(shipsCheck);
 
@@ -51,9 +46,6 @@ export class ShipsService {
     async moveShip(gameId: number, userId: number, shipId: number, shipInfo: ShipDto) {
         const gameInfo = await this.gamesService.getGameUserInfo(gameId, userId);
 
-        if (gameInfo.stage !== Stage.SETUP) {
-            throw new HttpException('Стадия расстановки закончилась', HttpStatus.BAD_REQUEST);
-        }
         if (!gameInfo.ships.find(item => item.id === shipId)) {
             throw new HttpException('Корабль не найден', HttpStatus.NOT_FOUND);
         }
@@ -90,8 +82,6 @@ export class ShipsService {
     }
 
     async deleteShips(gameId: number, userId: number) {
-        const foundedShips = await this.shipsRepository.delete({ userId, gameId });
-
-        return foundedShips;
+        await this.shipsRepository.delete({ userId, gameId });
     }
 }

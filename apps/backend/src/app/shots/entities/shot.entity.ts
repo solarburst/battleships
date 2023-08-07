@@ -9,14 +9,6 @@ import { UserEntity } from '../../users/entities/user.entity';
 import { GameEntity } from '../../games/entities/game.entity';
 import { Exclude } from 'class-transformer';
 
-export enum CellType {
-    EMPTY = 0,
-    BORDER = 1,
-    SHIP = 2,
-    MISS = 3,
-    HIT = 4
-}
-
 @Entity('shots')
 export class ShotEntity {
     @PrimaryGeneratedColumn()
