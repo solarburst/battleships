@@ -1,8 +1,5 @@
 import React from 'react';
-import Ship1 from './ship1';
-import Ship2 from './ship2';
-import Ship3 from './ship3';
-import Ship4 from './ship4';
+import Icon from '../Icon';
 
 interface ShipProps {
     length: number
@@ -10,16 +7,16 @@ interface ShipProps {
 
 const Ship = ({ length }: ShipProps) => {
     if (length === 1) {
-        return <Ship1 />;
+        return <Icon name="ship1" />;
     }
     if (length === 2) {
-        return <Ship2 />;
+        return <Icon name="ship2" />;
     }
     if (length === 3) {
-        return <Ship3 />;
+        return <Icon name="ship3" />;
     }
     if (length === 4) {
-        return <Ship4 />;
+        return <Icon name="ship4" />;
     }
 };
 

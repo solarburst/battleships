@@ -5,6 +5,14 @@
     gap: 24px;
     flex-direction: column;
 
+    div[draggable="true"] {
+        cursor: move;
+    }
+
+    div[draggable="false"] {
+        cursor: default;
+    }
+
     &-big {
         display: flex;
         gap: 24px;

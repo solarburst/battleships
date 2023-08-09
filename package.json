@@ -4,6 +4,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "npx nx run-many --parallel --target=serve --projects=backend,frontend",
+    "dev:frontend": "npx nx serve frontend",
+    "dev:backend": "npx nx serve backend",
     "lint": "eslint \"apps/**/**/app/*.ts\" --fix"
   },
   "private": true,
@@ -24,6 +26,7 @@
     "pg": "^8.11.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-svg": "^16.1.20",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
     "tslib": "^2.3.0",
