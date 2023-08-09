@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import Icon from '../Icon';
 import { FIELD_SIZE } from '../../../utils/constants';
-import { IShip } from 'utils/interfaces';
-import placedShip from '../PlacedShip';
+import { IShip, IMenuShip } from 'utils/interfaces';
+import PlacedShip from '../PlacedShip';
+import LetterRow from './LetterRow';
+import NumberColumn from './NumberColumn';
+import FieldCells from './FieldCells';
 
 const Playground = () => {
-    const initialShips: Partial<IShip>[] = [
+    const initialShips: IMenuShip[] = useMemo(() => [
         {
             length: 4,
             orientation: 'horizontal',
@@ -56,69 +59,35 @@ const Playground = () => {
             orientation: 'horizontal',
             isPlaced: false,
         },
-    ];
+    ], []);
+
+    console.log('render');
 
     const [ships, setShips] = useState<IShip[]>([]);
     const [dragShipLength, setDragShipLength] = useState<number>();
 
-    const handleOnDrop = (x: number, y: number) => {
+    const handleOnDrop = (y: number, x: number) => {
         const length = dragShipLength;
 
-        setShips([
-            ...ships, {
-                x,
-                y,
-                length,
-                orientation: 'horizontal',
-                isPlaced: true,
-            },
-        ]);
+        if (length !== undefined) {
+            setShips([
+                ...ships, {
+                    x,
+                    y,
+                    length,
+                    orientation: 'horizontal',
+                    isPlaced: true,
+                },
+            ]);
+        }
     };
 
-    // const handleOnDragEnd = (event: React.DragEvent) => {
-    //     const shipInfo = ships[ships.length - 1];
-
-    // };
-
-    const handleDragOver = (event: React.DragEvent) => {
+    const handleDragOver = (event: React.DragEvent<Element>) => {
         event.preventDefault();
     };
 
     const handleOnDrag = (length: number) => {
         setDragShipLength(length);
-    };
-
-    const createLetterColumn = () => {
-        const alphabet = ['А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З', 'И', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Э', 'Ю', 'Я'];
-        const letters = [];
-
-        for (let i = 0; i <= FIELD_SIZE; i++) {
-            letters.push(<div className="cell" key={i}>{alphabet[i]}</div>);
-        }
-
-        return <div className="main__playground-field__letter-stroke">{letters}</div>;
-    };
-
-    const createNumberColumn = () => {
-        const numbers = [];
-
-        for (let i = 0; i <= FIELD_SIZE; i++) {
-            numbers.push(<div className="cell" key={i}>{i}</div>);
-        }
-
-        return <div className="main__playground-field__number-stroke">{numbers}</div>;
-    };
-
-    const createCells = () => {
-        const cells = [];
-
-        for (let i = 0; i <= FIELD_SIZE; i++) {
-            for (let j = 0; j <= FIELD_SIZE; j++) {
-                cells.push(<div className="cell cell--bg" data-x={`${j}`} data-y={`${i}`} onDrop={() => handleOnDrop(i, j)} onDragOver={handleDragOver}></div>);
-            }
-        }
-
-        return <div className="main__playground-field__cells">{cells}</div>;
     };
 
     return (
@@ -139,17 +108,18 @@ const Playground = () => {
                     </div>
                 </div>
                 <div className="main__playground-field">
-                    {createLetterColumn()}
-                    {createNumberColumn()}
-                    {createCells()}
-                    {ships.map((ship) => placedShip(ship))}
+                    {<LetterRow />}
+                    <div className="main__playground-field-wrapper">
+                        {<NumberColumn />}
+                        {<FieldCells handleOnDrop={handleOnDrop} handleDragOver={handleDragOver} ships={ships} />}
+                    </div>
                 </div>
             </div>
             <div className="ships">
                 <div className="ships-big">
                     {initialShips.map((ship) => {
-                        if (ship.length! > 2) {
-                            return <div className={`ship${ship.length} menu`} draggable onDragStart={() => handleOnDrag(ship.length!)}>
+                        if (ship.length > 2) {
+                            return <div className={`ship ship${ship.length} ship--not-in-field`} draggable key={initialShips.indexOf(ship)} onDragStart={() => handleOnDrag(ship.length)}>
                                 <Icon name={`ship${ship.length}`} />
                             </div>;
                         }
@@ -157,8 +127,8 @@ const Playground = () => {
                 </div>
                 <div className="ships-small">
                     {initialShips.map((ship) => {
-                        if (ship.length! <= 2) {
-                            return <div className={`ship${ship.length} menu`} draggable onDragStart={() => handleOnDrag(ship.length!)}>
+                        if (ship.length <= 2) {
+                            return <div className={`ship ship${ship.length} ship--not-in-field`} draggable key={initialShips.indexOf(ship)} onDragStart={() => handleOnDrag(ship.length)}>
                                 <Icon name={`ship${ship.length}`} />
                             </div>;
                         }

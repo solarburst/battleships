@@ -1,21 +1,25 @@
 import React from 'react';
 import { CELL_SIZE, INDENT } from '../../../utils/constants';
-import Ship from '../Ship';
 import { IShip } from '../../../utils/interfaces';
+import ShipIcon from '../ShipIcon';
 
-const placedShip = (ship: IShip) => {
+interface IPlacedShipProps {
+    ship: IShip;
+}
+
+const PlacedShip = ({ ship }: IPlacedShipProps) => {
     const style = {
-        left: `${(CELL_SIZE * ship.x + INDENT)}px`,
-        top: `${(CELL_SIZE * ship.y + INDENT)}px`,
+        left: `${(CELL_SIZE * ship.x)}px`,
+        top: `${(CELL_SIZE * ship.y)}px`,
     };
 
-    const length = ship.length!;
+    const length = ship.length;
 
     return (
-        <div className={`ship${length}`} style={style}>
-            <Ship length={length} />
+        <div className={`ship ship${length}`} style={style}>
+            <ShipIcon length={length} />
         </div>
     );
 };
 
-export default placedShip;
+export default PlacedShip;

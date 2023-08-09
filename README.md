@@ -7,7 +7,9 @@
 ## Запуск приложения
 
 Запустить frontend: `npm run dev:frontend`
+
 Запустить backend: `npm run dev:backend`
+
 Запустить все приложение: `npm run dev`
 
 ## Start the app

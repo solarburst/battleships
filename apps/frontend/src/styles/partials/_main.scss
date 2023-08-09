@@ -21,14 +21,14 @@
 
             &-item:hover {
                 cursor: pointer;
-            }
 
-            &-item:hover &-text {
-                color: $text-default;
-            }
-
-            &-item:hover svg path {
-                stroke: $text-default;
+                .main__playground-buttons-text {
+                    color: $text-default;
+                }
+    
+                svg path {
+                    stroke: $text-default;
+                }
             }
 
             &-text {
@@ -42,32 +42,33 @@
             background: linear-gradient(#3E4376, #3E4376);
             border-radius: 8px;
             height: 452px;
-            position: relative;
+
+            &-wrapper {
+                display: flex;
+            }
 
             &__letter-stroke {
                 display: flex;
-                gap: 4px;
-                position: absolute;
-                top: 12px;
-                left: 48px;
+                gap: 4px;             
+                padding-top: 12px;
+                padding-left: 48px;
             }
 
             &__number-stroke {
-                position: absolute;
-                top: 52px;
-                left: 12px;
+                padding-top: 4px;
+                padding-left: 12px;
                 display: flex;
                 flex-direction: column;
                 gap: 4px;
             }
 
             &__cells {
+                position: relative;
                 width: 356px;
                 display: flex;
                 flex-wrap: wrap;
-                position: absolute;
-                left: 48px;
-                top: 48px;
+                margin-left: 4px;
+                margin-top: 4px;
                 gap: 4px;
             }
         }
@@ -116,26 +117,30 @@
     }
 }
 
-.ship1 {
+.ship {
     position: absolute;
-    // transform: rotate(90deg) translateY(2px) translateX(-2px);
+
+    &--not-in-field {
+        position: initial;
+    }
 }
 
-.ship2 {
-    position: absolute;
-}
+// .ship1 {
+//     position: absolute;
+//     // transform: rotate(90deg) translateY(2px) translateX(-2px);
+// }
 
-.ship3 {
-    position: absolute;
-}
+// .ship2 {
+//     position: absolute;
+// }
 
-.ship4 {
-    position: absolute;
-}
+// .ship3 {
+//     position: absolute;
+// }
 
-.menu {
-    position: initial;
-}
+// .ship4 {
+//     position: absolute;
+// }
 
 .placed svg path {
     fill: #323763;
