@@ -27,7 +27,7 @@ const Info = () => {
                     </p>
                 </div>
             </div>
-            <button className="main__info-button-start">НАЧНИ ИГРУ</button>
+            <button className="button main__info-button-start">НАЧНИ ИГРУ</button>
         </div>
     );
 };

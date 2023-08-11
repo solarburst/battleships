@@ -1,8 +1,9 @@
 import React from 'react';
 import Info from './Info';
-import Playground from './Playground';
+import { Playground } from './Playground';
+import { observer } from 'mobx-react';
 
-const Main = () => {
+const MainComponent = () => {
     return (
         <div className="main container">
             <Playground />
@@ -11,4 +12,4 @@ const Main = () => {
     );
 };
 
-export default Main;
+export const Main = observer(MainComponent);

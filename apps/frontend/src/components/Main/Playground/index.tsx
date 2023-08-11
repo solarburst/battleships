@@ -1,93 +1,100 @@
 import React, { useMemo, useState } from 'react';
 import Icon from '../Icon';
-import { FIELD_SIZE } from '../../../utils/constants';
-import { IShip, IMenuShip } from 'utils/interfaces';
-import PlacedShip from '../PlacedShip';
 import LetterRow from './LetterRow';
 import NumberColumn from './NumberColumn';
-import FieldCells from './FieldCells';
+import { FieldCells } from './FieldCells';
+import { useStore } from '../../../mobx/store';
+import { observer } from 'mobx-react';
+import { Orientation, IShip } from '../../../mobx/models/ships';
+import { IMenuShip } from '../../../utils/interfaces';
+import { PlacedShip } from '../PlacedShip';
+import { getSnapshot } from 'mobx-state-tree';
 
-const Playground = () => {
+const PlaygroundComponent = () => {
+    const store = useStore();
+
+    const [draggableElem, setDraggableElem] = useState<number>();
+
     const initialShips: IMenuShip[] = useMemo(() => [
         {
+            id: 1,
             length: 4,
-            orientation: 'horizontal',
+            orientation: Orientation.Horizontal,
             isPlaced: false,
         },
         {
+            id: 2,
             length: 3,
-            orientation: 'horizontal',
+            orientation: Orientation.Horizontal,
             isPlaced: false,
         },
         {
+            id: 3,
             length: 3,
-            orientation: 'horizontal',
+            orientation: Orientation.Horizontal,
             isPlaced: false,
         },
         {
+            id: 4,
             length: 2,
-            orientation: 'horizontal',
+            orientation: Orientation.Horizontal,
             isPlaced: false,
         },
         {
+            id: 5,
             length: 2,
-            orientation: 'horizontal',
+            orientation: Orientation.Horizontal,
             isPlaced: false,
         },
         {
+            id: 6,
             length: 2,
-            orientation: 'horizontal',
+            orientation: Orientation.Horizontal,
             isPlaced: false,
         },
         {
+            id: 7,
             length: 1,
-            orientation: 'horizontal',
+            orientation: Orientation.Horizontal,
             isPlaced: false,
         },
         {
+            id: 8,
             length: 1,
-            orientation: 'horizontal',
+            orientation: Orientation.Horizontal,
             isPlaced: false,
         },
         {
+            id: 9,
             length: 1,
-            orientation: 'horizontal',
+            orientation: Orientation.Horizontal,
             isPlaced: false,
         },
         {
+            id: 10,
             length: 1,
-            orientation: 'horizontal',
+            orientation: Orientation.Horizontal,
             isPlaced: false,
         },
     ], []);
 
-    console.log('render');
+    useMemo(() => store.shipsStore.setShips(initialShips), [initialShips, store.shipsStore]);
 
-    const [ships, setShips] = useState<IShip[]>([]);
-    const [dragShipLength, setDragShipLength] = useState<number>();
+    console.log(getSnapshot(store));
 
     const handleOnDrop = (y: number, x: number) => {
-        const length = dragShipLength;
+        const foundedShip = Array.from(store.shipsStore.ships.values()).find((ship) => ship.id === draggableElem);
 
-        if (length !== undefined) {
-            setShips([
-                ...ships, {
-                    x,
-                    y,
-                    length,
-                    orientation: 'horizontal',
-                    isPlaced: true,
-                },
-            ]);
-        }
+        foundedShip?.changeCoordinates(x, y);
     };
 
+    // без этого не устанавливаются корабли
     const handleDragOver = (event: React.DragEvent<Element>) => {
         event.preventDefault();
     };
 
-    const handleOnDrag = (length: number) => {
-        setDragShipLength(length);
+    const handleOnDragStart = (shipId: number) => {
+        setDraggableElem(shipId);
     };
 
     return (
@@ -111,26 +118,22 @@ const Playground = () => {
                     {<LetterRow />}
                     <div className="main__playground-field-wrapper">
                         {<NumberColumn />}
-                        {<FieldCells handleOnDrop={handleOnDrop} handleDragOver={handleDragOver} ships={ships} />}
+                        {<FieldCells handleOnDrop={handleOnDrop} handleDragOver={handleDragOver} handleOnDragStart={handleOnDragStart} />}
                     </div>
                 </div>
             </div>
             <div className="ships">
                 <div className="ships-big">
-                    {initialShips.map((ship) => {
-                        if (ship.length > 2) {
-                            return <div className={`ship ship${ship.length} ship--not-in-field`} draggable key={initialShips.indexOf(ship)} onDragStart={() => handleOnDrag(ship.length)}>
-                                <Icon name={`ship${ship.length}`} />
-                            </div>;
+                    {Array.from(store.shipsStore.ships.values()).map((ship) => {
+                        if (ship.length > 2 && !ship.isPlaced) {
+                            return <PlacedShip ship={ship} key={ship.id} handleOnDragStart={handleOnDragStart} />;
                         }
                     })}
                 </div>
                 <div className="ships-small">
-                    {initialShips.map((ship) => {
-                        if (ship.length <= 2) {
-                            return <div className={`ship ship${ship.length} ship--not-in-field`} draggable key={initialShips.indexOf(ship)} onDragStart={() => handleOnDrag(ship.length)}>
-                                <Icon name={`ship${ship.length}`} />
-                            </div>;
+                    {Array.from(store.shipsStore.ships.values()).map((ship) => {
+                        if (ship.length <= 2 && !ship.isPlaced) {
+                            return <PlacedShip ship={ship} key={ship.id} handleOnDragStart={handleOnDragStart} />;
                         }
                     })}
                 </div>
@@ -139,4 +142,4 @@ const Playground = () => {
     );
 };
 
-export default Playground;
+export const Playground = observer(PlaygroundComponent);

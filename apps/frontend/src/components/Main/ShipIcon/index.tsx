@@ -1,5 +1,7 @@
 import React from 'react';
 import Icon from '../Icon';
+import { useStore } from '../../../mobx/store';
+import { observer } from 'mobx-react';
 
 const lengths = [1, 2, 3, 4];
 
@@ -7,8 +9,10 @@ interface ShipProps {
     length: typeof lengths[number];
 }
 
-const ShipIcon = ({ length }: ShipProps) => {
+const ShipIconComponent = ({ length }: ShipProps) => {
+    const store = useStore();
+
     return <Icon name={`ship${length}`} />;
 };
 
-export default ShipIcon;
+export const ShipIcon = observer(ShipIconComponent);

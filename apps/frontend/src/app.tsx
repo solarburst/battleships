@@ -1,13 +1,19 @@
-import Main from './components/Main';
+import { Main } from './components/Main';
 import Header from './components/Header';
+import { observer } from 'mobx-react';
+import { PopupContext, PopupProvider } from './context/PopupContext';
+import Popup, { PopupType } from './components/Popup';
 
-export function App() {
+export const AppComponent = () => {
     return (
-        <>
+        <PopupProvider>
             <Header />
             <Main />
-        </>
+            <PopupContext.Consumer>
+                {() => <Popup type={PopupType.Greeting} />}
+            </PopupContext.Consumer>
+        </PopupProvider>
     );
-}
+};
 
-export default App;
+export const App = observer(AppComponent);
