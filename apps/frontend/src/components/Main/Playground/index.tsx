@@ -6,16 +6,18 @@ import { FieldCells } from './FieldCells';
 import { useStore } from '../../../mobx/store';
 import { observer } from 'mobx-react';
 import { Orientation, IShip } from '../../../mobx/models/ships';
-import { IMenuShip } from '../../../utils/interfaces';
+import { IShipField } from '../../../utils/interfaces';
 import { PlacedShip } from '../PlacedShip';
 import { getSnapshot } from 'mobx-state-tree';
+import { ShipIcon } from '../ShipIcon';
 
 const PlaygroundComponent = () => {
     const store = useStore();
 
-    const [draggableElem, setDraggableElem] = useState<number>();
+    // type ship
+    const [draggedElem, setDraggedElem] = useState<IShipField | null>();
 
-    const initialShips: IMenuShip[] = useMemo(() => [
+    const initialShips: IShipField[] = useMemo(() => [
         {
             id: 1,
             length: 4,
@@ -80,21 +82,18 @@ const PlaygroundComponent = () => {
 
     useMemo(() => store.shipsStore.setShips(initialShips), [initialShips, store.shipsStore]);
 
-    console.log(getSnapshot(store));
-
-    const handleOnDrop = (y: number, x: number) => {
-        const foundedShip = Array.from(store.shipsStore.ships.values()).find((ship) => ship.id === draggableElem);
-
-        foundedShip?.changeCoordinates(x, y);
-    };
-
-    // без этого не устанавливаются корабли
-    const handleDragOver = (event: React.DragEvent<Element>) => {
-        event.preventDefault();
-    };
-
     const handleOnDragStart = (shipId: number) => {
-        setDraggableElem(shipId);
+        const foundedShip = Array.from(store.shipsStore.ships.values()).find((ship) => ship.id === shipId);
+
+        if (foundedShip) {
+            setDraggedElem({
+                id: foundedShip.id,
+                x: foundedShip.x,
+                y: foundedShip.y,
+                length: foundedShip.length,
+                orientation: foundedShip.orientation,
+            });
+        }
     };
 
     return (
@@ -118,7 +117,11 @@ const PlaygroundComponent = () => {
                     {<LetterRow />}
                     <div className="main__playground-field-wrapper">
                         {<NumberColumn />}
-                        {<FieldCells handleOnDrop={handleOnDrop} handleDragOver={handleDragOver} handleOnDragStart={handleOnDragStart} />}
+                        {<FieldCells
+                            handleOnDragStart={handleOnDragStart}
+                            ship={draggedElem}
+                            setShip={setDraggedElem}
+                        />}
                     </div>
                 </div>
             </div>
@@ -128,12 +131,18 @@ const PlaygroundComponent = () => {
                         if (ship.length > 2 && !ship.isPlaced) {
                             return <PlacedShip ship={ship} key={ship.id} handleOnDragStart={handleOnDragStart} />;
                         }
+                        if (ship.length > 2 && ship.isPlaced) {
+                            return <ShipIcon length={ship.length} style={{ opacity: 0.4 }} />;
+                        }
                     })}
                 </div>
                 <div className="ships-small">
                     {Array.from(store.shipsStore.ships.values()).map((ship) => {
                         if (ship.length <= 2 && !ship.isPlaced) {
                             return <PlacedShip ship={ship} key={ship.id} handleOnDragStart={handleOnDragStart} />;
+                        }
+                        if (ship.length <= 2 && ship.isPlaced) {
+                            return <ShipIcon length={ship.length} style={{ opacity: 0.4 }} />;
                         }
                     })}
                 </div>

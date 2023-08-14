@@ -112,9 +112,15 @@
 
 .ship {
     position: absolute;
+    cursor: move;
 
     &--not-in-field {
         position: initial;
+    }
+
+    &--hide {
+        transition: 0.01s;
+        transform: translateX(-9999px);
     }
 }
 

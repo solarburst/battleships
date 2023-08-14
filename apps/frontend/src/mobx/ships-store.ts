@@ -1,7 +1,6 @@
 import { Instance, types } from 'mobx-state-tree';
 import { Ship } from './models/ships';
-import { IMenuShip } from 'utils/interfaces';
-import { values } from 'mobx';
+import { IShipField } from 'utils/interfaces';
 
 export const ShipsStore = types
     .model({
@@ -14,7 +13,7 @@ export const ShipsStore = types
         },
     }))
     .actions(self => ({
-        setShips(shipsArr: IMenuShip[]) {
+        setShips(shipsArr: IShipField[]) {
             console.log('set ships');
 
             shipsArr.forEach(ship => self.ships.set(String(ship.id), Ship.create(ship)));

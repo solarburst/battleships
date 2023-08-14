@@ -14,3 +14,12 @@ export interface IMenuShip {
     length: number;
     orientation: Orientation;
 }
+
+export interface IShipField {
+    id: number;
+    x?: number;
+    y?: number;
+    length: number;
+    orientation: Orientation;
+}
+

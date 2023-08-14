@@ -15,7 +15,8 @@ export const Ship = types
     })
     .actions(self => ({
         changeOrientation() {
-            self.orientation = self.orientation === Orientation.Horizontal ? Orientation.Vertical : Orientation.Horizontal;
+            self.orientation
+            = self.orientation === Orientation.Horizontal ? Orientation.Vertical : Orientation.Horizontal;
         },
         changeCoordinates(x: number, y: number) {
             self.x = x;
@@ -24,7 +25,11 @@ export const Ship = types
     }))
     .views(self => ({
         get isPlaced() {
-            return self.x! >= 0 && self.y! >= 0;
+            if (self.x && self.y) {
+                return self.x >= 0 && self.y >= 0;
+            }
+
+            return false;
         },
     }));
 

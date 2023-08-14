@@ -6,9 +6,25 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 4px;
 
     &--bg {
         background-color: #464F87;
-        border-radius: 4px;
+    }
+
+    &--hovered-axis {
+        background-color: #FFFFFF;
+        opacity: 0.05;
+    }
+
+    
+    &--dragged {
+        background-color: #FFFFFF;
+        opacity: 0.2;
+    }
+
+    &:hover {
+        background-color: #FFFFFF;
+        opacity: 0.2;
     }
 }
