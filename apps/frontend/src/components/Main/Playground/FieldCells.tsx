@@ -24,9 +24,9 @@ const FieldCellsComponent = ({ handleOnDragStart, ship, setShip }: IFieldCellsPr
 
     const [hoveredCell, setHoveredCell] = useState<IHoveredCell | null>();
 
-    const cells: ReactElement[] = [];
-
     let count = 0;
+
+    const cells: ReactElement[] = [];
 
     console.log(hoveredCell);
 
@@ -62,19 +62,25 @@ const FieldCellsComponent = ({ handleOnDragStart, ship, setShip }: IFieldCellsPr
         setHoveredCell(null);
     };
 
-    useMemo(() => {
+    const memoizedCells = useMemo(() => {
         for (let i = 0; i <= FIELD_SIZE; i++) {
             for (let j = 0; j <= FIELD_SIZE; j++) {
                 let isShip = false;
 
-                if (ship && hoveredCell && ship.orientation === Orientation.Horizontal
-                    && hoveredCell.y === i && hoveredCell.x <= j && hoveredCell.x + ship.length > j) {
-                    isShip = true;
-                }
+                if (ship && hoveredCell) {
+                    if (
+                        ship.orientation === Orientation.Horizontal
+                        && hoveredCell.y === i && hoveredCell.x <= j && hoveredCell.x + ship.length > j
+                    ) {
+                        isShip = true;
+                    }
 
-                if (ship && hoveredCell && ship.orientation === Orientation.Vertical
-                    && hoveredCell.x === j && hoveredCell.y <= i && hoveredCell.y + ship.length > i) {
-                    isShip = true;
+                    if (
+                        ship.orientation === Orientation.Vertical
+                        && hoveredCell.x === j && hoveredCell.y <= i && hoveredCell.y + ship.length > i
+                    ) {
+                        isShip = true;
+                    }
                 }
 
                 let isHoveredCell = false;
@@ -105,11 +111,13 @@ const FieldCellsComponent = ({ handleOnDragStart, ship, setShip }: IFieldCellsPr
                 );
             }
         }
-    }, [cells]);
+
+        return cells;
+    }, [hoveredCell, ship]);
 
     return (
         <div className="main__playground-field-cells">
-            {cells}
+            {memoizedCells}
             {Array.from(store.locatedShipsStore.getShips.values()).map((shipElem) => {
                 return <PlacedShip ship={shipElem} key={shipElem.id} handleOnDragStart={handleOnDragStart} />;
             })}
