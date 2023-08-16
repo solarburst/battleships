@@ -1,0 +1,34 @@
+.ship {
+    position: absolute;
+    cursor: move;
+
+    @for $i from 0 through 9 {
+        &--#{$i}-x {
+            left: #{$cell-size * $i};
+            z-index: 100;
+        }
+    }
+
+    @for $i from 0 through 9 {
+        &--#{$i}-y {
+            top: #{$cell-size * $i};
+            z-index: 100;
+        }
+    }
+
+    @for $i from 1 through 4 {
+        &--#{$i} {
+            --ship-length: #{$i};
+        }
+    }
+
+    &--vertical {
+        transform: rotate(90deg) translateY(calc(($cell-size / 2) * (var(--ship-length) - 1) + 2px)) translateX(calc(($cell-size / 2) * (var(--ship-length) - 1) - 2px));
+    }
+
+    &--blocked {
+        -webkit-user-drag: none;
+        opacity: 0.4;
+        cursor: default;
+    }
+}

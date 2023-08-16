@@ -9,7 +9,7 @@ export interface ILocatedShipField {
     orientation: Orientation;
 }
 
-export const locatedShip = types
+export const LocatedShipModel = types
     .model({
         id: types.identifier,
         x: types.number,
@@ -20,8 +20,9 @@ export const locatedShip = types
     .actions(self => ({
         changeOrientation() {
             // запросы на бэк
-            self.orientation
-            = self.orientation === Orientation.Horizontal ? Orientation.Vertical : Orientation.Horizontal;
+            self.orientation = self.orientation === Orientation.Horizontal
+                ? Orientation.Vertical
+                : Orientation.Horizontal;
         },
         placeShip(x: number, y: number) {
             // запрос на бэк try catch
@@ -40,5 +41,5 @@ export const locatedShip = types
         },
     }));
 
-export interface ILocatedShip extends Instance<typeof locatedShip>, IShip { }
+export interface ILocatedShip extends Instance<typeof LocatedShipModel>, IShip { }
 

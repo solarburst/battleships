@@ -110,54 +110,6 @@
     }
 }
 
-.ship {
-    position: absolute;
-    cursor: move;
-
-    &--blocked {
-        -webkit-user-drag: none;
-        opacity: 0.4;
-        cursor: default;
-    }
-}
-
-@for $i from 0 through 9 {
-    .ship--#{$i}-x {
-        left: #{36 * $i}px;
-        z-index: 100;
-    }
-}
-
-@for $i from 0 through 9 {
-    .ship--#{$i}-y {
-        top: #{36 * $i}px;
-        z-index: 100;
-    }
-}
-
-@for $i from 1 through 4 {
-    .ship--#{$i}--vertical {
-        transform: rotate(90deg) translateY(#{18 * ($i - 1) + 2}px) translateX(#{18 * ($i - 1) - 2}px);
-    }
-}
-
-// .ship1 {
-//     position: absolute;
-//     // transform: rotate(90deg) translateY(2px) translateX(-2px);
-// }
-
-// .ship2 {
-//     position: absolute;
-// }
-
-// .ship3 {
-//     position: absolute;
-// }
-
-// .ship4 {
-//     position: absolute;
-// }
-
 .placed svg path {
     fill: #323763;
 }

@@ -1,7 +1,6 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { Instance, types } from 'mobx-state-tree';
 import { IShip, Orientation } from '../../utils/interfaces';
-import { locatedShip } from '../locatedShips/located-ships';
-import { LocatedShipsStore } from '../locatedShips/located-ships-store';
 import { useStore } from '../store';
 
 export interface INotLocatedShipField {
@@ -11,12 +10,15 @@ export interface INotLocatedShipField {
     orientation: Orientation;
 }
 
-export const notLocatedShip = types
+export const NotLocatedShipModel = types
     .model({
         id: types.identifier,
         isPlaced: types.optional(types.boolean, false),
         length: types.optional(types.number, 0),
-        orientation: types.optional(types.enumeration<Orientation>('Orientation', Object.values(Orientation)), Orientation.Horizontal),
+        orientation: types.optional(
+            types.enumeration<Orientation>('Orientation', Object.values(Orientation)),
+            Orientation.Horizontal,
+        ),
     })
     .actions(self => ({
         changeOrientation() {},
@@ -32,10 +34,17 @@ export const notLocatedShip = types
                 length: self.length,
                 orientation: self.orientation,
             });
-            console.log('not located ships', x, y);
             self.isPlaced = true;
+        },
+    }))
+    .views(self => ({
+        get x() {
+            return null;
+        },
+        get y() {
+            return null;
         },
     }));
 
-export interface INotLocatedShip extends Instance<typeof notLocatedShip>, IShip, INotLocatedShipField { }
+export interface INotLocatedShip extends Instance<typeof NotLocatedShipModel>, IShip, INotLocatedShipField { }
 

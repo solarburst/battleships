@@ -1,11 +1,11 @@
 import { Instance, types } from 'mobx-state-tree';
-import { INotLocatedShip, INotLocatedShipField, notLocatedShip } from './not-located-ships';
+import { INotLocatedShip, INotLocatedShipField, NotLocatedShipModel } from './not-located-ships-model';
 import { createBaseStore } from '../base-store';
 
 export const NotLocatedShipsStore = types
     .compose(
         types.model({}),
-        createBaseStore<INotLocatedShipField>(notLocatedShip),
+        createBaseStore<INotLocatedShipField>(NotLocatedShipModel),
     )
     .views(self => ({
         get getShips() {

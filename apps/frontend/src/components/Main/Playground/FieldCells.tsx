@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { ReactElement, useMemo, useState } from 'react';
 import { FIELD_SIZE } from '../../../utils/constants';
 import { PlacedShip } from '../PlacedShip';
 import { observer } from 'mobx-react';
 import { useStore } from '../../../mobx/store';
 import { Orientation } from '../../../utils/interfaces';
-import { INotLocatedShip } from 'mobx/notLocatedShips/not-located-ships';
-import { ILocatedShip } from 'mobx/locatedShips/located-ships';
+import { INotLocatedShip } from 'mobx/not-located-ships/not-located-ships-model';
+import { ILocatedShip } from 'mobx/located-ships/located-ships-model';
+import classNames from 'classnames';
 
 interface IFieldCellsProps {
     handleOnDragStart: (ship: ILocatedShip | INotLocatedShip) => void;
@@ -23,7 +24,7 @@ const FieldCellsComponent = ({ handleOnDragStart, ship, setShip }: IFieldCellsPr
 
     const [hoveredCell, setHoveredCell] = useState<IHoveredCell | null>();
 
-    const cells = [];
+    const cells: ReactElement[] = [];
 
     let count = 0;
 
@@ -45,16 +46,6 @@ const FieldCellsComponent = ({ handleOnDragStart, ship, setShip }: IFieldCellsPr
         });
     };
 
-    // const handleOnDragLeave = (y: number, x: number) => {
-    //     if (ship) {
-    //         setShip({
-    //             ...ship,
-    //             x: undefined,
-    //             y: undefined,
-    //         });
-    //     }
-    // };
-
     // без этого не устанавливаются корабли
     const handleDragOver = (event: React.DragEvent<Element>) => {
         event.preventDefault();
@@ -71,57 +62,50 @@ const FieldCellsComponent = ({ handleOnDragStart, ship, setShip }: IFieldCellsPr
         setHoveredCell(null);
     };
 
-    for (let i = 0; i <= FIELD_SIZE; i++) {
-        for (let j = 0; j <= FIELD_SIZE; j++) {
-            let isShip = false;
+    useMemo(() => {
+        for (let i = 0; i <= FIELD_SIZE; i++) {
+            for (let j = 0; j <= FIELD_SIZE; j++) {
+                let isShip = false;
 
-            if (ship && hoveredCell && ship.orientation === Orientation.Horizontal) {
-                for (let k = 0; k < ship.length; k++) {
-                    if (hoveredCell.x + k === j && hoveredCell.y === i) {
-                        isShip = true;
-                    }
+                if (ship && hoveredCell && ship.orientation === Orientation.Horizontal
+                    && hoveredCell.y === i && hoveredCell.x <= j && hoveredCell.x + ship.length > j) {
+                    isShip = true;
                 }
-            }
 
-            if (ship && hoveredCell && ship.orientation === Orientation.Vertical) {
-                for (let k = 0; k < ship.length; k++) {
-                    if (hoveredCell.x === j && hoveredCell.y + k === i) {
-                        isShip = true;
-                    }
+                if (ship && hoveredCell && ship.orientation === Orientation.Vertical
+                    && hoveredCell.x === j && hoveredCell.y <= i && hoveredCell.y + ship.length > i) {
+                    isShip = true;
                 }
-            }
 
-            let isHoveredCell = false;
+                let isHoveredCell = false;
 
-            if (hoveredCell && hoveredCell.x) {
-                for (let m = 0; m < 10; m++) {
-                    if (hoveredCell.x === j && m === i) {
-                        isHoveredCell = true;
-                    }
+                if (hoveredCell && hoveredCell.x === j) {
+                    isHoveredCell = true;
                 }
-            }
 
-            if (hoveredCell && hoveredCell.y) {
-                for (let n = 0; n < 10; n++) {
-                    if (n === j && hoveredCell.y === i) {
-                        isHoveredCell = true;
-                    }
+                if (hoveredCell && hoveredCell.y === i) {
+                    isHoveredCell = true;
                 }
-            }
 
-            cells.push(
-                <div className={`cell  ${isHoveredCell ? 'cell--hovered-axis' : ''} ${isShip ? 'cell--dragged' : 'cell--bg'}`}
-                    onDrop={() => handleOnDrop(i, j)}
-                    onDragOver={handleDragOver}
-                    onDragEnter={() => handleOnDragEnter(i, j)}
-                    // onDragLeave={() => handleOnDragLeave(i, j)}
-                    onMouseEnter={() => handleOnMouseEnter(i, j)}
-                    onMouseLeave={() => handleOnMouseLeave(i, j)}
-                    key={count++}
-                ></div>,
-            );
+                const classes = classNames('cell', {
+                    'cell--hovered-axis': isHoveredCell,
+                    'cell--dragged': isShip,
+                    'cell--bg': !isShip,
+                })
+
+                cells.push(
+                    <div className={classes}
+                        onDrop={() => handleOnDrop(i, j)}
+                        onDragOver={handleDragOver}
+                        onDragEnter={() => handleOnDragEnter(i, j)}
+                        onMouseEnter={() => handleOnMouseEnter(i, j)}
+                        onMouseLeave={() => handleOnMouseLeave(i, j)}
+                        key={count++}
+                    ></div>,
+                );
+            }
         }
-    }
+    }, [cells]);
 
     return (
         <div className="main__playground-field-cells">

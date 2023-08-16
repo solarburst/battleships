@@ -1,6 +1,6 @@
 import { Instance, types } from 'mobx-state-tree';
-import { LocatedShipsStore } from './locatedShips/located-ships-store';
-import { NotLocatedShipsStore } from './notLocatedShips/not-located-ships-store';
+import { LocatedShipsStore } from './located-ships/located-ships-store';
+import { NotLocatedShipsStore } from './not-located-ships/not-located-ships-store';
 
 const RootStore = types
     .model({
