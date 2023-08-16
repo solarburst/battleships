@@ -1,9 +1,11 @@
 import { Instance, types } from 'mobx-state-tree';
-import { ShipsStore } from './ships-store';
+import { LocatedShipsStore } from './locatedShips/located-ships-store';
+import { NotLocatedShipsStore } from './notLocatedShips/not-located-ships-store';
 
 const RootStore = types
     .model({
-        shipsStore: types.optional(ShipsStore, {}),
+        locatedShipsStore: types.optional(LocatedShipsStore, {}),
+        notLocatedShipsStore: types.optional(NotLocatedShipsStore, {}),
     });
 
 export interface IRootStore extends Instance<typeof RootStore> { }

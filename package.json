@@ -23,6 +23,7 @@
     "axios": "^1.4.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
+    "classnames": "^2.3.2",
     "mobx": "^6.10.0",
     "mobx-react": "^9.0.0",
     "mobx-state-tree": "^5.1.8",

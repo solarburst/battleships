@@ -62,7 +62,7 @@
                 gap: 4px;
             }
 
-            &__cells {
+            &-cells {
                 position: relative;
                 width: 356px;
                 display: flex;
@@ -114,13 +114,30 @@
     position: absolute;
     cursor: move;
 
-    &--not-in-field {
-        position: initial;
+    &--blocked {
+        -webkit-user-drag: none;
+        opacity: 0.4;
+        cursor: default;
     }
+}
 
-    &--hide {
-        transition: 0.01s;
-        transform: translateX(-9999px);
+@for $i from 0 through 9 {
+    .ship--#{$i}-x {
+        left: #{36 * $i}px;
+        z-index: 100;
+    }
+}
+
+@for $i from 0 through 9 {
+    .ship--#{$i}-y {
+        top: #{36 * $i}px;
+        z-index: 100;
+    }
+}
+
+@for $i from 1 through 4 {
+    .ship--#{$i}--vertical {
+        transform: rotate(90deg) translateY(#{18 * ($i - 1) + 2}px) translateX(#{18 * ($i - 1) - 2}px);
     }
 }
 

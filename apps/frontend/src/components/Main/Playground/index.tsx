@@ -5,94 +5,88 @@ import NumberColumn from './NumberColumn';
 import { FieldCells } from './FieldCells';
 import { useStore } from '../../../mobx/store';
 import { observer } from 'mobx-react';
-import { Orientation, IShip } from '../../../mobx/models/ships';
-import { IShipField } from '../../../utils/interfaces';
+import { Orientation } from '../../../utils/interfaces';
 import { PlacedShip } from '../PlacedShip';
-import { getSnapshot } from 'mobx-state-tree';
 import { ShipIcon } from '../ShipIcon';
+import { INotLocatedShip, INotLocatedShipField } from 'mobx/notLocatedShips/not-located-ships';
+import { ILocatedShip } from 'mobx/locatedShips/located-ships';
+import { getSnapshot } from 'mobx-state-tree';
 
 const PlaygroundComponent = () => {
     const store = useStore();
 
     // type ship
-    const [draggedElem, setDraggedElem] = useState<IShipField | null>();
+    const [draggedElem, setDraggedElem] = useState<ILocatedShip | INotLocatedShip | null>();
 
-    const initialShips: IShipField[] = useMemo(() => [
+    const initialShips: INotLocatedShipField[] = useMemo(() => [
         {
-            id: 1,
+            id: '1',
             length: 4,
             orientation: Orientation.Horizontal,
             isPlaced: false,
         },
         {
-            id: 2,
+            id: '2',
             length: 3,
             orientation: Orientation.Horizontal,
             isPlaced: false,
         },
         {
-            id: 3,
+            id: '3',
             length: 3,
             orientation: Orientation.Horizontal,
             isPlaced: false,
         },
         {
-            id: 4,
+            id: '4',
             length: 2,
             orientation: Orientation.Horizontal,
             isPlaced: false,
         },
         {
-            id: 5,
+            id: '5',
             length: 2,
             orientation: Orientation.Horizontal,
             isPlaced: false,
         },
         {
-            id: 6,
+            id: '6',
             length: 2,
             orientation: Orientation.Horizontal,
             isPlaced: false,
         },
         {
-            id: 7,
+            id: '7',
             length: 1,
             orientation: Orientation.Horizontal,
             isPlaced: false,
         },
         {
-            id: 8,
+            id: '8',
             length: 1,
             orientation: Orientation.Horizontal,
             isPlaced: false,
         },
         {
-            id: 9,
+            id: '9',
             length: 1,
             orientation: Orientation.Horizontal,
             isPlaced: false,
         },
         {
-            id: 10,
+            id: '10',
             length: 1,
             orientation: Orientation.Horizontal,
             isPlaced: false,
         },
     ], []);
 
-    useMemo(() => store.shipsStore.setShips(initialShips), [initialShips, store.shipsStore]);
+    useMemo(() => store.notLocatedShipsStore.setShips(initialShips), []);
 
-    const handleOnDragStart = (shipId: number) => {
-        const foundedShip = Array.from(store.shipsStore.ships.values()).find((ship) => ship.id === shipId);
-
-        if (foundedShip) {
-            setDraggedElem({
-                id: foundedShip.id,
-                x: foundedShip.x,
-                y: foundedShip.y,
-                length: foundedShip.length,
-                orientation: foundedShip.orientation,
-            });
+    const handleOnDragStart = (ship: ILocatedShip | INotLocatedShip) => {
+        console.log('drag start');
+        if (ship) {
+            setDraggedElem(ship);
         }
     };
 
@@ -127,22 +121,16 @@ const PlaygroundComponent = () => {
             </div>
             <div className="ships">
                 <div className="ships-big">
-                    {Array.from(store.shipsStore.ships.values()).map((ship) => {
-                        if (ship.length > 2 && !ship.isPlaced) {
+                    {Array.from(store.notLocatedShipsStore.getShips.values()).map((ship) => {
+                        if (ship.length > 2) {
                             return <PlacedShip ship={ship} key={ship.id} handleOnDragStart={handleOnDragStart} />;
-                        }
-                        if (ship.length > 2 && ship.isPlaced) {
-                            return <ShipIcon length={ship.length} style={{ opacity: 0.4 }} />;
                         }
                     })}
                 </div>
                 <div className="ships-small">
-                    {Array.from(store.shipsStore.ships.values()).map((ship) => {
-                        if (ship.length <= 2 && !ship.isPlaced) {
+                    {Array.from(store.notLocatedShipsStore.getShips.values()).map((ship) => {
+                        if (ship.length <= 2) {
                             return <PlacedShip ship={ship} key={ship.id} handleOnDragStart={handleOnDragStart} />;
-                        }
-                        if (ship.length <= 2 && ship.isPlaced) {
-                            return <ShipIcon length={ship.length} style={{ opacity: 0.4 }} />;
                         }
                     })}
                 </div>

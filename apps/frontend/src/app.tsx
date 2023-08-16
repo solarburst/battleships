@@ -2,7 +2,8 @@ import { Main } from './components/Main';
 import Header from './components/Header';
 import { observer } from 'mobx-react';
 import { PopupContext, PopupProvider } from './context/PopupContext';
-import Popup, { PopupType } from './components/Popup';
+import PopupWrapper, { PopupType } from './components/Popup';
+import PopupGreeting from './components/Popup/PopupGreeting';
 
 export const AppComponent = () => {
     return (
@@ -10,7 +11,7 @@ export const AppComponent = () => {
             <Header />
             <Main />
             <PopupContext.Consumer>
-                {() => <Popup type={PopupType.Greeting} />}
+                {() => <PopupWrapper type={PopupType.Greeting}><PopupGreeting /></PopupWrapper>}
             </PopupContext.Consumer>
         </PopupProvider>
     );

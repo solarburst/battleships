@@ -1,43 +1,40 @@
 import React from 'react';
-import { CELL_SIZE } from '../../../utils/constants';
 import { ShipIcon } from '../ShipIcon';
 import { observer } from 'mobx-react';
-import { IShip } from '../../../mobx/models/ships';
+import classNames from 'classnames';
 import { useStore } from '../../../mobx/store';
+import { Orientation } from '../../../utils/interfaces';
+import { INotLocatedShip } from 'mobx/notLocatedShips/not-located-ships';
+import { ILocatedShip } from 'mobx/locatedShips/located-ships';
 
 interface IPlacedShipProps {
-    ship: IShip;
-    handleOnDragStart: (shipId: number) => void;
+    ship: ILocatedShip | INotLocatedShip;
+    handleOnDragStart: (ship: ILocatedShip | INotLocatedShip) => void;
 }
 
 const PlacedShipComponent = ({ ship, handleOnDragStart }: IPlacedShipProps) => {
     const store = useStore();
 
-    const foundedShip = Array.from(store.shipsStore.ships.values()).find((shipInArr) => shipInArr.id === ship.id);
-
-    const isVertical = foundedShip?.orientation === 'vertical';
+    const isVertical = ship?.orientation === Orientation.Vertical;
 
     const length = ship.length;
 
-    const verticalTransform = `rotate(90deg) translateY(${18 * (length - 1) + 2.5}px) translateX(${18 * (length - 1) - 2}px)`;
-    // transform: rotate(90deg) translateY(2px) translateX(-2px)
-
-    const style = {
-        left: (ship.x === 0 || ship.x === undefined) ? `${ship.x}` : `${(CELL_SIZE * ship.x)}px`,
-        top: (ship.y === 0 || ship.y === undefined) ? `${ship.y}` : `${(CELL_SIZE * ship.y)}px`,
-        transform: isVertical ? verticalTransform : '',
-        zIndex: '100',
-    };
+    const classes = classNames({
+        ship: true,
+        [`ship--${length}--vertical`]: isVertical,
+        [`ship--${ship.x}-x`]: ship.x ? true : false,
+        [`ship--${ship.y}-y`]: ship.y ? true : false,
+        ['ship--blocked']: ship.isPlaced && !ship.x && !ship.y,
+    });
 
     const handleOnDoubleClick = () => {
-        foundedShip?.changeOrientation();
+        ship?.changeOrientation();
     };
 
     return (
-        <div className={ship.isPlaced ? `ship ship${length}` : `ship ship${length} ship--not-in-field`}
+        <div className={classes}
             key={ship.id}
-            style={style}
-            onDragStart={() => handleOnDragStart(ship.id)}
+            onDragStart={() => handleOnDragStart(ship)}
             onDoubleClick={() => handleOnDoubleClick()}
         >
             <ShipIcon length={length} />

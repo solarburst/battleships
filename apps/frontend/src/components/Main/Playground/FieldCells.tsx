@@ -3,13 +3,14 @@ import { FIELD_SIZE } from '../../../utils/constants';
 import { PlacedShip } from '../PlacedShip';
 import { observer } from 'mobx-react';
 import { useStore } from '../../../mobx/store';
-import { Orientation } from '../../../mobx/models/ships';
-import { IShipField } from '../../../utils/interfaces';
+import { Orientation } from '../../../utils/interfaces';
+import { INotLocatedShip } from 'mobx/notLocatedShips/not-located-ships';
+import { ILocatedShip } from 'mobx/locatedShips/located-ships';
 
 interface IFieldCellsProps {
-    handleOnDragStart: (shipId: number) => void;
-    ship?: IShipField | null;
-    setShip: (ship: IShipField | null) => void;
+    handleOnDragStart: (ship: ILocatedShip | INotLocatedShip) => void;
+    ship?: ILocatedShip | INotLocatedShip | null;
+    setShip: (ship: ILocatedShip | INotLocatedShip | null) => void;
 }
 
 interface IHoveredCell {
@@ -26,35 +27,33 @@ const FieldCellsComponent = ({ handleOnDragStart, ship, setShip }: IFieldCellsPr
 
     let count = 0;
 
+    console.log(hoveredCell);
+
     const handleOnDrop = (y: number, x: number) => {
         if (ship) {
-            const foundedShip = Array.from(store.shipsStore.ships.values()).find((shipItem) => shipItem.id === ship.id);
-
-            foundedShip?.changeCoordinates(x, y);
+            console.log('ship', ship);
+            ship.placeShip(x, y);
 
             setShip(null);
         }
     };
 
     const handleOnDragEnter = (y: number, x: number) => {
-        if (ship) {
-            setShip({
-                ...ship,
-                x,
-                y,
-            });
-        }
+        setHoveredCell({
+            x,
+            y,
+        });
     };
 
-    const handleOnDragLeave = (y: number, x: number) => {
-        if (ship) {
-            setShip({
-                ...ship,
-                x: undefined,
-                y: undefined,
-            });
-        }
-    };
+    // const handleOnDragLeave = (y: number, x: number) => {
+    //     if (ship) {
+    //         setShip({
+    //             ...ship,
+    //             x: undefined,
+    //             y: undefined,
+    //         });
+    //     }
+    // };
 
     // без этого не устанавливаются корабли
     const handleDragOver = (event: React.DragEvent<Element>) => {
@@ -76,17 +75,17 @@ const FieldCellsComponent = ({ handleOnDragStart, ship, setShip }: IFieldCellsPr
         for (let j = 0; j <= FIELD_SIZE; j++) {
             let isShip = false;
 
-            if (ship && ship.x && ship.orientation === Orientation.Horizontal) {
+            if (ship && hoveredCell && ship.orientation === Orientation.Horizontal) {
                 for (let k = 0; k < ship.length; k++) {
-                    if (ship.x + k === j && ship.y === i) {
+                    if (hoveredCell.x + k === j && hoveredCell.y === i) {
                         isShip = true;
                     }
                 }
             }
 
-            if (ship && ship.y && ship.orientation === Orientation.Vertical) {
+            if (ship && hoveredCell && ship.orientation === Orientation.Vertical) {
                 for (let k = 0; k < ship.length; k++) {
-                    if (ship.x === j && ship.y + k === i) {
+                    if (hoveredCell.x === j && hoveredCell.y + k === i) {
                         isShip = true;
                     }
                 }
@@ -115,7 +114,7 @@ const FieldCellsComponent = ({ handleOnDragStart, ship, setShip }: IFieldCellsPr
                     onDrop={() => handleOnDrop(i, j)}
                     onDragOver={handleDragOver}
                     onDragEnter={() => handleOnDragEnter(i, j)}
-                    onDragLeave={() => handleOnDragLeave(i, j)}
+                    // onDragLeave={() => handleOnDragLeave(i, j)}
                     onMouseEnter={() => handleOnMouseEnter(i, j)}
                     onMouseLeave={() => handleOnMouseLeave(i, j)}
                     key={count++}
@@ -125,12 +124,10 @@ const FieldCellsComponent = ({ handleOnDragStart, ship, setShip }: IFieldCellsPr
     }
 
     return (
-        <div className="main__playground-field__cells">
+        <div className="main__playground-field-cells">
             {cells}
-            {Array.from(store.shipsStore.ships.values()).map((shipElem) => {
-                if (shipElem.isPlaced) {
-                    return <PlacedShip ship={shipElem} key={shipElem.id} handleOnDragStart={handleOnDragStart} />;
-                }
+            {Array.from(store.locatedShipsStore.getShips.values()).map((shipElem) => {
+                return <PlacedShip ship={shipElem} key={shipElem.id} handleOnDragStart={handleOnDragStart} />;
             })}
         </div>);
 };

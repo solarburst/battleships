@@ -1,5 +1,5 @@
 import { PopupContext } from '../../context/PopupContext';
-import React, { useContext, useState } from 'react';
+import React, { ReactElement, useContext } from 'react';
 
 export enum PopupType {
     Win,
@@ -9,23 +9,18 @@ export enum PopupType {
 
 interface IPopupProps {
     type: PopupType;
+    children: ReactElement;
 }
 
-const Popup = ({ type }: IPopupProps) => {
-    const { isOpen, close } = useContext(PopupContext);
+const PopupWrapper = ({ children }: IPopupProps) => {
+    const { isOpen } = useContext(PopupContext);
 
     return (
         <>
             {isOpen && (
                 <div className="popup">
                     <div className="popup__content">
-                        {type === PopupType.Greeting && (
-                            <>
-                                <h2 className="popup__content-title">Привет!</h2>
-                                <p className="popup__content-text">Можешь создать игру</p>
-                                <button className="button popup__content-button" onClick={() => close()}>Создать игру</button>
-                            </>
-                        )}
+                        {children}
                     </div>
                 </div>
             )}
@@ -33,4 +28,4 @@ const Popup = ({ type }: IPopupProps) => {
     );
 };
 
-export default Popup;
+export default PopupWrapper;
