@@ -28,11 +28,8 @@ const FieldCellsComponent = ({ handleOnDragStart, ship, setShip }: IFieldCellsPr
 
     const cells: ReactElement[] = [];
 
-    console.log(hoveredCell);
-
     const handleOnDrop = (y: number, x: number) => {
         if (ship) {
-            console.log('ship', ship);
             ship.placeShip(x, y);
 
             setShip(null);
@@ -97,7 +94,7 @@ const FieldCellsComponent = ({ handleOnDragStart, ship, setShip }: IFieldCellsPr
                     'cell--hovered-axis': isHoveredCell,
                     'cell--dragged': isShip,
                     'cell--bg': !isShip,
-                })
+                });
 
                 cells.push(
                     <div className={classes}

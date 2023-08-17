@@ -81,4 +81,8 @@ export class ShipsService {
     async deleteShips(gameId: number, userId: number) {
         await this.shipsRepository.delete({ userId, gameId });
     }
+
+    async deleteShip(gameId: number, userId: number, shipId: number) {
+        await this.shipsRepository.delete(shipId);
+    }
 }

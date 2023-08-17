@@ -1,7 +1,6 @@
 import { Orientation } from 'utils/interfaces';
 
-export interface ShipResponseDTO {
-    id: number;
+export interface ShipPlacementDTO {
     x: number;
     y: number;
     length: number;

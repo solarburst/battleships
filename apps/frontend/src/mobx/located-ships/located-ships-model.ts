@@ -1,4 +1,4 @@
-import { Instance, types } from 'mobx-state-tree';
+import { Instance, flow, types } from 'mobx-state-tree';
 import { IShip, Orientation } from '../../utils/interfaces';
 
 export interface ILocatedShipField {
@@ -15,9 +15,17 @@ export const LocatedShipModel = types
         x: types.number,
         y: types.number,
         length: types.number,
-        orientation: types.optional(types.enumeration<Orientation>('Orientation', Object.values(Orientation)), Orientation.Horizontal),
+        orientation: types.optional(
+            types.enumeration<Orientation>('Orientation', Object.values(Orientation)),
+            Orientation.Horizontal,
+        ),
     })
     .actions(self => ({
+        // const placeShip = flow(function *(x: number, y: number) {
+        //     // try {
+                
+        //     // }
+        // });
         changeOrientation() {
             // запросы на бэк
             self.orientation = self.orientation === Orientation.Horizontal
@@ -26,7 +34,6 @@ export const LocatedShipModel = types
         },
         placeShip(x: number, y: number) {
             // запрос на бэк try catch
-            console.log('located ships', x, y);
             self.x = x;
             self.y = y;
         },

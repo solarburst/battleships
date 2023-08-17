@@ -33,8 +33,10 @@ export class GamesService {
             id: newGame.id,
             isFirstUserTurn: newGame.isFirstUserTurn,
             stage: newGame.stage,
-            firstUser: firstUser.code,
-            secondUser: secondUser.code,
+            // firstUser: firstUser.code,
+            // secondUser: secondUser.code,
+            firstUser: firstUser.id,
+            secondUser: secondUser.id,
         };
     }
 

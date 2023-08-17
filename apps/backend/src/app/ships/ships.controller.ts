@@ -43,4 +43,13 @@ export class ShipsController {
     async deleteShips(@Param('gameId') gameId: string, @Param('userId') userId: string) {
         return this.shipsService.deleteShips(Number(gameId), Number(userId));
     }
+
+    @Delete('/:gameId/:userId/:shipId')
+    async deleteShip(
+        @Param('gameId') gameId: string,
+        @Param('userId') userId: string,
+        @Param('shipId') shipId: string,
+    ) {
+        return this.shipsService.deleteShip(Number(gameId), Number(userId), Number(shipId));
+    }
 }

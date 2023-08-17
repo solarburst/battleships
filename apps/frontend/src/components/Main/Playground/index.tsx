@@ -1,16 +1,13 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import Icon from '../Icon';
 import LetterRow from './LetterRow';
 import NumberColumn from './NumberColumn';
 import { FieldCells } from './FieldCells';
 import { useStore } from '../../../mobx/store';
 import { observer } from 'mobx-react';
-import { Orientation } from '../../../utils/interfaces';
 import { PlacedShip } from '../PlacedShip';
-import { ShipIcon } from '../ShipIcon';
 import { INotLocatedShip, INotLocatedShipField } from 'mobx/not-located-ships/not-located-ships-model';
 import { ILocatedShip } from 'mobx/located-ships/located-ships-model';
-import { getSnapshot } from 'mobx-state-tree';
 
 const PlaygroundComponent = () => {
     const store = useStore();

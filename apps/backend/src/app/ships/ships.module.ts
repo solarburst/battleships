@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule, forwardRef } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ShipsService } from './ships.service';
 import { ShipsController } from './ships.controller';
@@ -22,6 +22,6 @@ export class ShipsModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {
         consumer
             .apply(GameMiddlewareCreator(Stage.SETUP))
-            .forRoutes('ships');
+            .forRoutes({ path: 'ships', method: RequestMethod.POST });
     }
 }
