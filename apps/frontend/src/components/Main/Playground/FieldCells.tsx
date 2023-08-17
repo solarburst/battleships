@@ -115,7 +115,7 @@ const FieldCellsComponent = ({ handleOnDragStart, ship, setShip }: IFieldCellsPr
     return (
         <div className="main__playground-field-cells">
             {memoizedCells}
-            {Array.from(store.locatedShipsStore.getShips.values()).map((shipElem) => {
+            {store.locatedShipsStore.getShips.map((shipElem) => {
                 return <PlacedShip ship={shipElem} key={shipElem.id} handleOnDragStart={handleOnDragStart} />;
             })}
         </div>);

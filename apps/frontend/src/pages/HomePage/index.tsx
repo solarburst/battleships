@@ -8,76 +8,26 @@ import { INotLocatedShipField } from 'mobx/not-located-ships/not-located-ships-m
 import { Orientation } from '../../utils/interfaces';
 import { useEffect } from 'react';
 import { useStore } from '../../mobx/store';
-import { BASE_URL } from '../../utils/constants';
+import { BASE_URL, initialShips } from '../../utils/constants';
+import { RequestCreator } from '../../api/requestCreator';
+import { getSnapshot } from 'mobx-state-tree';
 
-const HomePageComponent = () => {
+export const HomePage = () => {
     const store = useStore();
 
-    const initialShips: INotLocatedShipField[] = [
-        {
-            id: '1',
-            length: 4,
-            orientation: Orientation.Horizontal,
-            isPlaced: false,
-        },
-        {
-            id: '2',
-            length: 3,
-            orientation: Orientation.Horizontal,
-            isPlaced: false,
-        },
-        {
-            id: '3',
-            length: 3,
-            orientation: Orientation.Horizontal,
-            isPlaced: false,
-        },
-        {
-            id: '4',
-            length: 2,
-            orientation: Orientation.Horizontal,
-            isPlaced: false,
-        },
-        {
-            id: '5',
-            length: 2,
-            orientation: Orientation.Horizontal,
-            isPlaced: false,
-        },
-        {
-            id: '6',
-            length: 2,
-            orientation: Orientation.Horizontal,
-            isPlaced: false,
-        },
-        {
-            id: '7',
-            length: 1,
-            orientation: Orientation.Horizontal,
-            isPlaced: false,
-        },
-        {
-            id: '8',
-            length: 1,
-            orientation: Orientation.Horizontal,
-            isPlaced: false,
-        },
-        {
-            id: '9',
-            length: 1,
-            orientation: Orientation.Horizontal,
-            isPlaced: false,
-        },
-        {
-            id: '10',
-            length: 1,
-            orientation: Orientation.Horizontal,
-            isPlaced: false,
-        },
-    ];
+    const requestCreator = RequestCreator.getInstance();
+
+    const paths = window.location.pathname.split('/');
+    const gameId = paths[1];
+    const userId = paths[2];
 
     useEffect(() => {
+        requestCreator.gameId = Number(gameId);
+        requestCreator.userId = Number(userId);
         store.notLocatedShipsStore.setShips(initialShips);
+        if (gameId && userId) {
+            store.locatedShipsStore.fetchShips();
+        }
     }, []);
 
     return (
@@ -94,5 +44,3 @@ const HomePageComponent = () => {
         </PopupProvider>
     );
 };
-
-export const HomePage = observer(HomePageComponent);

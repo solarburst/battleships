@@ -1,14 +1,17 @@
-import { createGame } from '../../api/games';
+import { RequestCreator } from '../../api/requestCreator';
 import { PopupContext } from '../../context/PopupContext';
 import React, { useContext } from 'react';
+import { toast } from 'react-toastify';
 
 const PopupGreeting = () => {
     const { close } = useContext(PopupContext);
 
-    const onClickHandler = async () => {
-        const data = await createGame();
+    const requestCreator = RequestCreator.getInstance();
 
-        window.history.replaceState('', '', `/${data.id}/${data.firstUser}`);
+    const onClickHandler = async () => {
+        const data = await requestCreator.createGame();
+
+        window.history.replaceState('', '', `/${requestCreator.gameId}/${requestCreator.userId}`);
         close();
     };
 

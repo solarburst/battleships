@@ -1,7 +1,14 @@
-import { Instance, types } from 'mobx-state-tree';
+import { Instance, flow, toGeneratorFunction, types } from 'mobx-state-tree';
 import { IShip } from 'utils/interfaces';
 import { ILocatedShip, ILocatedShipField, LocatedShipModel } from './located-ships-model';
 import { createBaseStore } from '../base-store';
+import { RequestCreator } from '../../api/requestCreator';
+import { NotLocatedShipsStore } from 'mobx/not-located-ships/not-located-ships-store';
+import { useStore } from '../store';
+import { initialShips } from '../../utils/constants';
+import { toast } from 'react-toastify';
+
+const requestCreator = RequestCreator.getInstance();
 
 export const LocatedShipsStore = types
     .compose(
@@ -14,13 +21,27 @@ export const LocatedShipsStore = types
         },
     }))
     .actions(self => ({
-        setShips(shipsArr: ILocatedShip[]) {
-            shipsArr.forEach(ship => self.store.set(String(ship.id), LocatedShipModel.create(ship)));
-        },
+        fetchShips: flow(function *() {
+            const rootStore = useStore();
 
-        setShip(ship: ILocatedShip) {
-            self.store.set(String(ship.id), LocatedShipModel.create(ship));
-        },
+            try {
+                const shipsArr: ILocatedShip[] = yield requestCreator.getShipsByUserAndGame();
+
+                shipsArr.forEach(ship => {
+                    self.store.set(String(ship.id), LocatedShipModel.create({
+                        ...ship,
+                        id: ship.id.toString(),
+                    }));
+
+                    const shipToHide = rootStore.notLocatedShipsStore.getShipByLength(ship.length);
+
+                    shipToHide.hide();
+                });
+            } catch (error) {
+                console.error('Failed to fetch ships', error);
+                toast(error.message);
+            }
+        }),
     }));
 
 export interface ILocatedShipsStore extends Instance<typeof LocatedShipsStore>, IShip { }

@@ -1,10 +1,11 @@
-import { observer } from 'mobx-react';
 import { HomePage } from './pages/HomePage';
+import Toast from './components/Toast';
 
-export const AppComponent = () => {
+export const App = () => {
     return (
-        <HomePage />
+        <>
+            <HomePage />
+            <Toast />
+        </>
     );
 };
-
-export const App = observer(AppComponent);

@@ -29,16 +29,17 @@ export class ShipsService {
 
         const newShips: ShipEntity[] = [];
 
-        ships.forEach(async ship => {
+        for (const ship of ships) {
             const newShip = this.shipsRepository.create({
                 ...ship,
                 userId,
                 gameId,
             });
 
-            newShips.push(newShip);
             await this.shipsRepository.save(newShip);
-        });
+
+            newShips.push(newShip);
+        }
 
         return newShips;
     }
