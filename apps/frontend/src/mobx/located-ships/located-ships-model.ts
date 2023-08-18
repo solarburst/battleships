@@ -1,8 +1,9 @@
-import { Instance, flow, types } from 'mobx-state-tree';
+import { Instance, flow, getParent, types } from 'mobx-state-tree';
 import { IShip, Orientation } from '../../utils/interfaces';
 import { RequestCreator } from '../../api/request-creator';
 import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
+import { useStore } from '../../mobx/store';
 
 export interface ILocatedShipField {
     id: string;
@@ -49,6 +50,17 @@ export const LocatedShipModel = types
             });
 
             self.orientation = movedShip.orientation;
+        }),
+        deleteShip: flow(function *() {
+            const rootStore = useStore();
+
+            yield requestCreator.deleteShip(Number(self.id));
+
+            const shipToRestore = rootStore.notLocatedShipsStore.getPlacedShipByLength(self.length);
+
+            rootStore.locatedShipsStore.deleteShip(self.id);
+
+            shipToRestore.unhide();
         }),
     }))
     .views(self => ({

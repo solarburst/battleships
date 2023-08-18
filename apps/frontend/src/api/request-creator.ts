@@ -65,7 +65,7 @@ export class RequestCreator {
         this.setGameId(res.data.id);
         this.setUserId(res.data.firstUser);
 
-        return res.data;
+        return res?.data;
     }
 
     public async getShipsByUserAndGame(): Promise<ShipResponseDTO[]> {
@@ -82,6 +82,18 @@ export class RequestCreator {
 
     public async placeLocatedShip(shipId: number, values: ShipPlacementDTO): Promise<ShipResponseDTO> {
         const res = await this.api.patch(`/ships/${this.gameId}/${this.userId}/${shipId}`, values);
+
+        return res?.data;
+    }
+
+    public async deleteShips() {
+        const res = await this.api.delete(`/ships/${this.gameId}/${this.userId}`);
+
+        return res?.data;
+    }
+
+    public async deleteShip(shipId: number) {
+        const res = await this.api.delete(`/ships/${this.gameId}/${this.userId}/${shipId}`);
 
         return res?.data;
     }

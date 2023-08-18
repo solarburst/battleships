@@ -2,7 +2,7 @@ import { RequestCreator } from '../../api/request-creator';
 import { PopupContext } from '../../context/PopupContext';
 import React, { useContext } from 'react';
 
-const PopupGreeting = () => {
+const PopupLose = () => {
     const { close } = useContext(PopupContext);
 
     const requestCreator = RequestCreator.getInstance();
@@ -16,11 +16,11 @@ const PopupGreeting = () => {
 
     return (
         <>
-            <h2 className="popup__content-title">Привет!</h2>
-            <p className="popup__content-text">Можешь создать игру</p>
-            <button className="button popup__content-button" onClick={() => onClickHandler()}>Создать игру</button>
+            <h2 className="popup__content-title">Поражение</h2>
+            <p className="popup__content-text">Ваши корабли потоплены. <br /> Повезет в следующий раз </p>
+            <button className="button popup__content-button" onClick={() => onClickHandler()}>Начать новую</button>
         </>
     );
 };
 
-export default PopupGreeting;
+export default PopupLose;

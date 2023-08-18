@@ -9,33 +9,38 @@ import { PlacedShip } from '../PlacedShip';
 import { INotLocatedShip, INotLocatedShipField } from 'mobx/not-located-ships/not-located-ships-model';
 import { ILocatedShip } from 'mobx/located-ships/located-ships-model';
 
-const PlaygroundComponent = () => {
+interface IPlaygroundProps {
+    draggedElem: ILocatedShip | INotLocatedShip | null;
+    setDraggedElem: (ship: ILocatedShip | INotLocatedShip | null) => void;
+    handleOnDragStart: (ship: ILocatedShip | INotLocatedShip) => void;
+}
+
+const PlaygroundComponent = ({ draggedElem, setDraggedElem, handleOnDragStart }: IPlaygroundProps) => {
     const store = useStore();
 
-    // type ship
-    const [draggedElem, setDraggedElem] = useState<ILocatedShip | INotLocatedShip | null>();
+    const handleDragOver = (event: React.DragEvent<Element>) => {
+        event.preventDefault();
+    };
 
-    const handleOnDragStart = (ship: ILocatedShip | INotLocatedShip) => {
-        if (ship) {
-            setDraggedElem(ship);
-        }
+    const handleDeleteAll = () => {
+        store.locatedShipsStore.deleteShips();
     };
 
     return (
         <div>
-            <div className="main__playground">
+            <div className="main__playground" onDragOver={(e) => handleDragOver(e)}>
                 <div className="main__playground-buttons">
                     <div className="main__playground-buttons-item">
                         <Icon name="random" />
-                        <p className="main__playground-buttons-text">
+                        <button className="button--clear main__playground-buttons-text">
                             Расставить рандомно
-                        </p>
+                        </button>
                     </div>
                     <div className="main__playground-buttons-item">
                         <Icon name="bin" />
-                        <p className="main__playground-buttons-text">
+                        <button onClick={() => handleDeleteAll()} className="button--clear main__playground-buttons-text">
                             Очистить все
-                        </p>
+                        </button>
                     </div>
                 </div>
                 <div className="main__playground-field">

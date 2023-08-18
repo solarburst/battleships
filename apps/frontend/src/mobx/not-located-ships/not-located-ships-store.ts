@@ -20,10 +20,16 @@ export const NotLocatedShipsStore = types
         getShipByLength(length: number) {
             return Array.from(self.store.values()).find(ship => ship.length === length && ship.isPlaced === false);
         },
+        getPlacedShipByLength(length: number) {
+            return Array.from(self.store.values()).find(ship => ship.length === length && ship.isPlaced === true);
+        },
     }))
     .actions(self => ({
         setShips(shipsArr: INotLocatedShipField[]) {
             shipsArr.forEach(ship => self.createModel({...ship}));
+        },
+        restoreShips() {
+            return Array.from(self.store.values()).forEach(ship => ship.isPlaced = false);
         },
     }));
 

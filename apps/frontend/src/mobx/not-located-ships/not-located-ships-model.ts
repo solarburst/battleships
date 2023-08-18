@@ -27,6 +27,7 @@ export const NotLocatedShipModel = types
     })
     .actions(self => ({
         changeOrientation() {},
+        deleteShip() {},
         placeShip: flow(function *(x: number, y: number) {
             const store = useStore();
 
@@ -50,6 +51,9 @@ export const NotLocatedShipModel = types
         }),
         hide() {
             self.isPlaced = true;
+        },
+        unhide() {
+            self.isPlaced = false;
         },
     }))
     .views(self => ({

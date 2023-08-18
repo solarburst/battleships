@@ -28,8 +28,10 @@ const FieldCellsComponent = ({ handleOnDragStart, ship, setShip }: IFieldCellsPr
 
     const cells: ReactElement[] = [];
 
-    const handleOnDrop = (y: number, x: number) => {
+    const handleOnDrop = (e, y: number, x: number) => {
         if (ship) {
+            e.stopPropagation();
+
             ship.placeShip(x, y);
 
             setShip(null);
@@ -98,7 +100,7 @@ const FieldCellsComponent = ({ handleOnDragStart, ship, setShip }: IFieldCellsPr
 
                 cells.push(
                     <div className={classes}
-                        onDrop={() => handleOnDrop(i, j)}
+                        onDrop={(e) => handleOnDrop(e, i, j)}
                         onDragOver={handleDragOver}
                         onDragEnter={() => handleOnDragEnter(i, j)}
                         onMouseEnter={() => handleOnMouseEnter(i, j)}

@@ -1,4 +1,4 @@
-import { Instance, flow, toGeneratorFunction, types } from 'mobx-state-tree';
+import { Instance, flow, getSnapshot, toGeneratorFunction, types } from 'mobx-state-tree';
 import { IShip } from 'utils/interfaces';
 import { ILocatedShip, ILocatedShipField, LocatedShipModel } from './located-ships-model';
 import { createBaseStore } from '../base-store';
@@ -37,6 +37,18 @@ export const LocatedShipsStore = types
                 shipToHide.hide();
             });
         }),
+        deleteShips: flow(function *() {
+            const rootStore = useStore();
+
+            yield requestCreator.deleteShips();
+
+            self.store.clear();
+
+            rootStore.notLocatedShipsStore.restoreShips();
+        }),
+        deleteShip(id: string) {
+            self.store.delete(id);
+        },
     }));
 
 export interface ILocatedShipsStore extends Instance<typeof LocatedShipsStore>, IShip { }
