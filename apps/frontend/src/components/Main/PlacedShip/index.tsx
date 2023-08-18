@@ -18,6 +18,10 @@ const PlacedShipComponent = ({ ship }: IPlacedShipProps) => {
         store.locatedShipsStore.setMovingShip(ship);
     };
 
+    const handleOnDragEnd = () => {
+        store.locatedShipsStore.setMovingShip(null);
+    };
+
     const isVertical = ship.orientation === Orientation.Vertical;
 
     const length = ship.length;
@@ -41,6 +45,7 @@ const PlacedShipComponent = ({ ship }: IPlacedShipProps) => {
             draggable
             onDragStart={handleOnDragStart}
             onDoubleClick={handleOnDoubleClick}
+            onDragEnd={handleOnDragEnd}
         >
             <ShipIcon length={length} />
         </div>
