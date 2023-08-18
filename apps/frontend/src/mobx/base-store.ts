@@ -11,8 +11,6 @@ export function createBaseStore<IModelFields extends BaseModelFields>(model: IAn
         })
         .actions(self => ({
             createModel(data: IModelFields) {
-                console.log(data);
-                
                 self.store.set(data.id, model.create(data));
             },
         }));

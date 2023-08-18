@@ -2,7 +2,7 @@ import { Instance, flow, toGeneratorFunction, types } from 'mobx-state-tree';
 import { IShip } from 'utils/interfaces';
 import { ILocatedShip, ILocatedShipField, LocatedShipModel } from './located-ships-model';
 import { createBaseStore } from '../base-store';
-import { RequestCreator } from '../../api/requestCreator';
+import { RequestCreator } from '../../api/request-creator';
 import { NotLocatedShipsStore } from 'mobx/not-located-ships/not-located-ships-store';
 import { useStore } from '../store';
 import { initialShips } from '../../utils/constants';
@@ -24,23 +24,18 @@ export const LocatedShipsStore = types
         fetchShips: flow(function *() {
             const rootStore = useStore();
 
-            try {
-                const shipsArr: ILocatedShip[] = yield requestCreator.getShipsByUserAndGame();
+            const shipsArr: ILocatedShip[] = yield requestCreator.getShipsByUserAndGame();
 
-                shipsArr.forEach(ship => {
-                    self.store.set(String(ship.id), LocatedShipModel.create({
-                        ...ship,
-                        id: ship.id.toString(),
-                    }));
+            shipsArr?.forEach(ship => {
+                self.store.set(String(ship.id), LocatedShipModel.create({
+                    ...ship,
+                    id: ship.id.toString(),
+                }));
 
-                    const shipToHide = rootStore.notLocatedShipsStore.getShipByLength(ship.length);
+                const shipToHide = rootStore.notLocatedShipsStore.getShipByLength(ship.length);
 
-                    shipToHide.hide();
-                });
-            } catch (error) {
-                console.error('Failed to fetch ships', error);
-                toast(error.message);
-            }
+                shipToHide.hide();
+            });
         }),
     }));
 

@@ -1,7 +1,8 @@
 import { Instance, flow, types } from 'mobx-state-tree';
 import { IShip, Orientation } from '../../utils/interfaces';
-import { RequestCreator } from '../../api/requestCreator';
+import { RequestCreator } from '../../api/request-creator';
 import { toast } from 'react-toastify';
+import { AxiosError } from 'axios';
 
 export interface ILocatedShipField {
     id: string;
@@ -26,38 +27,28 @@ export const LocatedShipModel = types
     })
     .actions(self => ({
         placeShip: flow(function *(x: number, y: number) {
-            try {
-                const movedShip: ILocatedShip = yield requestCreator.placeLocatedShip(Number(self.id), {
-                    x,
-                    y,
-                    length: self.length,
-                    orientation: self.orientation,
-                });
+            const movedShip: ILocatedShip = yield requestCreator.placeLocatedShip(Number(self.id), {
+                x,
+                y,
+                length: self.length,
+                orientation: self.orientation,
+            });
 
-                self.x = movedShip.x;
-                self.y = movedShip.y;
-            } catch (error) {
-                console.error('Failed to move placed ship', error);
-                toast(error.response.data.message);
-            }
+            self.x = movedShip.x;
+            self.y = movedShip.y;
         }),
         changeOrientation: flow(function *() {
-            try {
-                const orientation = self.orientation === Orientation.Horizontal
-                    ? Orientation.Vertical
-                    : Orientation.Horizontal;
-                const movedShip: ILocatedShip = yield requestCreator.placeLocatedShip(Number(self.id), {
-                    x: self.x,
-                    y: self.y,
-                    length: self.length,
-                    orientation,
-                });
+            const orientation = self.orientation === Orientation.Horizontal
+                ? Orientation.Vertical
+                : Orientation.Horizontal;
+            const movedShip: ILocatedShip = yield requestCreator.placeLocatedShip(Number(self.id), {
+                x: self.x,
+                y: self.y,
+                length: self.length,
+                orientation,
+            });
 
-                self.orientation = movedShip.orientation;
-            } catch (error) {
-                console.error('Failed to move placed ship', error);
-                toast(error.response.data.message);
-            }
+            self.orientation = movedShip.orientation;
         }),
     }))
     .views(self => ({

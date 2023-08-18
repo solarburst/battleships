@@ -9,7 +9,7 @@ import { Orientation } from '../../utils/interfaces';
 import { useEffect } from 'react';
 import { useStore } from '../../mobx/store';
 import { BASE_URL, initialShips } from '../../utils/constants';
-import { RequestCreator } from '../../api/requestCreator';
+import { RequestCreator } from '../../api/request-creator';
 import { getSnapshot } from 'mobx-state-tree';
 
 export const HomePage = () => {

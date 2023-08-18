@@ -1,4 +1,4 @@
-import { RequestCreator } from '../../api/requestCreator';
+import { RequestCreator } from '../../api/request-creator';
 import { PopupContext } from '../../context/PopupContext';
 import React, { useContext } from 'react';
 import { toast } from 'react-toastify';
