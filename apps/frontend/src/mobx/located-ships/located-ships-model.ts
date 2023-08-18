@@ -1,8 +1,6 @@
 import { Instance, flow, getParent, types } from 'mobx-state-tree';
 import { IShip, Orientation } from '../../utils/interfaces';
 import { RequestCreator } from '../../api/request-creator';
-import { toast } from 'react-toastify';
-import { AxiosError } from 'axios';
 import { useStore } from '../../mobx/store';
 
 export interface ILocatedShipField {

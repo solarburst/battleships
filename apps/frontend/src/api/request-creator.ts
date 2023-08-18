@@ -14,20 +14,15 @@ instance.interceptors.response.use(
     err => {
         const statusCode = err.response.status;
 
-        // зачем заново вбрасывать ошибки, если есть ошибка
-
         if (statusCode === 400) {
-            // toast(err.response.data.message);
             Promise.reject(err.response.data.message);
         }
 
         if (statusCode === 404) {
-            // toast('Не найдено');
             Promise.reject('Не найдено');
         }
 
         if (statusCode === 500) {
-            // toast('Внутренняя ошибка сервера');
             Promise.reject('Внутренняя ошибка сервера');
         }
     },

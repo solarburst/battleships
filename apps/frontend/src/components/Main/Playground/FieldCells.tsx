@@ -8,33 +8,29 @@ import { INotLocatedShip } from 'mobx/not-located-ships/not-located-ships-model'
 import { ILocatedShip } from 'mobx/located-ships/located-ships-model';
 import classNames from 'classnames';
 
-interface IFieldCellsProps {
-    handleOnDragStart: (ship: ILocatedShip | INotLocatedShip) => void;
-    ship?: ILocatedShip | INotLocatedShip | null;
-    setShip: (ship: ILocatedShip | INotLocatedShip | null) => void;
-}
-
 interface IHoveredCell {
     x: number;
     y: number;
 }
 
-const FieldCellsComponent = ({ handleOnDragStart, ship, setShip }: IFieldCellsProps) => {
+const FieldCellsComponent = () => {
     const store = useStore();
 
     const [hoveredCell, setHoveredCell] = useState<IHoveredCell | null>();
+
+    const ship = store.locatedShipsStore.movingShip;
 
     let count = 0;
 
     const cells: ReactElement[] = [];
 
-    const handleOnDrop = (e, y: number, x: number) => {
+    const handleOnDrop = (event: Event, y: number, x: number) => {
         if (ship) {
-            e.stopPropagation();
+            event.stopPropagation();
 
             ship.placeShip(x, y);
 
-            setShip(null);
+            store.locatedShipsStore.setMovingShip(null);
         }
     };
 
@@ -118,7 +114,7 @@ const FieldCellsComponent = ({ handleOnDragStart, ship, setShip }: IFieldCellsPr
         <div className="main__playground-field-cells">
             {memoizedCells}
             {store.locatedShipsStore.getShips.map((shipElem) => {
-                return <PlacedShip ship={shipElem} key={shipElem.id} handleOnDragStart={handleOnDragStart} />;
+                return <PlacedShip ship={shipElem} key={shipElem.id} />;
             })}
         </div>);
 };

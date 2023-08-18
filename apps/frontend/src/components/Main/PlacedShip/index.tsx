@@ -5,13 +5,19 @@ import classNames from 'classnames';
 import { Orientation } from '../../../utils/interfaces';
 import { INotLocatedShip } from 'mobx/not-located-ships/not-located-ships-model';
 import { ILocatedShip } from 'mobx/located-ships/located-ships-model';
+import { useStore } from '../../../mobx/store';
 
 interface IPlacedShipProps {
     ship: ILocatedShip | INotLocatedShip;
-    handleOnDragStart: (ship: ILocatedShip | INotLocatedShip) => void;
 }
 
-const PlacedShipComponent = ({ ship, handleOnDragStart }: IPlacedShipProps) => {
+const PlacedShipComponent = ({ ship }: IPlacedShipProps) => {
+    const store = useStore();
+
+    const handleOnDragStart = () => {
+        store.locatedShipsStore.setMovingShip(ship);
+    };
+
     const isVertical = ship.orientation === Orientation.Vertical;
 
     const length = ship.length;
@@ -33,8 +39,8 @@ const PlacedShipComponent = ({ ship, handleOnDragStart }: IPlacedShipProps) => {
         <div className={classes}
             key={ship.id}
             draggable
-            onDragStart={() => handleOnDragStart(ship)}
-            onDoubleClick={() => handleOnDoubleClick()}
+            onDragStart={handleOnDragStart}
+            onDoubleClick={handleOnDoubleClick}
         >
             <ShipIcon length={length} />
         </div>

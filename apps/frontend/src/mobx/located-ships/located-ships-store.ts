@@ -6,7 +6,7 @@ import { RequestCreator } from '../../api/request-creator';
 import { NotLocatedShipsStore } from 'mobx/not-located-ships/not-located-ships-store';
 import { useStore } from '../store';
 import { initialShips } from '../../utils/constants';
-import { toast } from 'react-toastify';
+import { INotLocatedShip } from 'mobx/not-located-ships/not-located-ships-model';
 
 const requestCreator = RequestCreator.getInstance();
 
@@ -15,12 +15,18 @@ export const LocatedShipsStore = types
         types.model({}),
         createBaseStore<ILocatedShipField>(LocatedShipModel),
     )
+    .volatile(self => ({
+        movingShip: null as ILocatedShip | INotLocatedShip | null,
+    }))
     .views(self => ({
         get getShips() {
             return Array.from(self.store.values());
         },
     }))
     .actions(self => ({
+        setMovingShip(ship: ILocatedShip | INotLocatedShip | null) {
+            self.movingShip = ship;
+        },
         fetchShips: flow(function *() {
             const rootStore = useStore();
 

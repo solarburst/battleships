@@ -6,16 +6,8 @@ import { FieldCells } from './FieldCells';
 import { useStore } from '../../../mobx/store';
 import { observer } from 'mobx-react';
 import { PlacedShip } from '../PlacedShip';
-import { INotLocatedShip, INotLocatedShipField } from 'mobx/not-located-ships/not-located-ships-model';
-import { ILocatedShip } from 'mobx/located-ships/located-ships-model';
 
-interface IPlaygroundProps {
-    draggedElem: ILocatedShip | INotLocatedShip | null;
-    setDraggedElem: (ship: ILocatedShip | INotLocatedShip | null) => void;
-    handleOnDragStart: (ship: ILocatedShip | INotLocatedShip) => void;
-}
-
-const PlaygroundComponent = ({ draggedElem, setDraggedElem, handleOnDragStart }: IPlaygroundProps) => {
+const PlaygroundComponent = () => {
     const store = useStore();
 
     const handleDragOver = (event: React.DragEvent<Element>) => {
@@ -38,7 +30,7 @@ const PlaygroundComponent = ({ draggedElem, setDraggedElem, handleOnDragStart }:
                     </div>
                     <div className="main__playground-buttons-item">
                         <Icon name="bin" />
-                        <button onClick={() => handleDeleteAll()} className="button--clear main__playground-buttons-text">
+                        <button onClick={handleDeleteAll} className="button--clear main__playground-buttons-text">
                             Очистить все
                         </button>
                     </div>
@@ -47,11 +39,7 @@ const PlaygroundComponent = ({ draggedElem, setDraggedElem, handleOnDragStart }:
                     {<LetterRow />}
                     <div className="main__playground-field-wrapper">
                         {<NumberColumn />}
-                        {<FieldCells
-                            handleOnDragStart={handleOnDragStart}
-                            ship={draggedElem}
-                            setShip={setDraggedElem}
-                        />}
+                        {<FieldCells />}
                     </div>
                 </div>
             </div>
@@ -59,14 +47,14 @@ const PlaygroundComponent = ({ draggedElem, setDraggedElem, handleOnDragStart }:
                 <div className="ships-big">
                     {Array.from(store.notLocatedShipsStore.getShips.values()).map((ship) => {
                         if (ship.length > 2) {
-                            return <PlacedShip ship={ship} key={ship.id} handleOnDragStart={handleOnDragStart} />;
+                            return <PlacedShip ship={ship} key={ship.id} />;
                         }
                     })}
                 </div>
                 <div className="ships-small">
                     {Array.from(store.notLocatedShipsStore.getShips.values()).map((ship) => {
                         if (ship.length <= 2) {
-                            return <PlacedShip ship={ship} key={ship.id} handleOnDragStart={handleOnDragStart} />;
+                            return <PlacedShip ship={ship} key={ship.id} />;
                         }
                     })}
                 </div>
