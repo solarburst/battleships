@@ -1,4 +1,4 @@
-import { Instance, flow, getSnapshot, toGeneratorFunction, types } from 'mobx-state-tree';
+import { Instance, flow, types } from 'mobx-state-tree';
 import { IShip } from 'utils/interfaces';
 import { ILocatedShip, ILocatedShipField, LocatedShipModel } from './located-ships-model';
 import { createBaseStore } from '../base-store';

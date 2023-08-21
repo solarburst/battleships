@@ -63,6 +63,14 @@ export class RequestCreator {
         return res?.data;
     }
 
+    public async getGameById(): Promise<CreateGameResponseDTO> {
+        const res = await this.api.get(`/games/${this.gameId}`);
+
+        console.log('qwe');
+
+        return res?.data;
+    }
+
     public async getShipsByUserAndGame(): Promise<ShipResponseDTO[]> {
         const res = await this.api.get(`/ships/${this.gameId}/${this.userId}`);
 

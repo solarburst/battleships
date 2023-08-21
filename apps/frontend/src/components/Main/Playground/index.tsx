@@ -6,9 +6,12 @@ import { FieldCells } from './FieldCells';
 import { useStore } from '../../../mobx/store';
 import { observer } from 'mobx-react';
 import { PlacedShip } from '../PlacedShip';
+import { RequestCreator } from '../../../api/request-creator';
 
 const PlaygroundComponent = () => {
     const store = useStore();
+
+    const requestCreator = RequestCreator.getInstance();
 
     const handleDragOver = (event: React.DragEvent<Element>) => {
         event.preventDefault();
@@ -16,6 +19,11 @@ const PlaygroundComponent = () => {
 
     const handleDeleteAll = () => {
         store.locatedShipsStore.deleteShips();
+        const userInfo = store.gamesStore.getUserInfo(requestCreator.userId);
+
+        if (userInfo.id && userInfo.ready === true) {
+            store.gamesStore.setReady(userInfo.id);
+        }
     };
 
     return (

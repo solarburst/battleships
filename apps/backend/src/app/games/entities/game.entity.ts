@@ -38,10 +38,8 @@ export class GameEntity {
         isFirstUserTurn: boolean;
 
     @Column()
-    @Exclude()
         firstUserId: number;
 
     @Column()
-    @Exclude()
         secondUserId: number;
 }

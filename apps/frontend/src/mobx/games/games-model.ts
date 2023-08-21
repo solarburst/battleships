@@ -1,5 +1,5 @@
 import { Instance, types } from 'mobx-state-tree';
-import { Stage } from 'utils/interfaces';
+import { Stage } from '../../utils/interfaces';
 
 export interface IGame {
     id: string;
@@ -16,6 +16,9 @@ export const GameModel = types
         isFirstUserTurn: types.boolean,
         firstUserId: types.number,
         secondUserId: types.number,
+        firstUserReady: types.optional(types.boolean, false),
+        secondUserReady: types.optional(types.boolean, false),
+        inviteLink: types.string,
     })
     .actions(self => ({
         // поменять ход
