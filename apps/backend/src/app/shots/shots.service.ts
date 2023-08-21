@@ -29,7 +29,7 @@ export class ShotsService {
         }
 
         const isNotPlayerTurn = (userId === game.firstUserId && game.isFirstUserTurn === false)
-        || (userId === game.secondUserId && game.isFirstUserTurn === true)
+        || (userId === game.secondUserId && game.isFirstUserTurn === true);
 
         if (isNotPlayerTurn) {
             throw new HttpException('Сейчас ход другого игрока', HttpStatus.BAD_REQUEST);

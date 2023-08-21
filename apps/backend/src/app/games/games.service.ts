@@ -25,6 +25,8 @@ export class GamesService {
             firstUser,
             secondUser,
             isFirstUserTurn: true,
+            firstUserReady: false,
+            secondUserReady: false,
         });
 
         await this.gamesRepository.save(newGame);
@@ -37,6 +39,8 @@ export class GamesService {
             // secondUser: secondUser.code,
             firstUser: firstUser.id,
             secondUser: secondUser.id,
+            firstUserReady: false,
+            secondUserReady: false,
         };
     }
 
@@ -45,7 +49,11 @@ export class GamesService {
         const updatedGame = await this.gamesRepository.findOne({ where: { id } });
 
         if (updatedGame) {
-            return updatedGame;
+            return {
+                ...updatedGame,
+                firstUser: updatedGame.firstUser,
+                secondUser: updatedGame.secondUser,
+            };
         }
         throw new HttpException('Игра не найдена', HttpStatus.NOT_FOUND);
     }
@@ -59,7 +67,11 @@ export class GamesService {
     async getGameById(id: number) {
         const game = await this.gamesRepository.findOne({ where: { id }});
 
-        return game;
+        return {
+            ...game,
+            firstUser: game.firstUser,
+            secondUser: game.secondUser,
+        };
     }
 
     async getGameUserInfo(gameId: number, userId: number) {

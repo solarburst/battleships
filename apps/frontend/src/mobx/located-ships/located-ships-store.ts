@@ -3,9 +3,7 @@ import { IShip } from 'utils/interfaces';
 import { ILocatedShip, ILocatedShipField, LocatedShipModel } from './located-ships-model';
 import { createBaseStore } from '../base-store';
 import { RequestCreator } from '../../api/request-creator';
-import { NotLocatedShipsStore } from 'mobx/not-located-ships/not-located-ships-store';
 import { useStore } from '../store';
-import { initialShips } from '../../utils/constants';
 import { INotLocatedShip } from 'mobx/not-located-ships/not-located-ships-model';
 
 const requestCreator = RequestCreator.getInstance();

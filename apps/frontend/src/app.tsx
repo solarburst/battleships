@@ -3,11 +3,12 @@ import Toast from './components/Toast';
 import { toast } from 'react-toastify';
 import { useEffect } from 'react';
 import { useStore } from './mobx/store';
-import { getSnapshot } from 'mobx-state-tree';
 import { RequestCreator } from './api/request-creator';
-import { initialShips } from './utils/constants';
+import { observer } from 'mobx-react';
+import { Stage } from './utils/interfaces';
+import GamePage from './pages/GamePage';
 
-export const App = () => {
+const AppComponent = () => {
     const store = useStore();
 
     const requestCreator = RequestCreator.getInstance();
@@ -39,15 +40,22 @@ export const App = () => {
         return () => window.removeEventListener('unhandledrejection', listener);
     }, []);
 
+    const paths = window.location.pathname.split('/');
+    const gameId = paths[1];
+    const userId = paths[2];
+
     useEffect(() => {
-        store.notLocatedShipsStore.setShips(initialShips);
-        store.locatedShipsStore.fetchShips();
+        if (gameId && userId) {
+            store.gamesStore.setGame(gameId, userId);
+        }
     }, []);
 
     return (
         <div onDragOver={handleDragOver} onDrop={handleOnDrop}>
-            <HomePage />
+            {store.gamesStore.getGame()?.stage === Stage.SETUP ? <HomePage /> : <GamePage />}
             <Toast />
         </div>
     );
 };
+
+export const App = observer(AppComponent);

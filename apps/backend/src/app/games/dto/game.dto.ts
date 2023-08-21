@@ -10,4 +10,14 @@ export class GameDto {
   @IsBoolean()
   @ValidateIf(o => o.isFirstUserTurn)
       isFirstUserTurn: boolean;
+
+  @IsNotEmpty()
+  @IsBoolean()
+  @ValidateIf(o => o.isFirstUserTurn)
+      firstUserReady: boolean;
+
+  @IsNotEmpty()
+  @IsBoolean()
+  @ValidateIf(o => o.isFirstUserTurn)
+      secondUserReady: boolean;
 }

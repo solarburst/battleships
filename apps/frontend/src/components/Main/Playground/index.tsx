@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Icon from '../Icon';
 import LetterRow from './LetterRow';
 import NumberColumn from './NumberColumn';
@@ -7,6 +7,8 @@ import { useStore } from '../../../mobx/store';
 import { observer } from 'mobx-react';
 import { PlacedShip } from '../PlacedShip';
 import { RequestCreator } from '../../../api/request-creator';
+import PlaygroundButtons from './PlaygroundButtons';
+import Field from './Field';
 
 const PlaygroundComponent = () => {
     const store = useStore();
@@ -29,27 +31,8 @@ const PlaygroundComponent = () => {
     return (
         <div>
             <div className="main__playground" onDragOver={(e) => handleDragOver(e)}>
-                <div className="main__playground-buttons">
-                    <div className="main__playground-buttons-item">
-                        <Icon name="random" />
-                        <button className="button--clear main__playground-buttons-text">
-                            Расставить рандомно
-                        </button>
-                    </div>
-                    <div className="main__playground-buttons-item">
-                        <Icon name="bin" />
-                        <button onClick={handleDeleteAll} className="button--clear main__playground-buttons-text">
-                            Очистить все
-                        </button>
-                    </div>
-                </div>
-                <div className="main__playground-field">
-                    {<LetterRow />}
-                    <div className="main__playground-field-wrapper">
-                        {<NumberColumn />}
-                        {<FieldCells />}
-                    </div>
-                </div>
+                <PlaygroundButtons handleDeleteAll={handleDeleteAll} />
+                <Field />
             </div>
             <div className="ships">
                 <div className="ships-big">

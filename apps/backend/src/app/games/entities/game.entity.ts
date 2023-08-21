@@ -21,10 +21,12 @@ export class GameEntity {
 
     @ManyToOne(() => UserEntity, firstUser => firstUser.id)
     @JoinColumn({ name: 'firstUserId' })
+    @Exclude()
         firstUser: UserEntity;
 
     @ManyToOne(() => UserEntity, secondUser => secondUser.id)
     @JoinColumn({ name: 'secondUserId' })
+    @Exclude()
         secondUser: UserEntity;
 
     @Column({
@@ -38,8 +40,16 @@ export class GameEntity {
         isFirstUserTurn: boolean;
 
     @Column()
+    @Exclude()
         firstUserId: number;
 
     @Column()
+    @Exclude()
         secondUserId: number;
+
+    @Column()
+        firstUserReady: boolean;
+
+    @Column()
+        secondUserReady: boolean;
 }

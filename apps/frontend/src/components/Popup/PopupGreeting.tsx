@@ -2,7 +2,6 @@ import { useStore } from '../../mobx/store';
 import { RequestCreator } from '../../api/request-creator';
 import { PopupContext } from '../../context/PopupContext';
 import React, { useContext } from 'react';
-import { getSnapshot } from 'mobx-state-tree';
 
 const PopupGreeting = () => {
     const { close } = useContext(PopupContext);
@@ -14,7 +13,7 @@ const PopupGreeting = () => {
     const onClickHandler = async () => {
         const data = await requestCreator.createGame();
 
-        store.gamesStore.setGame();
+        store.gamesStore.setGame(String(requestCreator.gameId), String(requestCreator.userId));
 
         window.history.replaceState('', '', `/${requestCreator.gameId}/${requestCreator.userId}`);
         close();

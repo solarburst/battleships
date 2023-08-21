@@ -14,13 +14,18 @@ export class GamesController {
         return this.gamesService.createGame();
     }
 
-    @Get('/:gameId/:userId')
-    async getGameUserInfo(@Param('gameId') gameId: string, @Param('userId') userId: string) {
-        return this.gamesService.getGameUserInfo(Number(gameId), Number(userId));
-    }
+    // @Get('/:gameId/:userId')
+    // async getGameUserInfo(@Param('gameId') gameId: string, @Param('userId') userId: string) {
+    //     return this.gamesService.getGameUserInfo(Number(gameId), Number(userId));
+    // }
 
     @Get('/:gameId')
     async getGameInfo(@Param('gameId') gameId: string) {
         return this.gamesService.getGameById(Number(gameId));
+    }
+
+    @Patch('/:gameId')
+    async updateGame(@Param('gameId') gameId: string, @Body() game: GameDto) {
+        return this.gamesService.updateGame(Number(gameId), game);
     }
 }

@@ -1,11 +1,8 @@
 import { Stage } from 'utils/interfaces';
 
-export interface CreateGameResponseDTO {
-    id: number;
+export interface UpdateGameDTO {
     isFirstUserTurn: boolean;
     stage: Stage;
-    firstUserId: number;
-    secondUserId: number;
     firstUserReady: boolean,
     secondUserReady: boolean,
 }

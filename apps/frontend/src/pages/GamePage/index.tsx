@@ -1,8 +1,12 @@
+import Header from '../../components/Header';
+import { PopupProvider } from '../../context/PopupContext';
 import React from 'react';
 
 const GamePage = () => {
     return (
-        <div>GamePage</div>
+        <PopupProvider>
+            <Header />
+        </PopupProvider>
     );
 };
 

@@ -4,8 +4,6 @@ import { PlacedShip } from '../PlacedShip';
 import { observer } from 'mobx-react';
 import { useStore } from '../../../mobx/store';
 import { Orientation } from '../../../utils/interfaces';
-import { INotLocatedShip } from 'mobx/not-located-ships/not-located-ships-model';
-import { ILocatedShip } from 'mobx/located-ships/located-ships-model';
 import classNames from 'classnames';
 
 interface IHoveredCell {

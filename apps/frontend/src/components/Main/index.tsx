@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Info } from './Info';
 import { Playground } from './Playground';
-import { observer } from 'mobx-react';
 
 const MainComponent = () => {
     return (

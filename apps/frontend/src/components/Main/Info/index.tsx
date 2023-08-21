@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Icon from '../Icon';
 import { useStore } from '../../../mobx/store';
-import { getSnapshot } from 'mobx-state-tree';
 import { RequestCreator } from '../../../api/request-creator';
 import { BASE_URL } from '../../../utils/constants';
 import { observer } from 'mobx-react';
@@ -12,26 +11,13 @@ const InfoComponent = () => {
 
     const requestCreator = RequestCreator.getInstance();
 
-    const paths = window.location.pathname.split('/');
-    const gameId = paths[1];
-    const userId = paths[2];
-
     const handleOnClick = () => {
         if (store.locatedShipsStore.getShips.length === 10) {
-            store.gamesStore.setReady(Number(userId));
+            store.gamesStore.setReady(requestCreator.userId);
         } else {
             toast('Недостаточно кораблей');
         }
-        console.log(getSnapshot(store));
     };
-
-    useEffect(() => {
-        requestCreator.gameId = Number(gameId);
-        requestCreator.userId = Number(userId);
-        if (requestCreator.gameId && requestCreator.userId) {
-            store.gamesStore.setGame();
-        }
-    }, []);
 
     return (
         <div className="main__info">
@@ -63,7 +49,7 @@ const InfoComponent = () => {
                     </p>
                 </div>
             </div>
-            {(store.gamesStore.getUserInfo(Number(userId)).ready)
+            {(store.gamesStore.getUserInfo(requestCreator.userId).ready)
                 ? <button className="button main__info-button-start" onClick={handleOnClick}>НЕ ГОТОВ</button>
                 : <button className="button main__info-button-start" onClick={handleOnClick}>НАЧНИ ИГРУ</button>}
         </div>
