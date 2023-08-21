@@ -3,7 +3,6 @@ import { RequestCreator } from '../../api/request-creator';
 import { IGame, GameModel } from './games-model';
 import { useStore } from '../../mobx/store';
 import { initialShips } from '../../utils/constants';
-import { Stage } from '../../utils/interfaces';
 
 const requestCreator = RequestCreator.getInstance();
 
@@ -59,22 +58,7 @@ export const GamesStore = types
         setReady: flow(function *(id: number) {
             const rootStore = useStore();
 
-            let data = self.currentGame?.firstUserId === id
-                ? {
-                    firstUserReady: !self.currentGame?.firstUserReady,
-                }
-                : {
-                    secondUserReady: !self.currentGame?.secondUserReady,
-                };
-
-            if (self.currentGame?.firstUserReady && self.currentGame?.secondUserReady) {
-                data = {
-                    ...data,
-                    stage: Stage.GAME,
-                };
-            }
-
-            const updatedGame = yield requestCreator.setUserReady(data);
+            const updatedGame = yield requestCreator.setUserReady();
 
             rootStore.gamesStore.currentGame = {
                 ...updatedGame,
@@ -83,6 +67,17 @@ export const GamesStore = types
             };
 
             console.log(getSnapshot(rootStore));
+        }),
+        getGameInfo: flow(function *() {
+            const rootStore = useStore();
+
+            const game = yield requestCreator.getGameById();
+
+            rootStore.gamesStore.currentGame = {
+                ...game,
+                id: game.id.toString(),
+                inviteLink: `${game.id}/${game.firstUserId === Number(self.currentUserId) ? game.secondUserId : game.firstUserId}`,
+            };
         }),
     }));
 

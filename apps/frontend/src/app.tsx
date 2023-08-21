@@ -6,6 +6,7 @@ import { useStore } from './mobx/store';
 import { observer } from 'mobx-react';
 import { Stage } from './utils/interfaces';
 import GamePage from './pages/GamePage';
+import { getSnapshot } from 'mobx-state-tree';
 
 const AppComponent = () => {
     const store = useStore();
@@ -44,6 +45,11 @@ const AppComponent = () => {
 
         return () => window.removeEventListener('unhandledrejection', listener);
     }, []);
+
+    setInterval(async () => {
+        console.log('tick');
+        store.gamesStore.getGameInfo();
+    }, 5000);
 
     return (
         <div onDragOver={handleDragOver} onDrop={handleOnDrop}>
