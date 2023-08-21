@@ -18,10 +18,4 @@ import { GameMiddlewareCreator } from '../games/game.middleware';
     controllers: [ShipsController],
     exports: [ShipsService],
 })
-export class ShipsModule implements NestModule {
-    configure(consumer: MiddlewareConsumer) {
-        consumer
-            .apply(GameMiddlewareCreator(Stage.SETUP))
-            .forRoutes({ path: 'ships', method: RequestMethod.POST });
-    }
-}
+export class ShipsModule {}

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from '@hapi/joi';
 
@@ -10,6 +10,9 @@ import { GamesModule } from './games/games.module';
 import { MessagesModule } from './messages/messages.module';
 import { ShipsModule } from './ships/ships.module';
 import { ShotsModule } from './shots/shots.module';
+import { Stage } from './games/entities/game.entity';
+import { GameMiddlewareCreator } from './games/game.middleware';
+import { ShipsController } from './ships/ships.controller';
 
 @Module({
     imports: [
@@ -33,4 +36,13 @@ import { ShotsModule } from './shots/shots.module';
     controllers: [AppController],
     providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+    configure(consumer: MiddlewareConsumer) {
+        consumer
+            .apply(GameMiddlewareCreator(Stage.SETUP))
+            .forRoutes(
+                { path: 'ships/*', method: RequestMethod.POST },
+                { path: 'ships/*', method: RequestMethod.PATCH },
+            );
+    }
+}
