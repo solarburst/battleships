@@ -1,5 +1,4 @@
 import { useStore } from '../../mobx/store';
-import { RequestCreator } from '../../api/request-creator';
 import { PopupContext } from '../../context/PopupContext';
 import React, { useContext } from 'react';
 
@@ -8,14 +7,15 @@ const PopupGreeting = () => {
 
     const store = useStore();
 
-    const requestCreator = RequestCreator.getInstance();
-
     const onClickHandler = async () => {
-        const data = await requestCreator.createGame();
+        const data = await store.gamesStore.createGame();
 
-        store.gamesStore.setGame(String(requestCreator.gameId), String(requestCreator.userId));
+        const gameId = data.id;
+        const userId = data.firstUser;
 
-        window.history.replaceState('', '', `/${requestCreator.gameId}/${requestCreator.userId}`);
+        store.gamesStore.loadGame(String(gameId), String(userId));
+
+        window.history.replaceState('', '', `/${gameId}/${userId}`);
         close();
     };
 

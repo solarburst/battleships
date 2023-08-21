@@ -63,8 +63,14 @@ export class RequestCreator {
         return res?.data;
     }
 
-    public async updateGame(values: Partial<UpdateGameDTO>): Promise<CreateGameResponseDTO> {
-        const res = await this.api.patch(`/games/${this.gameId}`, values);
+    // public async updateGame(values: Partial<UpdateGameDTO>): Promise<CreateGameResponseDTO> {
+    //     const res = await this.api.patch(`/games/${this.gameId}`, values);
+
+    //     return res?.data;
+    // }
+
+    public async setUserReady(): Promise<CreateGameResponseDTO> {
+        const res = await this.api.get(`/games/${this.gameId}/${this.userId}`);
 
         return res?.data;
     }

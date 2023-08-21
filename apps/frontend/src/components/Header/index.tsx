@@ -8,7 +8,7 @@ const Header = () => {
     const store = useStore();
 
     const handleOnClick = () => {
-        const linkToCopy = BASE_URL + store.gamesStore.getGame()?.inviteLink;
+        const linkToCopy = BASE_URL + store.gamesStore.currentGame?.inviteLink;
 
         navigator.clipboard.writeText(linkToCopy);
 

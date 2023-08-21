@@ -1,7 +1,6 @@
 import React from 'react';
 import Icon from '../Icon';
 import { useStore } from '../../../mobx/store';
-import { RequestCreator } from '../../../api/request-creator';
 import { BASE_URL } from '../../../utils/constants';
 import { observer } from 'mobx-react';
 import { toast } from 'react-toastify';
@@ -9,11 +8,9 @@ import { toast } from 'react-toastify';
 const InfoComponent = () => {
     const store = useStore();
 
-    const requestCreator = RequestCreator.getInstance();
-
     const handleOnClick = () => {
         if (store.locatedShipsStore.getShips.length === 10) {
-            store.gamesStore.setReady(requestCreator.userId);
+            store.gamesStore.setReady(Number(store.gamesStore.currentUserId));
         } else {
             toast('Недостаточно кораблей');
         }
@@ -41,15 +38,15 @@ const InfoComponent = () => {
                     <Icon name="invite-info" />
                     <p className="main__info-instructions-item-text">
                         Пригласи соперника к битве по ссылке <br />
-                        {(store.gamesStore.getGame()?.inviteLink)
-                            ? <a className="link" href={BASE_URL + store.gamesStore.getGame()?.inviteLink}>
-                                {BASE_URL + store.gamesStore.getGame()?.inviteLink}
+                        {(store.gamesStore.currentGame?.inviteLink)
+                            ? <a className="link" href={BASE_URL + store.gamesStore.currentGame?.inviteLink}>
+                                {BASE_URL + store.gamesStore.currentGame?.inviteLink}
                             </a>
                             : ''}
                     </p>
                 </div>
             </div>
-            {(store.gamesStore.getUserInfo(requestCreator.userId).ready)
+            {(store.gamesStore.getUserInfo(Number(store.gamesStore.currentUserId)).ready)
                 ? <button className="button main__info-button-start" onClick={handleOnClick}>НЕ ГОТОВ</button>
                 : <button className="button main__info-button-start" onClick={handleOnClick}>НАЧНИ ИГРУ</button>}
         </div>

@@ -58,6 +58,39 @@ export class GamesService {
         throw new HttpException('Игра не найдена', HttpStatus.NOT_FOUND);
     }
 
+    async setUserReady(gameId: number, userId: number) {
+        const game = await this.gamesRepository.findOne({ where: { id: gameId } });
+
+        if (game.firstUserId === userId) {
+            await this.gamesRepository.update(gameId, { firstUserReady: !game.firstUserReady });
+        }
+        if (game.secondUserId === userId) {
+            await this.gamesRepository.update(gameId, { secondUserReady: !game.secondUserReady });
+        }
+
+        const updatedGame = await this.gamesRepository.findOne({ where: { id: gameId } });
+
+        if (updatedGame.firstUserReady === true && updatedGame.secondUserReady === true) {
+            await this.gamesRepository.update(gameId, { stage: Stage.GAME });
+
+            const startedGame = await this.gamesRepository.findOne({ where: { id: gameId } });
+
+            return {
+                ...startedGame,
+                firstUser: startedGame.firstUser,
+                secondUser: startedGame.secondUser,
+            };
+        }
+
+        return {
+            ...updatedGame,
+            firstUser: updatedGame.firstUser,
+            secondUser: updatedGame.secondUser,
+        };
+
+        throw new HttpException('Игра не найдена', HttpStatus.NOT_FOUND);
+    }
+
     async getAllGames() {
         const games = await this.gamesRepository.find({});
 

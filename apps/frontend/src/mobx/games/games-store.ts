@@ -9,26 +9,33 @@ const requestCreator = RequestCreator.getInstance();
 
 export const GamesStore = types
     .model({
-        store: types.maybeNull(GameModel),
+        currentGame: types.maybeNull(GameModel),
+        currentUserId: types.maybe(types.string),
     })
     .views(self => ({
-        getGame() {
-            return self.store;
-        },
         getUserInfo(id: number) {
-            return self.store?.firstUserId === id
+            return self.currentGame?.firstUserId === id
                 ? {
-                    id: self.store?.firstUserId,
-                    ready: self.store?.firstUserReady,
+                    id: self.currentGame?.firstUserId,
+                    ready: self.currentGame?.firstUserReady,
                 }
                 : {
-                    id: self.store?.secondUserId,
-                    ready: self.store?.secondUserReady,
+                    id: self.currentGame?.secondUserId,
+                    ready: self.currentGame?.secondUserReady,
                 };
         },
     }))
     .actions(self => ({
-        setGame: flow(function *(gameId: string, userId: string) {
+        createGame: flow(function *() {
+            const rootStore = useStore();
+
+            const data = yield requestCreator.createGame();
+
+            rootStore.gamesStore.loadGame(String(requestCreator.gameId), String(requestCreator.userId));
+
+            return data;
+        }),
+        loadGame: flow(function *(gameId: string, userId: string) {
             const rootStore = useStore();
 
             requestCreator.gameId = Number(gameId);
@@ -36,13 +43,13 @@ export const GamesStore = types
 
             const gameInfo = yield requestCreator.getGameById();
 
-            if (gameInfo) {
-                self.store = {
-                    ...gameInfo,
-                    id: gameInfo.id.toString(),
-                    inviteLink: gameInfo.firstUserId === Number(userId) ? `${gameInfo.id}/${gameInfo.secondUserId}` : `${gameInfo.id}/${gameInfo.firstUserId}`,
-                };
-            }
+            self.currentGame = {
+                ...gameInfo,
+                id: gameInfo.id.toString(),
+                inviteLink: `${gameInfo.id}/${gameInfo.firstUserId === Number(userId) ? gameInfo.secondUserId : gameInfo.firstUserId}`,
+            };
+
+            self.currentUserId = userId;
 
             console.log(getSnapshot(rootStore));
 
@@ -52,24 +59,24 @@ export const GamesStore = types
         setReady: flow(function *(id: number) {
             const rootStore = useStore();
 
-            let data = self.store?.firstUserId === id
+            let data = self.currentGame?.firstUserId === id
                 ? {
-                    firstUserReady: !self.store?.firstUserReady,
+                    firstUserReady: !self.currentGame?.firstUserReady,
                 }
                 : {
-                    secondUserReady: !self.store?.secondUserReady,
+                    secondUserReady: !self.currentGame?.secondUserReady,
                 };
 
-            if (self.store?.firstUserReady && self.store?.secondUserReady) {
+            if (self.currentGame?.firstUserReady && self.currentGame?.secondUserReady) {
                 data = {
                     ...data,
                     stage: Stage.GAME,
                 };
             }
 
-            const updatedGame = yield requestCreator.updateGame(data);
+            const updatedGame = yield requestCreator.setUserReady(data);
 
-            rootStore.gamesStore.store = {
+            rootStore.gamesStore.currentGame = {
                 ...updatedGame,
                 id: updatedGame.id.toString(),
                 inviteLink: updatedGame.firstUserId === id ? `${updatedGame.id}/${updatedGame.secondUserId}` : `${updatedGame.id}/${updatedGame.firstUserId}`,

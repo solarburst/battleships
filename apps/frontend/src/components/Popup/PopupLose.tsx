@@ -7,6 +7,7 @@ const PopupLose = () => {
 
     const requestCreator = RequestCreator.getInstance();
 
+    // переписать
     const onClickHandler = async () => {
         const data = await requestCreator.createGame();
 
