@@ -23,6 +23,14 @@ export const GamesStore = types
                     ready: self.currentGame?.secondUserReady,
                 };
         },
+        get inviteLink() {
+            if (self.currentGame) {
+                console.log('current game', self.currentGame);
+                return `${self.currentGame.id}/${self.currentGame.firstUserId === Number(self.currentUserId) ? self.currentGame.secondUserId : self.currentGame.firstUserId}`;
+            }
+
+            return null;
+        },
     }))
     .actions(self => ({
         createGame: flow(function *() {
@@ -45,7 +53,6 @@ export const GamesStore = types
             self.currentGame = {
                 ...gameInfo,
                 id: gameInfo.id.toString(),
-                inviteLink: `${gameInfo.id}/${gameInfo.firstUserId === Number(userId) ? gameInfo.secondUserId : gameInfo.firstUserId}`,
             };
 
             self.currentUserId = userId;
@@ -63,7 +70,6 @@ export const GamesStore = types
             rootStore.gamesStore.currentGame = {
                 ...updatedGame,
                 id: updatedGame.id.toString(),
-                inviteLink: updatedGame.firstUserId === id ? `${updatedGame.id}/${updatedGame.secondUserId}` : `${updatedGame.id}/${updatedGame.firstUserId}`,
             };
 
             console.log(getSnapshot(rootStore));
@@ -76,7 +82,6 @@ export const GamesStore = types
             rootStore.gamesStore.currentGame = {
                 ...game,
                 id: game.id.toString(),
-                inviteLink: `${game.id}/${game.firstUserId === Number(self.currentUserId) ? game.secondUserId : game.firstUserId}`,
             };
         }),
     }));

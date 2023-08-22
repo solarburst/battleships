@@ -18,7 +18,6 @@ export const GameModel = types
         secondUserId: types.number,
         firstUserReady: types.optional(types.boolean, false),
         secondUserReady: types.optional(types.boolean, false),
-        inviteLink: types.string,
     })
     .actions(self => ({
         // поменять ход

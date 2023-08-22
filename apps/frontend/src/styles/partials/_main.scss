@@ -6,7 +6,7 @@
     &__playground {
         background: linear-gradient(#33375B, #323763);
         border-radius: 8px;
-        min-width: 452px;
+        
 
         &-buttons {
             display: flex;
@@ -42,6 +42,7 @@
             background: linear-gradient(#3E4376, #3E4376);
             border-radius: 8px;
             height: 452px;
+            min-width: 452px;
 
             &-wrapper {
                 display: flex;

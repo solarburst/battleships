@@ -2,7 +2,6 @@ import axios, { AxiosInstance } from 'axios';
 import { CreateGameResponseDTO } from './dto/CreateGameResponseDTO';
 import { ShipPlacementDTO } from './dto/ShipPlacementDTO';
 import { ShipResponseDTO } from './dto/ShipResponseDTO';
-import { UpdateGameDTO } from './dto/UpdateGameDTO';
 
 const instance = axios.create({
     withCredentials: true,
@@ -62,12 +61,6 @@ export class RequestCreator {
 
         return res?.data;
     }
-
-    // public async updateGame(values: Partial<UpdateGameDTO>): Promise<CreateGameResponseDTO> {
-    //     const res = await this.api.patch(`/games/${this.gameId}`, values);
-
-    //     return res?.data;
-    // }
 
     public async setUserReady(): Promise<CreateGameResponseDTO> {
         const res = await this.api.get(`/games/${this.gameId}/${this.userId}`);

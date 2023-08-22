@@ -46,10 +46,12 @@ const AppComponent = () => {
         return () => window.removeEventListener('unhandledrejection', listener);
     }, []);
 
-    setInterval(async () => {
-        console.log('tick');
-        store.gamesStore.getGameInfo();
-    }, 5000);
+    if (store.gamesStore.currentGame) {
+        setInterval(async () => {
+            console.log('tick');
+            store.gamesStore.getGameInfo();
+        }, 5000);
+    }
 
     return (
         <div onDragOver={handleDragOver} onDrop={handleOnDrop}>

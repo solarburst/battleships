@@ -36,13 +36,4 @@ import { ShipsController } from './ships/ships.controller';
     controllers: [AppController],
     providers: [AppService],
 })
-export class AppModule implements NestModule {
-    configure(consumer: MiddlewareConsumer) {
-        consumer
-            .apply(GameMiddlewareCreator(Stage.SETUP))
-            .forRoutes(
-                { path: 'ships/*', method: RequestMethod.POST },
-                { path: 'ships/*', method: RequestMethod.PATCH },
-            );
-    }
-}
+export class AppModule {}

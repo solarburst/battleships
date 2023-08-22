@@ -6,7 +6,12 @@ export enum Orientation {
 export enum Stage {
     SETUP = 'setup',
     GAME = 'game',
-    OVER = 'over'
+    OVER = 'over',
+}
+
+export enum FieldOwner {
+    ME = 'me',
+    ENEMY = 'enemy',
 }
 
 export interface IShip {

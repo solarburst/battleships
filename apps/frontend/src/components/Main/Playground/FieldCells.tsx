@@ -3,15 +3,19 @@ import { FIELD_SIZE } from '../../../utils/constants';
 import { PlacedShip } from '../PlacedShip';
 import { observer } from 'mobx-react';
 import { useStore } from '../../../mobx/store';
-import { Orientation } from '../../../utils/interfaces';
+import { Orientation, FieldOwner } from '../../../utils/interfaces';
 import classNames from 'classnames';
+
+interface IFieldCells {
+    owner: FieldOwner;
+}
 
 interface IHoveredCell {
     x: number;
     y: number;
 }
 
-const FieldCellsComponent = () => {
+const FieldCellsComponent = ({ owner }: IFieldCells) => {
     const store = useStore();
 
     const [hoveredCell, setHoveredCell] = useState<IHoveredCell | null>();
@@ -111,7 +115,7 @@ const FieldCellsComponent = () => {
     return (
         <div className="main__playground-field-cells">
             {memoizedCells}
-            {store.locatedShipsStore.getShips.map((shipElem) => {
+            {owner === FieldOwner.ME && store.locatedShipsStore.getShips.map((shipElem) => {
                 return <PlacedShip ship={shipElem} key={shipElem.id} />;
             })}
         </div>);

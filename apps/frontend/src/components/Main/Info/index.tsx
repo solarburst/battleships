@@ -38,9 +38,9 @@ const InfoComponent = () => {
                     <Icon name="invite-info" />
                     <p className="main__info-instructions-item-text">
                         Пригласи соперника к битве по ссылке <br />
-                        {(store.gamesStore.currentGame?.inviteLink)
-                            ? <a className="link" href={BASE_URL + store.gamesStore.currentGame?.inviteLink}>
-                                {BASE_URL + store.gamesStore.currentGame?.inviteLink}
+                        {(store.gamesStore.inviteLink)
+                            ? <a className="link" href={BASE_URL + store.gamesStore.inviteLink}>
+                                {BASE_URL + store.gamesStore.inviteLink}
                             </a>
                             : ''}
                     </p>

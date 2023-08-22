@@ -82,11 +82,13 @@ export class GamesService {
             };
         }
 
-        return {
-            ...updatedGame,
-            firstUser: updatedGame.firstUser,
-            secondUser: updatedGame.secondUser,
-        };
+        if (updatedGame) {
+            return {
+                ...updatedGame,
+                firstUser: updatedGame.firstUser,
+                secondUser: updatedGame.secondUser,
+            };
+        }
 
         throw new HttpException('Игра не найдена', HttpStatus.NOT_FOUND);
     }

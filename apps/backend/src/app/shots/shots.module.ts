@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ShotsService } from './shots.service';
 import { ShotsController } from './shots.controller';
@@ -24,6 +24,9 @@ export class ShotsModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {
         consumer
             .apply(GameMiddlewareCreator(Stage.GAME))
-            .forRoutes('shots');
+            .forRoutes(
+                { path: 'shots/*', method: RequestMethod.POST },
+                { path: 'shots/*', method: RequestMethod.PATCH },
+            );
     }
 }

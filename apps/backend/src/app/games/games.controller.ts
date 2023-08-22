@@ -19,11 +19,6 @@ export class GamesController {
         return this.gamesService.getGameById(Number(gameId));
     }
 
-    // @Patch('/:gameId')
-    // async updateGame(@Param('gameId') gameId: string, @Body() game: GameDto) {
-    //     return this.gamesService.updateGame(Number(gameId), game);
-    // }
-
     @Get('/:gameId/:userId')
     async setUserReady(@Param('gameId') gameId: string, @Param('userId') userId: string) {
         return this.gamesService.setUserReady(Number(gameId), Number(userId));
