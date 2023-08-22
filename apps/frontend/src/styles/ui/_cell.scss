@@ -7,24 +7,27 @@
     align-items: center;
     justify-content: center;
     border-radius: 4px;
+    margin: 2px;
 
     &--bg {
         background-color: #464F87;
+        padding: 2px;
     }
 
     &--hovered-axis {
-        background-color: #FFFFFF;
-        opacity: 0.05;
+        background-color: #FFFFFF0D;
     }
 
     
     &--dragged {
-        background-color: #FFFFFF;
-        opacity: 0.2;
+        background-color: #FFFFFF33;
+    }
+
+    &--position {
+        margin: 0;
     }
 
     &:hover {
-        background-color: #FFFFFF;
-        opacity: 0.2;
+        background-color: #FFFFFF33;
     }
 }

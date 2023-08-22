@@ -12,7 +12,7 @@ const AppComponent = () => {
     const store = useStore();
 
     const handleOnDrop = useCallback(() => {
-        if (store.locatedShipsStore.movingShip) {
+        if (store.locatedShipsStore.movingShip && store.gamesStore.currentGame?.stage === Stage.SETUP) {
             store.locatedShipsStore.movingShip.deleteShip();
 
             const userInfo = store.gamesStore.getUserInfo(Number(store.gamesStore.currentUserId));

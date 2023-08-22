@@ -4,14 +4,14 @@
 
     @for $i from 0 through 9 {
         &--#{$i}-x {
-            left: #{$cell-size * $i};
+            left: #{$cell-size * $i + 2};
             z-index: 100;
         }
     }
 
     @for $i from 0 through 9 {
         &--#{$i}-y {
-            top: #{$cell-size * $i};
+            top: #{$cell-size * $i + 2};
             z-index: 100;
         }
     }
@@ -29,6 +29,10 @@
     &--blocked {
         -webkit-user-drag: none;
         opacity: 0.4;
+        cursor: default;
+    }
+
+    &--not-draggable {
         cursor: default;
     }
 }

@@ -2,6 +2,7 @@ import { Instance, types } from 'mobx-state-tree';
 import { INotLocatedShip, INotLocatedShipField, NotLocatedShipModel } from './not-located-ships-model';
 import { createBaseStore } from '../base-store';
 import { RequestCreator } from '../../api/request-creator';
+import { useStore } from '../../mobx/store';
 
 const requestCreator = RequestCreator.getInstance();
 
@@ -26,7 +27,17 @@ export const NotLocatedShipsStore = types
     }))
     .actions(self => ({
         setShips(shipsArr: INotLocatedShipField[]) {
+            const store = useStore();
+
             shipsArr.forEach(ship => self.createModel({...ship}));
+
+            const locatedShips = store.locatedShipsStore.getShips;
+
+            locatedShips?.forEach(ship => {
+                const shipToHide = store.notLocatedShipsStore.getShipByLength(ship.length);
+
+                shipToHide.hide();
+            });
         },
         restoreShips() {
             return Array.from(self.store.values()).forEach(ship => ship.isPlaced = false);

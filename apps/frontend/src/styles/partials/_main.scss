@@ -49,10 +49,10 @@
             }
 
             &__letter-stroke {
-                display: flex;
-                gap: 4px;             
+                display: flex;          
                 padding-top: 12px;
                 padding-left: 48px;
+                margin-left: 4px;
             }
 
             &__number-stroke {
@@ -60,17 +60,15 @@
                 padding-left: 12px;
                 display: flex;
                 flex-direction: column;
-                gap: 4px;
             }
 
             &-cells {
                 position: relative;
-                width: 356px;
+                width: 360px;
                 display: flex;
                 flex-wrap: wrap;
                 margin-left: 4px;
                 margin-top: 4px;
-                gap: 4px;
             }
         }
     }

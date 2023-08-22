@@ -2,7 +2,7 @@ import React from 'react';
 import { ShipIcon } from '../ShipIcon';
 import { observer } from 'mobx-react';
 import classNames from 'classnames';
-import { Orientation } from '../../../utils/interfaces';
+import { Orientation, Stage } from '../../../utils/interfaces';
 import { INotLocatedShip } from 'mobx/not-located-ships/not-located-ships-model';
 import { ILocatedShip } from 'mobx/located-ships/located-ships-model';
 import { useStore } from '../../../mobx/store';
@@ -22,6 +22,10 @@ const PlacedShipComponent = ({ ship }: IPlacedShipProps) => {
         store.locatedShipsStore.setMovingShip(null);
     };
 
+    const gameStarted = store.gamesStore.currentGame?.stage === Stage.GAME;
+
+    console.log('game started', gameStarted);
+
     const isVertical = ship.orientation === Orientation.Vertical;
 
     const length = ship.length;
@@ -33,6 +37,7 @@ const PlacedShipComponent = ({ ship }: IPlacedShipProps) => {
         [`ship--${ship.x}-x`]: ship.x,
         [`ship--${ship.y}-y`]: ship.y,
         'ship--blocked': ship.isPlaced && !ship.x && !ship.y,
+        'ship--not-draggable': gameStarted,
     });
 
     const handleOnDoubleClick = () => {
@@ -42,7 +47,7 @@ const PlacedShipComponent = ({ ship }: IPlacedShipProps) => {
     return (
         <div className={classes}
             key={ship.id}
-            draggable
+            draggable={`${!gameStarted}`}
             onDragStart={handleOnDragStart}
             onDoubleClick={handleOnDoubleClick}
             onDragEnd={handleOnDragEnd}

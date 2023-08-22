@@ -25,7 +25,6 @@ const FieldCellsComponent = ({ isMyField }: IFieldCells) => {
 
     let count = 0;
 
-    const cells: ReactElement[] = [];
 
     const handleOnDrop = (event: Event, y: number, x: number) => {
         if (ship) {
@@ -61,19 +60,14 @@ const FieldCellsComponent = ({ isMyField }: IFieldCells) => {
     };
 
     const handleOnClick = (y: number, x: number) => {
-        console.log('click');
-
-        const isMyTurn = store.gamesStore.isMyTurn;
-
-        if (isMyField === false && isMyTurn) {
+        if (isMyField === false) {
             store.shotsStore.createShot(x, y);
-            console.log(getSnapshot(store.shotsStore));
-            store.shotsStore.fetchShots();
-            console.log('after fetch', getSnapshot(store.shotsStore));
         }
     };
 
     const memoizedCells = useMemo(() => {
+        const cells: ReactElement[] = [];
+
         for (let i = 0; i <= FIELD_SIZE; i++) {
             for (let j = 0; j <= FIELD_SIZE; j++) {
                 let isShip = false;
@@ -111,7 +105,7 @@ const FieldCellsComponent = ({ isMyField }: IFieldCells) => {
                 });
 
                 cells.push(
-                    <div className={classes}
+                    <div className="cell--wrapper"
                         onDrop={(e) => handleOnDrop(e, i, j)}
                         onDragOver={handleDragOver}
                         onDragEnter={() => handleOnDragEnter(i, j)}
@@ -120,16 +114,18 @@ const FieldCellsComponent = ({ isMyField }: IFieldCells) => {
                         onClick={() => handleOnClick(i, j)}
                         key={count++}
                     >
-                        {isMyField === false && store.shotsStore.getShotByPosition(j, i)
-                            ? <div className="shot" />
-                            : null}
+                        <div className={classes}>
+                            {isMyField === false && store.shotsStore.getShotByPosition(j, i)
+                                ? <div className="shot" />
+                                : null}
+                        </div>
                     </div>,
                 );
             }
         }
 
         return cells;
-    }, [hoveredCell, ship]);
+    }, [hoveredCell, ship, store.shotsStore.shots]);
 
     return (
         <div className="main__playground-field-cells">

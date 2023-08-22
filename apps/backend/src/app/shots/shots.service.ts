@@ -59,13 +59,20 @@ export class ShotsService {
         const shotResult = enemy.positionChecker.putShotIntoField(makeShot);
 
         if (shotResult.additionalShots.length > 0) {
-            shotResult.additionalShots.forEach(async additionalShot => {
+            for (const additionalShot of shotResult.additionalShots) {
                 await this.shotsRepository.save({
                     ...additionalShot,
                     userId,
                     gameId,
                 });
-            });
+            }
+            // shotResult.additionalShots.forEach(async additionalShot => {
+            //     await this.shotsRepository.save({
+            //         ...additionalShot,
+            //         userId,
+            //         gameId,
+            //     });
+            // });
         }
 
         if (shotResult.status === ShotResult.MISS) {

@@ -62,8 +62,7 @@ export const GamesStore = types
             };
 
             self.currentUserId = userId;
-
-            rootStore.notLocatedShipsStore.setShips(initialShips);
+            const shipsArr: ILocatedShip[] = yield requestCreator.getShipsByUserAndGame();
 
             gameInfo.ships.forEach(ship => {
                 rootStore.locatedShipsStore.createModel({
@@ -78,6 +77,8 @@ export const GamesStore = types
                     id: shot.id.toString(),
                 });
             });
+
+            rootStore.notLocatedShipsStore.setShips(initialShips);
 
             console.log(getSnapshot(rootStore));
         }),

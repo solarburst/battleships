@@ -12,7 +12,7 @@ export const ShotsStore = types
         createBaseStore<IShot>(ShotModel),
     )
     .views(self => ({
-        get getShots() {
+        get shots() {
             return Array.from(self.store.values());
         },
         getShotByPosition(x: number, y: number) {
