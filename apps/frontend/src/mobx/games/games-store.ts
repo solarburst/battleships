@@ -25,7 +25,6 @@ export const GamesStore = types
         },
         get inviteLink() {
             if (self.currentGame) {
-                console.log('current game', self.currentGame);
                 return `${self.currentGame.id}/${self.currentGame.firstUserId === Number(self.currentUserId) ? self.currentGame.secondUserId : self.currentGame.firstUserId}`;
             }
 
@@ -61,6 +60,7 @@ export const GamesStore = types
 
             rootStore.notLocatedShipsStore.setShips(initialShips);
             rootStore.locatedShipsStore.fetchShips();
+            rootStore.mineShotsStore.fetchShots();
         }),
         setReady: flow(function *(id: number) {
             const rootStore = useStore();

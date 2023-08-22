@@ -116,6 +116,8 @@ export class PositionChecker {
     }
 
     putShotIntoField(shot: ShotDto) {
+        console.log('SHOT', shot);
+
         const shotResult = {
             status: ShotResult.MISS,
             additionalShots: [],
@@ -135,13 +137,17 @@ export class PositionChecker {
             const shipInfo = this.aliveShips[i];
 
             for (const elem of shipInfo.position) {
-                if (elem.x === shot.x || elem.y === shot.y) {
+                if (elem.x === shot.x && elem.y === shot.y) {
                     shipInfo.hits++;
                     break;
                 }
             }
 
             if (shipInfo.hits < shipInfo.length) continue;
+
+            console.log(shipInfo);
+            console.log('hits', shipInfo.hits);
+            console.log('length', shipInfo.length);
 
             shotResult.status = ShotResult.KILL;
             shotResult.additionalShots = this.putAdditionalShots(shipInfo);
@@ -162,7 +168,8 @@ export class PositionChecker {
         for (let i = shipInfo.position[0].x - 1; i <= shipInfo.position[shipInfo.position.length - 1].x + 1; i++) {
             for (let j = shipInfo.position[0].y - 1; j <= shipInfo.position[shipInfo.position.length - 1].y + 1; j++) {
                 const isInField = i >= 0 && j >= 0 && i <= FIELD_SIZE && j <= FIELD_SIZE;
-                const isPositionEmpty = this.positions[j][i] !== CellType.MISS && this.positions[j][i] !== CellType.HIT;
+
+                const isPositionEmpty = isInField ? this.positions[j][i] !== CellType.MISS && this.positions[j][i] !== CellType.HIT : null;
 
                 if (isInField && isPositionEmpty) {
                     this.positions[j][i] = CellType.MISS;

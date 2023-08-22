@@ -5,6 +5,7 @@ import { observer } from 'mobx-react';
 import { useStore } from '../../../mobx/store';
 import { Orientation, FieldOwner } from '../../../utils/interfaces';
 import classNames from 'classnames';
+import Icon from '../Icon';
 
 interface IFieldCells {
     owner: FieldOwner;
@@ -59,6 +60,20 @@ const FieldCellsComponent = ({ owner }: IFieldCells) => {
         setHoveredCell(null);
     };
 
+    const handleOnClick = (y: number, x: number) => {
+        console.log('click');
+
+        const isMyTurn = Number(store.gamesStore.currentUserId) === store.gamesStore.currentGame?.firstUserId
+            ? (store.gamesStore.currentGame?.isFirstUserTurn)
+            : (!store.gamesStore.currentGame?.isFirstUserTurn);
+
+        console.log('is my turn', isMyTurn);
+
+        if (owner === FieldOwner.ENEMY && isMyTurn) {
+            store.mineShotsStore.createShot(x, y);
+        }
+    };
+
     const memoizedCells = useMemo(() => {
         for (let i = 0; i <= FIELD_SIZE; i++) {
             for (let j = 0; j <= FIELD_SIZE; j++) {
@@ -103,8 +118,13 @@ const FieldCellsComponent = ({ owner }: IFieldCells) => {
                         onDragEnter={() => handleOnDragEnter(i, j)}
                         onMouseEnter={() => handleOnMouseEnter(i, j)}
                         onMouseLeave={() => handleOnMouseLeave(i, j)}
+                        onClick={() => handleOnClick(i, j)}
                         key={count++}
-                    ></div>,
+                    >
+                        {owner === FieldOwner.ENEMY && store.mineShotsStore.getPlacedShipByPosition(j, i)
+                            ? <Icon name={'shot'} />
+                            : null}
+                    </div>,
                 );
             }
         }
@@ -118,6 +138,9 @@ const FieldCellsComponent = ({ owner }: IFieldCells) => {
             {owner === FieldOwner.ME && store.locatedShipsStore.getShips.map((shipElem) => {
                 return <PlacedShip ship={shipElem} key={shipElem.id} />;
             })}
+            {/* {owner === FieldOwner.ENEMY && store.mineShotsStore.getShots.map((shotElem) => {
+                return <Icon name={'shot'} />;
+            })} */}
         </div>);
 };
 

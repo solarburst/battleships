@@ -2,6 +2,9 @@ import axios, { AxiosInstance } from 'axios';
 import { CreateGameResponseDTO } from './dto/CreateGameResponseDTO';
 import { ShipPlacementDTO } from './dto/ShipPlacementDTO';
 import { ShipResponseDTO } from './dto/ShipResponseDTO';
+import { CreateShotResponseDTO } from './dto/CreateShotResponseDTO';
+import { CreateShotDTO } from './dto/CreateShotDTO';
+import { ShotResponseDTO } from './dto/ShotResponseDTO';
 
 const instance = axios.create({
     withCredentials: true,
@@ -100,6 +103,24 @@ export class RequestCreator {
 
     public async deleteShip(shipId: number) {
         const res = await this.api.delete(`/ships/${this.gameId}/${this.userId}/${shipId}`);
+
+        return res?.data;
+    }
+
+    public async createShot(values: CreateShotDTO): Promise<CreateShotResponseDTO> {
+        const res = await this.api.post(`/shots/${this.gameId}/${this.userId}`, values);
+
+        return res?.data;
+    }
+
+    public async getShots(): Promise<ShotResponseDTO[]> {
+        const res = await this.api.get(`/shots/${this.gameId}/${this.userId}`);
+
+        return res?.data;
+    }
+
+    public async getEnemyShots(userId: number): Promise<ShotResponseDTO[]> {
+        const res = await this.api.get(`/shots/${this.gameId}/${userId}`);
 
         return res?.data;
     }
