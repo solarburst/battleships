@@ -9,8 +9,8 @@ const GamePage = () => {
         <PopupProvider>
             <Header />
             <div className="game container">
-                <Field owner={FieldOwner.ME} />
-                <Field owner={FieldOwner.ENEMY} />
+                <Field isMyField={true} />
+                <Field isMyField={false} />
             </div>
         </PopupProvider>
     );

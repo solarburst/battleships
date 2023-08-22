@@ -19,8 +19,13 @@ export class GamesController {
         return this.gamesService.getGameById(Number(gameId));
     }
 
-    @Get('/:gameId/:userId')
+    @Get('/:gameId/:userId/ready')
     async setUserReady(@Param('gameId') gameId: string, @Param('userId') userId: string) {
         return this.gamesService.setUserReady(Number(gameId), Number(userId));
+    }
+
+    @Get('/:gameId/:userId')
+    async getGameUserInfo(@Param('gameId') gameId: string, @Param('userId') userId: string) {
+        return this.gamesService.getGameUserInfo(Number(gameId), Number(userId));
     }
 }

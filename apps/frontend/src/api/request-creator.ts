@@ -5,6 +5,7 @@ import { ShipResponseDTO } from './dto/ShipResponseDTO';
 import { CreateShotResponseDTO } from './dto/CreateShotResponseDTO';
 import { CreateShotDTO } from './dto/CreateShotDTO';
 import { ShotResponseDTO } from './dto/ShotResponseDTO';
+import { GameInfoResponseDTO } from './dto/GameInfoResponseDTO';
 
 const instance = axios.create({
     withCredentials: true,
@@ -66,13 +67,19 @@ export class RequestCreator {
     }
 
     public async setUserReady(): Promise<CreateGameResponseDTO> {
-        const res = await this.api.get(`/games/${this.gameId}/${this.userId}`);
+        const res = await this.api.get(`/games/${this.gameId}/${this.userId}/ready`);
 
         return res?.data;
     }
 
     public async getGameById(): Promise<CreateGameResponseDTO> {
         const res = await this.api.get(`/games/${this.gameId}`);
+
+        return res?.data;
+    }
+
+    public async getGameUserInfo(): Promise<GameInfoResponseDTO> {
+        const res = await this.api.get(`/games/${this.gameId}/${this.userId}`);
 
         return res?.data;
     }

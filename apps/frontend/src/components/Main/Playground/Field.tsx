@@ -2,19 +2,18 @@ import React from 'react';
 import LetterRow from './LetterRow';
 import NumberColumn from './NumberColumn';
 import { FieldCells } from './FieldCells';
-import { FieldOwner } from '../../../utils/interfaces';
 
 interface IField {
-    owner: FieldOwner;
+    isMyField: boolean;
 }
 
-const Field = ({ owner }: IField) => {
+const Field = ({ isMyField }: IField) => {
     return (
         <div className="main__playground-field">
             {<LetterRow />}
             <div className="main__playground-field-wrapper">
                 {<NumberColumn />}
-                {<FieldCells owner={owner} />}
+                {<FieldCells isMyField={isMyField} />}
             </div>
         </div>
     );

@@ -8,7 +8,6 @@ import { observer } from 'mobx-react';
 import { PlacedShip } from '../PlacedShip';
 import PlaygroundButtons from './PlaygroundButtons';
 import Field from './Field';
-import { FieldOwner } from '../../../utils/interfaces';
 
 const PlaygroundComponent = () => {
     const store = useStore();
@@ -30,7 +29,7 @@ const PlaygroundComponent = () => {
         <div>
             <div className="main__playground" onDragOver={(e) => handleDragOver(e)}>
                 <PlaygroundButtons handleDeleteAll={handleDeleteAll} />
-                <Field owner={FieldOwner.ME} />
+                <Field isMyField />
             </div>
             <div className="ships">
                 <div className="ships-big">

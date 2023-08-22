@@ -168,10 +168,11 @@ export class PositionChecker {
         for (let i = shipInfo.position[0].x - 1; i <= shipInfo.position[shipInfo.position.length - 1].x + 1; i++) {
             for (let j = shipInfo.position[0].y - 1; j <= shipInfo.position[shipInfo.position.length - 1].y + 1; j++) {
                 const isInField = i >= 0 && j >= 0 && i <= FIELD_SIZE && j <= FIELD_SIZE;
+                const isPositionEmpty = isInField
+                    ? this.positions[j][i] !== CellType.MISS && this.positions[j][i] !== CellType.HIT
+                    : null;
 
-                const isPositionEmpty = isInField ? this.positions[j][i] !== CellType.MISS && this.positions[j][i] !== CellType.HIT : null;
-
-                if (isInField && isPositionEmpty) {
+                if (isPositionEmpty) {
                     this.positions[j][i] = CellType.MISS;
                     cellsToShot.push({
                         x: i,

@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ShotsService } from './shots.service';
 import { ShotsController } from './shots.controller';
@@ -12,7 +12,7 @@ import { Stage } from '../games/entities/game.entity';
 @Module({
     imports: [
         TypeOrmModule.forFeature([ShotEntity]),
-        GamesModule,
+        forwardRef(() => GamesModule),
         ShipsModule,
         UsersModule,
     ],

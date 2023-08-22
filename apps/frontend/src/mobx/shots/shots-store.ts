@@ -1,21 +1,21 @@
 import { Instance, flow, getSnapshot, types } from 'mobx-state-tree';
 import { createBaseStore } from '../base-store';
-import { IMineShot, MineShotModel } from './mine-shots-model';
-import { useStore } from '../../mobx/store';
+import { IShot, ShotModel } from './shots-model';
+import { useStore } from '../store';
 import { RequestCreator } from '../../api/request-creator';
 
 const requestCreator = RequestCreator.getInstance();
 
-export const MineShotsStore = types
+export const ShotsStore = types
     .compose(
         types.model({}),
-        createBaseStore<IMineShot>(MineShotModel),
+        createBaseStore<IShot>(ShotModel),
     )
     .views(self => ({
         get getShots() {
             return Array.from(self.store.values());
         },
-        getPlacedShipByPosition(x: number, y: number) {
+        getShotByPosition(x: number, y: number) {
             return Array.from(self.store.values()).find(shot => shot.x === x && shot.y === y);
         },
     }))
@@ -25,7 +25,7 @@ export const MineShotsStore = types
 
             console.log(x, y);
 
-            const createdShot: IMineShot = yield requestCreator.createShot({
+            const createdShot: IShot = yield requestCreator.createShot({
                 x,
                 y,
             });
@@ -42,10 +42,10 @@ export const MineShotsStore = types
         fetchShots: flow(function *() {
             const rootStore = useStore();
 
-            const shotsArr: IMineShot[] = yield requestCreator.getShots();
+            const shotsArr: IShot[] = yield requestCreator.getShots();
 
             shotsArr?.forEach(shot => {
-                self.store.set(String(shot.id), MineShotModel.create({
+                self.store.set(String(shot.id), ShotModel.create({
                     ...shot,
                     id: shot.id.toString(),
                 }));
@@ -53,4 +53,4 @@ export const MineShotsStore = types
         }),
     }));
 
-export interface IMineShotsStore extends Instance<typeof MineShotsStore> { }
+export interface IShotsStore extends Instance<typeof ShotsStore> { }

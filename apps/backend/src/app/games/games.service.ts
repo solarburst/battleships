@@ -5,6 +5,7 @@ import { GameEntity, Stage } from './entities/game.entity';
 import { GameDto } from './dto/game.dto';
 import { UsersService } from '../users/users.service';
 import { ShipsService } from '../ships/ships.service';
+import { ShotsService } from '../shots/shots.service';
 
 @Injectable()
 export class GamesService {
@@ -14,6 +15,8 @@ export class GamesService {
         private usersService: UsersService,
         @Inject(forwardRef(() => ShipsService))
         private shipsService: ShipsService,
+        @Inject(forwardRef(() => ShotsService))
+        private shotsService: ShotsService,
     ) {}
 
     async createGame() {
@@ -120,12 +123,16 @@ export class GamesService {
         }
         const ships = await this.shipsService.getShipsByUserAndGame(userId, gameId);
 
+        const shots = await this.shotsService.getShotsByUserAndGame(userId, gameId);
+
         return {
             gameId,
-            userId,
+            firstUserId: game.firstUserId,
+            secondUserId: game.secondUserId,
             stage: game.stage,
             isFirstUserTurn: game.isFirstUserTurn,
             ships: [...ships],
+            shots: [...shots],
         };
     }
 }

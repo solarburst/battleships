@@ -30,6 +30,13 @@ export const GamesStore = types
 
             return null;
         },
+        get isMyTurn() {
+            const isMyTurn = Number(self.currentUserId) === self.currentGame?.firstUserId
+                ? (self.currentGame?.isFirstUserTurn)
+                : (!self.currentGame?.isFirstUserTurn);
+
+            return isMyTurn;
+        },
     }))
     .actions(self => ({
         createGame: flow(function *() {
@@ -47,20 +54,32 @@ export const GamesStore = types
             requestCreator.gameId = Number(gameId);
             requestCreator.userId = Number(userId);
 
-            const gameInfo = yield requestCreator.getGameById();
+            const gameInfo = yield requestCreator.getGameUserInfo();
 
             self.currentGame = {
                 ...gameInfo,
-                id: gameInfo.id.toString(),
+                id: gameInfo.gameId.toString(),
             };
 
             self.currentUserId = userId;
 
-            console.log(getSnapshot(rootStore));
-
             rootStore.notLocatedShipsStore.setShips(initialShips);
-            rootStore.locatedShipsStore.fetchShips();
-            rootStore.mineShotsStore.fetchShots();
+
+            gameInfo.ships.forEach(ship => {
+                rootStore.locatedShipsStore.createModel({
+                    ...ship,
+                    id: ship.id.toString(),
+                });
+            });
+
+            gameInfo.shots.forEach(shot => {
+                rootStore.shotsStore.createModel({
+                    ...shot,
+                    id: shot.id.toString(),
+                });
+            });
+
+            console.log(getSnapshot(rootStore));
         }),
         setReady: flow(function *(id: number) {
             const rootStore = useStore();
@@ -77,11 +96,11 @@ export const GamesStore = types
         getGameInfo: flow(function *() {
             const rootStore = useStore();
 
-            const game = yield requestCreator.getGameById();
+            const game = yield requestCreator.getGameUserInfo();
 
             rootStore.gamesStore.currentGame = {
                 ...game,
-                id: game.id.toString(),
+                id: game.gameId.toString(),
             };
         }),
     }));

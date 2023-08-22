@@ -3,12 +3,11 @@ import { FIELD_SIZE } from '../../../utils/constants';
 import { PlacedShip } from '../PlacedShip';
 import { observer } from 'mobx-react';
 import { useStore } from '../../../mobx/store';
-import { Orientation, FieldOwner } from '../../../utils/interfaces';
+import { Orientation } from '../../../utils/interfaces';
 import classNames from 'classnames';
-import Icon from '../Icon';
 
 interface IFieldCells {
-    owner: FieldOwner;
+    isMyField: boolean;
 }
 
 interface IHoveredCell {
@@ -16,7 +15,7 @@ interface IHoveredCell {
     y: number;
 }
 
-const FieldCellsComponent = ({ owner }: IFieldCells) => {
+const FieldCellsComponent = ({ isMyField }: IFieldCells) => {
     const store = useStore();
 
     const [hoveredCell, setHoveredCell] = useState<IHoveredCell | null>();
@@ -63,14 +62,10 @@ const FieldCellsComponent = ({ owner }: IFieldCells) => {
     const handleOnClick = (y: number, x: number) => {
         console.log('click');
 
-        const isMyTurn = Number(store.gamesStore.currentUserId) === store.gamesStore.currentGame?.firstUserId
-            ? (store.gamesStore.currentGame?.isFirstUserTurn)
-            : (!store.gamesStore.currentGame?.isFirstUserTurn);
+        const isMyTurn = store.gamesStore.isMyTurn;
 
-        console.log('is my turn', isMyTurn);
-
-        if (owner === FieldOwner.ENEMY && isMyTurn) {
-            store.mineShotsStore.createShot(x, y);
+        if (isMyField === false && isMyTurn) {
+            store.shotsStore.createShot(x, y);
         }
     };
 
@@ -121,8 +116,8 @@ const FieldCellsComponent = ({ owner }: IFieldCells) => {
                         onClick={() => handleOnClick(i, j)}
                         key={count++}
                     >
-                        {owner === FieldOwner.ENEMY && store.mineShotsStore.getPlacedShipByPosition(j, i)
-                            ? <Icon name={'shot'} />
+                        {isMyField === false && store.shotsStore.getShotByPosition(j, i)
+                            ? <div className="shot" />
                             : null}
                     </div>,
                 );
@@ -135,12 +130,9 @@ const FieldCellsComponent = ({ owner }: IFieldCells) => {
     return (
         <div className="main__playground-field-cells">
             {memoizedCells}
-            {owner === FieldOwner.ME && store.locatedShipsStore.getShips.map((shipElem) => {
+            {isMyField === true && store.locatedShipsStore.getShips.map((shipElem) => {
                 return <PlacedShip ship={shipElem} key={shipElem.id} />;
             })}
-            {/* {owner === FieldOwner.ENEMY && store.mineShotsStore.getShots.map((shotElem) => {
-                return <Icon name={'shot'} />;
-            })} */}
         </div>);
 };
 

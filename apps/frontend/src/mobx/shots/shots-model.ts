@@ -1,9 +1,9 @@
 import { ShotResult } from '../../api/dto/CreateShotResponseDTO';
 import { RequestCreator } from '../../api/request-creator';
 import { Instance, flow, types } from 'mobx-state-tree';
-import { useStore } from '../../mobx/store';
+import { useStore } from '../store';
 
-export interface IMineShotField {
+export interface IShotField {
     // status: ShotResult;
     // userId: number;
     // gameId: number;
@@ -14,7 +14,7 @@ export interface IMineShotField {
 
 const requestCreator = RequestCreator.getInstance();
 
-export const MineShotModel = types
+export const ShotModel = types
     .model({
         id: types.identifier,
         x: types.number,
@@ -27,4 +27,4 @@ export const MineShotModel = types
         // ),
     });
 
-export interface IMineShot extends Instance<typeof MineShotModel>, IMineShotField { }
+export interface IShot extends Instance<typeof ShotModel>, IShotField { }

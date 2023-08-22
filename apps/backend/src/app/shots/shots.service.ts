@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ShotEntity } from './entities/shot.entity';
@@ -14,6 +14,7 @@ export class ShotsService {
     constructor(
         @InjectRepository(ShotEntity)
         private shotsRepository: Repository<ShotEntity>,
+        @Inject(forwardRef(() => GamesService))
         private gamesService: GamesService,
         private shipsService: ShipsService,
         private usersService: UsersService,

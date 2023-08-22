@@ -5,12 +5,14 @@ import { GamesController } from './games.controller';
 import { GameEntity } from './entities/game.entity';
 import { UsersModule } from '../users/users.module';
 import { ShipsModule } from '../ships/ships.module';
+import { ShotsModule } from '../shots/shots.module';
 
 @Module({
     imports: [
         TypeOrmModule.forFeature([GameEntity]),
         UsersModule,
         forwardRef(() => ShipsModule),
+        forwardRef(() => ShotsModule),
     ],
     providers: [GamesService],
     controllers: [GamesController],

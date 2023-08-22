@@ -1,4 +1,4 @@
-import { Instance, flow, getParent, types } from 'mobx-state-tree';
+import { Instance, flow, types } from 'mobx-state-tree';
 import { IShip, Orientation } from '../../utils/interfaces';
 import { RequestCreator } from '../../api/request-creator';
 import { useStore } from '../../mobx/store';
