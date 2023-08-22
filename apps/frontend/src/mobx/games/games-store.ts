@@ -96,11 +96,12 @@ export const GamesStore = types
         getGameInfo: flow(function *() {
             const rootStore = useStore();
 
-            const game = yield requestCreator.getGameUserInfo();
+            const game = yield requestCreator.getGameById();
 
             rootStore.gamesStore.currentGame = {
                 ...game,
-                id: game.gameId.toString(),
+                id: game.id.toString(),
+                inviteLink: `${game.id}/${game.firstUserId === Number(self.currentUserId) ? game.secondUserId : game.firstUserId}`,
             };
         }),
     }));

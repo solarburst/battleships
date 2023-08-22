@@ -28,16 +28,16 @@ const AppComponent = () => {
         event.preventDefault();
     };
 
+    const paths = window.location.pathname.split('/');
+    const gameId = paths[1];
+    const userId = paths[2];
+
     useEffect(() => {
         const listener = (event: PromiseRejectionEvent) => {
             toast(event.reason);
         };
 
         window.addEventListener('unhandledrejection', listener);
-
-        const paths = window.location.pathname.split('/');
-        const gameId = paths[1];
-        const userId = paths[2];
 
         if (gameId && userId) {
             store.gamesStore.loadGame(gameId, userId);

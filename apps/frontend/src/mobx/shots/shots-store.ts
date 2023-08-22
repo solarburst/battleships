@@ -37,7 +37,7 @@ export const ShotsStore = types
                 id: createdShot.id.toString(),
             });
 
-            console.log(getSnapshot(self));
+            store.shotsStore.fetchShots();
         }),
         fetchShots: flow(function *() {
             const rootStore = useStore();

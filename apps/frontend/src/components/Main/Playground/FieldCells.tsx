@@ -5,6 +5,7 @@ import { observer } from 'mobx-react';
 import { useStore } from '../../../mobx/store';
 import { Orientation } from '../../../utils/interfaces';
 import classNames from 'classnames';
+import { getSnapshot } from 'mobx-state-tree';
 
 interface IFieldCells {
     isMyField: boolean;
@@ -66,6 +67,9 @@ const FieldCellsComponent = ({ isMyField }: IFieldCells) => {
 
         if (isMyField === false && isMyTurn) {
             store.shotsStore.createShot(x, y);
+            console.log(getSnapshot(store.shotsStore));
+            store.shotsStore.fetchShots();
+            console.log('after fetch', getSnapshot(store.shotsStore));
         }
     };
 
