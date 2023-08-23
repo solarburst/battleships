@@ -5,6 +5,7 @@ import { observer } from 'mobx-react';
 import { useStore } from '../../../mobx/store';
 import { Orientation } from '../../../utils/interfaces';
 import classNames from 'classnames';
+import { ShotResult } from 'mobx/shots/shots-model';
 
 interface IFieldCells {
     isMyField: boolean;
@@ -109,7 +110,7 @@ const FieldCellsComponent = ({ isMyField }: IFieldCells) => {
                 const shot = store.shotsStore.getShotByPosition(j, i, isMyField ? enemyId : userId);
 
                 const shotClasses = classNames('shot', {
-                    'shot--hit': shot?.status === 'hit' || shot?.status === 'kill',
+                    'shot--hit': shot?.status === ShotResult.HIT || shot?.status === ShotResult.KILL,
                 });
 
                 cells.push(

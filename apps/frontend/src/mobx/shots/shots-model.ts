@@ -1,5 +1,11 @@
 import { Instance, types } from 'mobx-state-tree';
 
+export enum ShotResult {
+    KILL = 'kill',
+    HIT = 'hit',
+    MISS = 'miss'
+}
+
 export interface IShotField {
     userId: number;
     x: number;
@@ -13,7 +19,10 @@ export const ShotModel = types
         id: types.identifier,
         x: types.number,
         y: types.number,
-        status: types.string,
+        status: types.optional(
+            types.enumeration<ShotResult>('ShotResult', Object.values(ShotResult)),
+            ShotResult.MISS,
+        ),
         userId: types.number,
     });
 
