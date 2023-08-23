@@ -27,7 +27,7 @@ export const LocatedShipModel = types
     })
     .actions(self => ({
         placeShip: flow(function *(x: number, y: number) {
-            const movedShip: ILocatedShip = yield requestCreator.placeLocatedShip(Number(self.id), {
+            const movedShip = yield requestCreator.placeLocatedShip(Number(self.id), {
                 x,
                 y,
                 length: self.length,
@@ -41,7 +41,7 @@ export const LocatedShipModel = types
             const orientation = self.orientation === Orientation.Horizontal
                 ? Orientation.Vertical
                 : Orientation.Horizontal;
-            const movedShip: ILocatedShip = yield requestCreator.placeLocatedShip(Number(self.id), {
+            const movedShip = yield requestCreator.placeLocatedShip(Number(self.id), {
                 x: self.x,
                 y: self.y,
                 length: self.length,

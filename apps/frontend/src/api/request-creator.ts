@@ -89,12 +89,6 @@ export class RequestCreator {
         return res?.data;
     }
 
-    public async getDestroyedShips(): Promise<ShipResponseDTO[]> {
-        const res = await this.api.get(`/ships/${this.gameId}/${this.userId}/destroyed`);
-
-        return res?.data;
-    }
-
     public async placeNotLocatedShip(values: ShipPlacementDTO[]): Promise<ShipResponseDTO[]> {
         const res = await this.api.post(`/ships/${this.gameId}/${this.userId}`, values);
 

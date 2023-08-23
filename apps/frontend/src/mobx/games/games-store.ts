@@ -2,8 +2,6 @@ import { Instance, flow, getSnapshot, types } from 'mobx-state-tree';
 import { RequestCreator } from '../../api/request-creator';
 import { IGame, GameModel } from './games-model';
 import { useStore } from '../../mobx/store';
-import { initialShips } from '../../utils/constants';
-import { ILocatedShip } from 'mobx/located-ships/located-ships-model';
 
 const requestCreator = RequestCreator.getInstance();
 
@@ -66,18 +64,12 @@ export const GamesStore = types
 
             const gameInfo = yield requestCreator.getGameUserInfo();
 
-            console.log('game info', gameInfo);
-
             self.currentGame = {
                 ...gameInfo,
                 id: gameInfo.gameId.toString(),
             };
 
             self.currentUserId = userId;
-
-            rootStore.notLocatedShipsStore.setShips(initialShips);
-
-            const shipsArr: ILocatedShip[] = gameInfo.ships;
 
             gameInfo.ships.forEach(ship => {
                 rootStore.locatedShipsStore.createModel({

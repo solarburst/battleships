@@ -6,7 +6,7 @@ import { useStore } from './mobx/store';
 import { observer } from 'mobx-react';
 import { Stage } from './utils/interfaces';
 import GamePage from './pages/GamePage';
-import { getSnapshot } from 'mobx-state-tree';
+import { initialShips } from './utils/constants';
 
 const AppComponent = () => {
     const store = useStore();
@@ -39,9 +39,14 @@ const AppComponent = () => {
 
         window.addEventListener('unhandledrejection', listener);
 
-        if (gameId && userId) {
-            store.gamesStore.loadGame(gameId, userId);
-        }
+        const loadGame = async () => {
+            if (gameId && userId) {
+                await store.gamesStore.loadGame(gameId, userId);
+            }
+            store.notLocatedShipsStore.setShips(initialShips);
+        };
+
+        loadGame();
 
         return () => window.removeEventListener('unhandledrejection', listener);
     }, []);

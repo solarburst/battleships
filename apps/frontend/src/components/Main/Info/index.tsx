@@ -1,7 +1,7 @@
 import React from 'react';
 import Icon from '../Icon';
 import { useStore } from '../../../mobx/store';
-import { BASE_URL } from '../../../utils/constants';
+import { BASE_URL, initialShips } from '../../../utils/constants';
 import { observer } from 'mobx-react';
 import { toast } from 'react-toastify';
 
@@ -9,7 +9,7 @@ const InfoComponent = () => {
     const store = useStore();
 
     const handleOnClick = () => {
-        if (store.locatedShipsStore.getShips.length === 10) {
+        if (store.locatedShipsStore.ships.length === initialShips.length) {
             store.gamesStore.setReady(Number(store.gamesStore.currentUserId));
         } else {
             toast('Недостаточно кораблей');

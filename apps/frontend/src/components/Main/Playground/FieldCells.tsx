@@ -5,7 +5,6 @@ import { observer } from 'mobx-react';
 import { useStore } from '../../../mobx/store';
 import { Orientation } from '../../../utils/interfaces';
 import classNames from 'classnames';
-import { getSnapshot } from 'mobx-state-tree';
 
 interface IFieldCells {
     isMyField: boolean;
@@ -107,9 +106,11 @@ const FieldCellsComponent = ({ isMyField }: IFieldCells) => {
                     'cell--bg': !isShip,
                 });
 
-                // const shotClasses = classNames('shot', {
-                //     'shot--hit': shot.status === 'hit' || shot.status === 'kill',
-                // });
+                const shot = store.shotsStore.getShotByPosition(j, i, isMyField ? enemyId : userId);
+
+                const shotClasses = classNames('shot', {
+                    'shot--hit': shot?.status === 'hit' || shot?.status === 'kill',
+                });
 
                 cells.push(
                     <div className="cell--wrapper"
@@ -122,15 +123,8 @@ const FieldCellsComponent = ({ isMyField }: IFieldCells) => {
                         key={count++}
                     >
                         <div className={classes}>
-                            {isMyField === false && store.shotsStore.getShotByPosition(j, i, userId)
-                                ? <div className={`shot 
-                                    ${store.shotsStore.getShotByPosition(j, i, userId).status === 'kill' || store.shotsStore.getShotByPosition(j, i, userId).status === 'hit' ? 'shot--hit' : null}`
-                                } />
-                                : null}
-                            {isMyField === true && store.shotsStore.getShotByPosition(j, i, enemyId)
-                                ? <div className={`shot 
-                                    ${store.shotsStore.getShotByPosition(j, i, enemyId).status === 'kill' || store.shotsStore.getShotByPosition(j, i, enemyId).status === 'hit' ? 'shot--hit' : null}`
-                                } />
+                            {shot
+                                ? <div className={shotClasses} />
                                 : null}
                         </div>
                     </div>,

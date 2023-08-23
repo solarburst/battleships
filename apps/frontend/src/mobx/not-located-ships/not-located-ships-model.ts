@@ -1,10 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { Instance, flow, getSnapshot, types } from 'mobx-state-tree';
+import { Instance, flow, types } from 'mobx-state-tree';
 import { IShip, Orientation } from '../../utils/interfaces';
 import { useStore } from '../store';
 import { ILocatedShip } from 'mobx/located-ships/located-ships-model';
 import { RequestCreator } from '../../api/request-creator';
-import { toast } from 'react-toastify';
 
 export interface INotLocatedShipField {
     id: string;

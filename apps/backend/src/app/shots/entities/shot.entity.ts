@@ -8,7 +8,6 @@ import {
 import { UserEntity } from '../../users/entities/user.entity';
 import { GameEntity } from '../../games/entities/game.entity';
 import { Exclude } from 'class-transformer';
-import { ShotResult } from '../../utils/positionChecker';
 
 @Entity('shots')
 export class ShotEntity {

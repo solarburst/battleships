@@ -5,7 +5,6 @@ import { ShipEntity } from './entities/ship.entity';
 import { ShipDto } from './dto/ship.dto';
 import { GamesService } from '../games/games.service';
 import { UsersService } from '../users/users.service';
-import { Stage } from '../games/entities/game.entity';
 import { ShotsService } from '../shots/shots.service';
 
 @Injectable()

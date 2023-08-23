@@ -51,12 +51,6 @@ export class ShotsService {
             enemy.positionChecker.putShotIntoField(shotFromAllShots);
         });
 
-        // const makeShot = await this.shotsRepository.save({
-        //     ...shot,
-        //     userId,
-        //     gameId,
-        // });
-
         const makeShot = {
             ...shot,
             userId,
@@ -87,7 +81,7 @@ export class ShotsService {
             });
         }
 
-        const finalShot = await this.shotsRepository.save({
+        await this.shotsRepository.save({
             ...shot,
             userId,
             gameId,

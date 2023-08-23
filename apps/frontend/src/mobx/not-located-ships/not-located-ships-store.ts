@@ -1,10 +1,7 @@
 import { Instance, types } from 'mobx-state-tree';
-import { INotLocatedShip, INotLocatedShipField, NotLocatedShipModel } from './not-located-ships-model';
+import { INotLocatedShipField, NotLocatedShipModel } from './not-located-ships-model';
 import { createBaseStore } from '../base-store';
-import { RequestCreator } from '../../api/request-creator';
 import { useStore } from '../../mobx/store';
-
-const requestCreator = RequestCreator.getInstance();
 
 export const NotLocatedShipsStore = types
     .compose(

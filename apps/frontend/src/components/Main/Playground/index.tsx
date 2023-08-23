@@ -1,8 +1,4 @@
 import React from 'react';
-import Icon from '../Icon';
-import LetterRow from './LetterRow';
-import NumberColumn from './NumberColumn';
-import { FieldCells } from './FieldCells';
 import { useStore } from '../../../mobx/store';
 import { observer } from 'mobx-react';
 import { PlacedShip } from '../PlacedShip';

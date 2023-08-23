@@ -1,10 +1,11 @@
-import { Instance, flow, types } from 'mobx-state-tree';
+import { Instance, flow, getRoot, types } from 'mobx-state-tree';
 import { IShip } from 'utils/interfaces';
 import { ILocatedShip, ILocatedShipField, LocatedShipModel } from './located-ships-model';
 import { createBaseStore } from '../base-store';
 import { RequestCreator } from '../../api/request-creator';
 import { useStore } from '../store';
 import { INotLocatedShip } from 'mobx/not-located-ships/not-located-ships-model';
+import { IGamesStore } from 'mobx/games/games-store';
 
 const requestCreator = RequestCreator.getInstance();
 
@@ -17,17 +18,20 @@ export const LocatedShipsStore = types
         movingShip: null as ILocatedShip | INotLocatedShip | null,
     }))
     .views(self => ({
+        get shipsArray() {
+            return Array.from(self.store.values());
+        },
         get ships() {
-            const rootStore = useStore();
+            const gamesStore = getRoot(self).gamesStore as IGamesStore;
 
-            const currentUserId = rootStore.gamesStore.currentUserId;
+            const currentUserId = gamesStore.currentUserId;
 
             return Array.from(self.store.values()).filter(ship => ship.userId === Number(currentUserId));
         },
         get enemyShips() {
-            const rootStore = useStore();
+            const gamesStore = getRoot(self).gamesStore as IGamesStore;
 
-            const currentUserId = rootStore.gamesStore.currentUserId;
+            const currentUserId = gamesStore.currentUserId;
 
             return Array.from(self.store.values()).filter(ship => ship.userId !== Number(currentUserId));
         },
@@ -36,31 +40,6 @@ export const LocatedShipsStore = types
         setMovingShip(ship: ILocatedShip | INotLocatedShip | null) {
             self.movingShip = ship;
         },
-        fetchShips: flow(function *() {
-            const rootStore = useStore();
-
-            const shipsArr: ILocatedShip[] = yield requestCreator.getShipsByUserAndGame();
-
-            const destroyedshipsArr: ILocatedShip[] = yield requestCreator.getDestroyedShips();
-
-            shipsArr?.forEach(ship => {
-                self.store.set(String(ship.id), LocatedShipModel.create({
-                    ...ship,
-                    id: ship.id.toString(),
-                }));
-
-                const shipToHide = rootStore.notLocatedShipsStore.getShipByLength(ship.length);
-
-                shipToHide.hide();
-            });
-
-            destroyedshipsArr?.forEach(ship => {
-                self.store.set(String(ship.id), LocatedShipModel.create({
-                    ...ship,
-                    id: ship.id.toString(),
-                }));
-            });
-        }),
         deleteShips: flow(function *() {
             const rootStore = useStore();
 

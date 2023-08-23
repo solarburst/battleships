@@ -1,10 +1,9 @@
-import { Instance, flow, getSnapshot, types } from 'mobx-state-tree';
+import { Instance, flow, getRoot, types } from 'mobx-state-tree';
 import { createBaseStore } from '../base-store';
 import { IShot, IShotField, ShotModel } from './shots-model';
 import { useStore } from '../store';
 import { RequestCreator } from '../../api/request-creator';
-import { LocatedShipModel } from '../../mobx/located-ships/located-ships-model';
-import { storeAnnotation } from 'mobx/dist/internal';
+import { IGamesStore } from 'mobx/games/games-store';
 
 const requestCreator = RequestCreator.getInstance();
 
@@ -15,16 +14,16 @@ export const ShotsStore = types
     )
     .views(self => ({
         get shots() {
-            const rootStore = useStore();
+            const gamesStore = getRoot(self).gamesStore as IGamesStore;
 
-            const currentUserId = rootStore.gamesStore.currentUserId;
+            const currentUserId = gamesStore.currentUserId;
 
             return Array.from(self.store.values()).filter(shot => shot.userId === Number(currentUserId));
         },
         get enemyShots() {
-            const rootStore = useStore();
+            const gamesStore = getRoot(self).gamesStore as IGamesStore;
 
-            const currentUserId = rootStore.gamesStore.currentUserId;
+            const currentUserId = gamesStore.currentUserId;
 
             return Array.from(self.store.values()).filter(shot => shot.userId !== Number(currentUserId));
         },
@@ -40,8 +39,6 @@ export const ShotsStore = types
                 x,
                 y,
             });
-
-            console.log('GHAWOGHOAWGOAWGOHIAWOHIGOHAIW', shotInfo);
 
             shotInfo.shots.forEach(shot => {
                 self.store.set(String(shot.id), ShotModel.create({
@@ -59,7 +56,6 @@ export const ShotsStore = types
             });
 
             shotInfo.destroyedShips.forEach(ship => {
-                console.log(rootStore.locatedShipsStore.getShips);
                 rootStore.locatedShipsStore.createModel({
                     ...ship,
                     id: ship.id.toString(),
