@@ -16,6 +16,7 @@ export class ShotsService {
         private shotsRepository: Repository<ShotEntity>,
         @Inject(forwardRef(() => GamesService))
         private gamesService: GamesService,
+        @Inject(forwardRef(() => ShipsService))
         private shipsService: ShipsService,
         private usersService: UsersService,
     ) {}
@@ -50,11 +51,17 @@ export class ShotsService {
             enemy.positionChecker.putShotIntoField(shotFromAllShots);
         });
 
-        const makeShot = await this.shotsRepository.save({
+        // const makeShot = await this.shotsRepository.save({
+        //     ...shot,
+        //     userId,
+        //     gameId,
+        // });
+
+        const makeShot = {
             ...shot,
             userId,
             gameId,
-        });
+        };
 
         const shotResult = enemy.positionChecker.putShotIntoField(makeShot);
 
@@ -64,15 +71,9 @@ export class ShotsService {
                     ...additionalShot,
                     userId,
                     gameId,
+                    status: ShotResult.MISS,
                 });
             }
-            // shotResult.additionalShots.forEach(async additionalShot => {
-            //     await this.shotsRepository.save({
-            //         ...additionalShot,
-            //         userId,
-            //         gameId,
-            //     });
-            // });
         }
 
         if (shotResult.status === ShotResult.MISS) {
@@ -86,9 +87,20 @@ export class ShotsService {
             });
         }
 
-        return {
-            ...makeShot,
+        const finalShot = await this.shotsRepository.save({
+            ...shot,
+            userId,
+            gameId,
             status: shotResult.status,
+        });
+
+        const destroyedShips = enemy.positionChecker.destroyedShips;
+
+        const gameInfo = await this.gamesService.getGameUserInfo(gameId, userId);
+
+        return {
+            ...gameInfo,
+            destroyedShips,
         };
     }
 
@@ -105,5 +117,11 @@ export class ShotsService {
         const foundedShot = await this.shotsRepository.find({ where: { userId, gameId, x: shot.x, y: shot.y } });
 
         return foundedShot;
+    }
+
+    async getShotsByGame(gameId: number) {
+        const foundedShots = await this.shotsRepository.find({ where: { gameId } });
+
+        return foundedShots;
     }
 }

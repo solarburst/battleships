@@ -7,12 +7,14 @@ import { GamesModule } from '../games/games.module';
 import { UsersModule } from '../users/users.module';
 import { Stage } from '../games/entities/game.entity';
 import { GameMiddlewareCreator } from '../games/game.middleware';
+import { ShotsModule } from '../shots/shots.module';
 
 @Module({
     imports: [
         TypeOrmModule.forFeature([ShipEntity]),
         forwardRef(() => GamesModule),
         UsersModule,
+        forwardRef(() => ShotsModule),
     ],
     providers: [ShipsService],
     controllers: [ShipsController],

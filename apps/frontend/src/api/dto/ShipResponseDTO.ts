@@ -6,4 +6,5 @@ export interface ShipResponseDTO {
     y: number;
     length: number;
     orientation: Orientation;
+    userId: number;
 }

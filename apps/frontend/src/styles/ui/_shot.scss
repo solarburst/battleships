@@ -3,4 +3,11 @@
     height: 4px;
     background-color: #FFFFFF;
     border-radius: 50%;
+
+    &--hit {
+        width: 13.5px;
+        height: 13.54px;
+        background-color: #FDCC1D;
+        z-index: 99999;
+    }
 }

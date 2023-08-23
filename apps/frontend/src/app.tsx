@@ -49,7 +49,7 @@ const AppComponent = () => {
     if (store.gamesStore.currentGame) {
         setInterval(async () => {
             console.log('tick');
-            store.gamesStore.getGameInfo();
+            store.gamesStore.loadGame(gameId, userId);
         }, 5000);
     }
 

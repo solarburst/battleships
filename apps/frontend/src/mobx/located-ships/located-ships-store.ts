@@ -17,8 +17,19 @@ export const LocatedShipsStore = types
         movingShip: null as ILocatedShip | INotLocatedShip | null,
     }))
     .views(self => ({
-        get getShips() {
-            return Array.from(self.store.values());
+        get ships() {
+            const rootStore = useStore();
+
+            const currentUserId = rootStore.gamesStore.currentUserId;
+
+            return Array.from(self.store.values()).filter(ship => ship.userId === Number(currentUserId));
+        },
+        get enemyShips() {
+            const rootStore = useStore();
+
+            const currentUserId = rootStore.gamesStore.currentUserId;
+
+            return Array.from(self.store.values()).filter(ship => ship.userId !== Number(currentUserId));
         },
     }))
     .actions(self => ({
@@ -30,6 +41,8 @@ export const LocatedShipsStore = types
 
             const shipsArr: ILocatedShip[] = yield requestCreator.getShipsByUserAndGame();
 
+            const destroyedshipsArr: ILocatedShip[] = yield requestCreator.getDestroyedShips();
+
             shipsArr?.forEach(ship => {
                 self.store.set(String(ship.id), LocatedShipModel.create({
                     ...ship,
@@ -39,6 +52,13 @@ export const LocatedShipsStore = types
                 const shipToHide = rootStore.notLocatedShipsStore.getShipByLength(ship.length);
 
                 shipToHide.hide();
+            });
+
+            destroyedshipsArr?.forEach(ship => {
+                self.store.set(String(ship.id), LocatedShipModel.create({
+                    ...ship,
+                    id: ship.id.toString(),
+                }));
             });
         }),
         deleteShips: flow(function *() {
@@ -52,6 +72,14 @@ export const LocatedShipsStore = types
         }),
         deleteShip(id: string) {
             self.store.delete(id);
+        },
+        setShips(shipsArr: ILocatedShip[]) {
+            shipsArr?.forEach(ship => {
+                self.store.set(String(ship.id), LocatedShipModel.create({
+                    ...ship,
+                    id: ship.id.toString(),
+                }));
+            });
         },
     }));
 

@@ -123,7 +123,11 @@ export class GamesService {
         }
         const ships = await this.shipsService.getShipsByUserAndGame(userId, gameId);
 
-        const shots = await this.shotsService.getShotsByUserAndGame(userId, gameId);
+        const destroyedShips = await this.shipsService.getDestroyedShips(userId, gameId);
+
+        // const shots = await this.shotsService.getShotsByGame(gameId);
+
+        const shots = await this.shotsService.getShotsByGame(gameId);
 
         return {
             gameId,
@@ -131,8 +135,11 @@ export class GamesService {
             secondUserId: game.secondUserId,
             stage: game.stage,
             isFirstUserTurn: game.isFirstUserTurn,
-            ships: [...ships],
-            shots: [...shots],
+            firstUserReady: game.firstUserReady,
+            secondUserReady: game.secondUserReady,
+            ships,
+            destroyedShips,
+            shots,
         };
     }
 }

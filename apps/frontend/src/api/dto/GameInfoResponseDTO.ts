@@ -10,4 +10,5 @@ export interface GameInfoResponseDTO {
     isFirstUserTurn: boolean;
     ships: ShipResponseDTO[];
     shots: ShotResponseDTO[];
+    destroyedShips: ShipResponseDTO[];
 }

@@ -23,8 +23,11 @@ const FieldCellsComponent = ({ isMyField }: IFieldCells) => {
 
     const ship = store.locatedShipsStore.movingShip;
 
-    let count = 0;
+    const userId = Number(store.gamesStore.currentUserId);
 
+    const enemyId = Number(store.gamesStore.enemyId);
+
+    let count = 0;
 
     const handleOnDrop = (event: Event, y: number, x: number) => {
         if (ship) {
@@ -104,6 +107,10 @@ const FieldCellsComponent = ({ isMyField }: IFieldCells) => {
                     'cell--bg': !isShip,
                 });
 
+                // const shotClasses = classNames('shot', {
+                //     'shot--hit': shot.status === 'hit' || shot.status === 'kill',
+                // });
+
                 cells.push(
                     <div className="cell--wrapper"
                         onDrop={(e) => handleOnDrop(e, i, j)}
@@ -115,8 +122,15 @@ const FieldCellsComponent = ({ isMyField }: IFieldCells) => {
                         key={count++}
                     >
                         <div className={classes}>
-                            {isMyField === false && store.shotsStore.getShotByPosition(j, i)
-                                ? <div className="shot" />
+                            {isMyField === false && store.shotsStore.getShotByPosition(j, i, userId)
+                                ? <div className={`shot 
+                                    ${store.shotsStore.getShotByPosition(j, i, userId).status === 'kill' || store.shotsStore.getShotByPosition(j, i, userId).status === 'hit' ? 'shot--hit' : null}`
+                                } />
+                                : null}
+                            {isMyField === true && store.shotsStore.getShotByPosition(j, i, enemyId)
+                                ? <div className={`shot 
+                                    ${store.shotsStore.getShotByPosition(j, i, enemyId).status === 'kill' || store.shotsStore.getShotByPosition(j, i, enemyId).status === 'hit' ? 'shot--hit' : null}`
+                                } />
                                 : null}
                         </div>
                     </div>,
@@ -130,7 +144,10 @@ const FieldCellsComponent = ({ isMyField }: IFieldCells) => {
     return (
         <div className="main__playground-field-cells">
             {memoizedCells}
-            {isMyField === true && store.locatedShipsStore.getShips.map((shipElem) => {
+            {isMyField === true && store.locatedShipsStore.ships.map((shipElem) => {
+                return <PlacedShip ship={shipElem} key={shipElem.id} />;
+            })}
+            {isMyField === false && store.locatedShipsStore.enemyShips.map((shipElem) => {
                 return <PlacedShip ship={shipElem} key={shipElem.id} />;
             })}
         </div>);

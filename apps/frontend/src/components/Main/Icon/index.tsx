@@ -7,7 +7,7 @@ interface IconProps {
 }
 
 const Icon = ({ name, style }: IconProps) => {
-    const baseUrl = `public/assets/svg/${name}.svg`;
+    const baseUrl = `assets/svg/${name}.svg`;
 
     return (
         <ReactSVG src={baseUrl} style={style} />

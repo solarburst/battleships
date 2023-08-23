@@ -3,6 +3,7 @@ import { RequestCreator } from '../../api/request-creator';
 import { IGame, GameModel } from './games-model';
 import { useStore } from '../../mobx/store';
 import { initialShips } from '../../utils/constants';
+import { ILocatedShip } from 'mobx/located-ships/located-ships-model';
 
 const requestCreator = RequestCreator.getInstance();
 
@@ -37,6 +38,15 @@ export const GamesStore = types
 
             return isMyTurn;
         },
+        get enemyId() {
+            if (self.currentGame) {
+                return self.currentGame.firstUserId === Number(self.currentUserId)
+                    ? self.currentGame.secondUserId
+                    : self.currentGame.firstUserId;
+            }
+
+            return null;
+        },
     }))
     .actions(self => ({
         createGame: flow(function *() {
@@ -56,15 +66,27 @@ export const GamesStore = types
 
             const gameInfo = yield requestCreator.getGameUserInfo();
 
+            console.log('game info', gameInfo);
+
             self.currentGame = {
                 ...gameInfo,
                 id: gameInfo.gameId.toString(),
             };
 
             self.currentUserId = userId;
-            const shipsArr: ILocatedShip[] = yield requestCreator.getShipsByUserAndGame();
+
+            rootStore.notLocatedShipsStore.setShips(initialShips);
+
+            const shipsArr: ILocatedShip[] = gameInfo.ships;
 
             gameInfo.ships.forEach(ship => {
+                rootStore.locatedShipsStore.createModel({
+                    ...ship,
+                    id: ship.id.toString(),
+                });
+            });
+
+            gameInfo.destroyedShips.forEach(ship => {
                 rootStore.locatedShipsStore.createModel({
                     ...ship,
                     id: ship.id.toString(),
@@ -77,8 +99,6 @@ export const GamesStore = types
                     id: shot.id.toString(),
                 });
             });
-
-            rootStore.notLocatedShipsStore.setShips(initialShips);
 
             console.log(getSnapshot(rootStore));
         }),
@@ -93,17 +113,6 @@ export const GamesStore = types
             };
 
             console.log(getSnapshot(rootStore));
-        }),
-        getGameInfo: flow(function *() {
-            const rootStore = useStore();
-
-            const game = yield requestCreator.getGameById();
-
-            rootStore.gamesStore.currentGame = {
-                ...game,
-                id: game.id.toString(),
-                inviteLink: `${game.id}/${game.firstUserId === Number(self.currentUserId) ? game.secondUserId : game.firstUserId}`,
-            };
         }),
     }));
 

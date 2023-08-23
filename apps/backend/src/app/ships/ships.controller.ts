@@ -29,6 +29,11 @@ export class ShipsController {
         return this.shipsService.getShipsByUserAndGame(Number(userId), Number(gameId));
     }
 
+    @Get('/:gameId/:userId/destroyed')
+    async getDestroyedShips(@Param('userId') userId: string, @Param('gameId') gameId: string) {
+        return this.shipsService.getDestroyedShips(Number(userId), Number(gameId));
+    }
+
     @Patch('/:gameId/:userId/:shipId')
     async moveShip(
         @Param('gameId') gameId: string,

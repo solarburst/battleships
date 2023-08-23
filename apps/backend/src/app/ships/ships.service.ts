@@ -6,6 +6,7 @@ import { ShipDto } from './dto/ship.dto';
 import { GamesService } from '../games/games.service';
 import { UsersService } from '../users/users.service';
 import { Stage } from '../games/entities/game.entity';
+import { ShotsService } from '../shots/shots.service';
 
 @Injectable()
 export class ShipsService {
@@ -15,6 +16,8 @@ export class ShipsService {
         @Inject(forwardRef(() => GamesService))
         private gamesService: GamesService,
         private usersService: UsersService,
+        @Inject(forwardRef(() => ShotsService))
+        private shotsService: ShotsService,
     ) {}
 
     async createShip(gameId: number, userId: number, ships: ShipDto[]) {
@@ -77,6 +80,28 @@ export class ShipsService {
         const foundedShips = await this.shipsRepository.find({ where: { userId, gameId } });
 
         return foundedShips;
+    }
+
+    async getDestroyedShips(userId: number, gameId: number) {
+        const game = await this.gamesService.getGameById(gameId);
+
+        const enemyId = game.firstUserId === userId ? game.secondUserId : game.firstUserId;
+
+        const enemyShips = await this.getShipsByUserAndGame(enemyId, gameId);
+
+        const enemy = await this.usersService.getUserById(enemyId);
+
+        enemy.positionChecker.putShipsIntoField(enemyShips);
+
+        const allShots = await this.shotsService.getShotsByUserAndGame(userId, gameId);
+
+        allShots.forEach(shotFromAllShots => {
+            enemy.positionChecker.putShotIntoField(shotFromAllShots);
+        });
+
+        const destroyedShips = enemy.positionChecker.destroyedShips;
+
+        return destroyedShips;
     }
 
     async deleteShips(gameId: number, userId: number) {

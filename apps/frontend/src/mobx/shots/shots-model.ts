@@ -1,25 +1,23 @@
-import { ShotResult } from '../../api/dto/CreateShotResponseDTO';
 import { RequestCreator } from '../../api/request-creator';
-import { Instance, flow, types } from 'mobx-state-tree';
-import { useStore } from '../store';
+import { Instance, types } from 'mobx-state-tree';
 
 export interface IShotField {
     // status: ShotResult;
-    // userId: number;
+    userId: number;
     // gameId: number;
     x: number;
     y: number;
     id: string;
+    status: string;
 }
-
-const requestCreator = RequestCreator.getInstance();
 
 export const ShotModel = types
     .model({
         id: types.identifier,
         x: types.number,
         y: types.number,
-        // userId: types.number,
+        status: types.string,
+        userId: types.number,
         // gameId: types.number,
         // status: types.optional(
         //     types.enumeration<ShotResult>('ShotResult', Object.values(ShotResult)),

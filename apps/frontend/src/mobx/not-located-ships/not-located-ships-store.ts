@@ -31,7 +31,7 @@ export const NotLocatedShipsStore = types
 
             shipsArr.forEach(ship => self.createModel({...ship}));
 
-            const locatedShips = store.locatedShipsStore.getShips;
+            const locatedShips = store.locatedShipsStore.ships;
 
             locatedShips?.forEach(ship => {
                 const shipToHide = store.notLocatedShipsStore.getShipByLength(ship.length);

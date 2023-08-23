@@ -23,6 +23,7 @@ export const LocatedShipModel = types
             types.enumeration<Orientation>('Orientation', Object.values(Orientation)),
             Orientation.Horizontal,
         ),
+        userId: types.number,
     })
     .actions(self => ({
         placeShip: flow(function *(x: number, y: number) {

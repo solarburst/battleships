@@ -2,7 +2,6 @@ import axios, { AxiosInstance } from 'axios';
 import { CreateGameResponseDTO } from './dto/CreateGameResponseDTO';
 import { ShipPlacementDTO } from './dto/ShipPlacementDTO';
 import { ShipResponseDTO } from './dto/ShipResponseDTO';
-import { CreateShotResponseDTO } from './dto/CreateShotResponseDTO';
 import { CreateShotDTO } from './dto/CreateShotDTO';
 import { ShotResponseDTO } from './dto/ShotResponseDTO';
 import { GameInfoResponseDTO } from './dto/GameInfoResponseDTO';
@@ -90,6 +89,12 @@ export class RequestCreator {
         return res?.data;
     }
 
+    public async getDestroyedShips(): Promise<ShipResponseDTO[]> {
+        const res = await this.api.get(`/ships/${this.gameId}/${this.userId}/destroyed`);
+
+        return res?.data;
+    }
+
     public async placeNotLocatedShip(values: ShipPlacementDTO[]): Promise<ShipResponseDTO[]> {
         const res = await this.api.post(`/ships/${this.gameId}/${this.userId}`, values);
 
@@ -114,7 +119,7 @@ export class RequestCreator {
         return res?.data;
     }
 
-    public async createShot(values: CreateShotDTO): Promise<CreateShotResponseDTO> {
+    public async createShot(values: CreateShotDTO): Promise<GameInfoResponseDTO> {
         const res = await this.api.post(`/shots/${this.gameId}/${this.userId}`, values);
 
         return res?.data;

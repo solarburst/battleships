@@ -13,7 +13,7 @@ import { Stage } from '../games/entities/game.entity';
     imports: [
         TypeOrmModule.forFeature([ShotEntity]),
         forwardRef(() => GamesModule),
-        ShipsModule,
+        forwardRef(() => ShipsModule),
         UsersModule,
     ],
     providers: [ShotsService],

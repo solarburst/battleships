@@ -24,8 +24,6 @@ const PlacedShipComponent = ({ ship }: IPlacedShipProps) => {
 
     const gameStarted = store.gamesStore.currentGame?.stage === Stage.GAME;
 
-    console.log('game started', gameStarted);
-
     const isVertical = ship.orientation === Orientation.Vertical;
 
     const length = ship.length;

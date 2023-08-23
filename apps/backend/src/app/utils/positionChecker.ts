@@ -25,12 +25,14 @@ export class PositionChecker {
     fieldSize: number;
     shipTypes: number[];
     aliveShips: IShipWithPosition[];
+    destroyedShips: IShipWithPosition[];
 
     constructor() {
         this.positions = [];
         this.fieldSize = FIELD_SIZE;
         this.shipTypes = [4, 3, 2, 1];
         this.aliveShips = [];
+        this.destroyedShips = [];
 
         for (let i = 0; i <= this.fieldSize; i++) {
             this.positions[i] = new Array(this.fieldSize + 1).fill(0);
@@ -116,8 +118,6 @@ export class PositionChecker {
     }
 
     putShotIntoField(shot: ShotDto) {
-        console.log('SHOT', shot);
-
         const shotResult = {
             status: ShotResult.MISS,
             additionalShots: [],
@@ -145,13 +145,10 @@ export class PositionChecker {
 
             if (shipInfo.hits < shipInfo.length) continue;
 
-            console.log(shipInfo);
-            console.log('hits', shipInfo.hits);
-            console.log('length', shipInfo.length);
-
             shotResult.status = ShotResult.KILL;
             shotResult.additionalShots = this.putAdditionalShots(shipInfo);
 
+            this.destroyedShips.push(shipInfo);
             this.aliveShips.splice(i, 1);
 
             return shotResult;
