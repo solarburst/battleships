@@ -18,9 +18,6 @@ export const LocatedShipsStore = types
         movingShip: null as ILocatedShip | INotLocatedShip | null,
     }))
     .views(self => ({
-        get shipsArray() {
-            return Array.from(self.store.values());
-        },
         get ships() {
             const gamesStore = getRoot(self).gamesStore as IGamesStore;
 
