@@ -7,13 +7,10 @@ const lengths = [1, 2, 3, 4];
 
 interface ShipProps {
     length: typeof lengths[number];
-    style?: CSSProperties;
 }
 
-const ShipIconComponent = ({ length, style }: ShipProps) => {
-    const store = useStore();
-
-    return <Icon name={`ship${length}`} style={style} />;
+const ShipIconComponent = ({ length }: ShipProps) => {
+    return <Icon name={`ship${length}`} />;
 };
 
 export const ShipIcon = observer(ShipIconComponent);

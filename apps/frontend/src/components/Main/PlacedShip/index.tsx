@@ -14,15 +14,19 @@ interface IPlacedShipProps {
 const PlacedShipComponent = ({ ship }: IPlacedShipProps) => {
     const store = useStore();
 
+    const gameStarted = store.gamesStore.currentGame?.stage === Stage.GAME;
+
     const handleOnDragStart = () => {
-        store.locatedShipsStore.setMovingShip(ship);
+        // !gameStarted ? store.locatedShipsStore.setMovingShip(ship)
+        if (!gameStarted) {
+            store.locatedShipsStore.setMovingShip(ship)
+        }
+        // store.locatedShipsStore.setMovingShip(ship);
     };
 
     const handleOnDragEnd = () => {
         store.locatedShipsStore.setMovingShip(null);
     };
-
-    const gameStarted = store.gamesStore.currentGame?.stage === Stage.GAME;
 
     const isVertical = ship.orientation === Orientation.Vertical;
 
@@ -45,7 +49,7 @@ const PlacedShipComponent = ({ ship }: IPlacedShipProps) => {
     return (
         <div className={classes}
             key={ship.id}
-            draggable={`${!gameStarted}`}
+            draggable={!gameStarted}
             onDragStart={handleOnDragStart}
             onDoubleClick={handleOnDoubleClick}
             onDragEnd={handleOnDragEnd}

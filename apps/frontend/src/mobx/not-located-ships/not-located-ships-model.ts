@@ -30,7 +30,7 @@ export const NotLocatedShipModel = types
         placeShip: flow(function *(x: number, y: number) {
             const store = useStore();
 
-            const movedShip: ILocatedShip[] = yield requestCreator.placeNotLocatedShip([
+            const movedShip: ILocatedShip[] = yield requestCreator.placeNotLocatedShips([
                 {
                     x,
                     y,

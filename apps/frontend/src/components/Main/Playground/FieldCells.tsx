@@ -5,7 +5,7 @@ import { observer } from 'mobx-react';
 import { useStore } from '../../../mobx/store';
 import { Orientation } from '../../../utils/interfaces';
 import classNames from 'classnames';
-import { ShotResult } from 'mobx/shots/shots-model';
+import { ShotResult } from '../../../mobx/shots/shots-model';
 
 interface IFieldCells {
     isMyField: boolean;

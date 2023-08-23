@@ -1,7 +1,11 @@
-import { Instance, types } from 'mobx-state-tree';
+import { Instance, flow, types } from 'mobx-state-tree';
 import { INotLocatedShipField, NotLocatedShipModel } from './not-located-ships-model';
 import { createBaseStore } from '../base-store';
 import { useStore } from '../../mobx/store';
+import { ILocatedShip } from '../../mobx/located-ships/located-ships-model';
+import { RequestCreator } from '../../api/request-creator';
+
+const requestCreator = RequestCreator.getInstance();
 
 export const NotLocatedShipsStore = types
     .compose(
@@ -39,6 +43,20 @@ export const NotLocatedShipsStore = types
         restoreShips() {
             return Array.from(self.store.values()).forEach(ship => ship.isPlaced = false);
         },
+        placeRandomShips: flow(function *(ships) {
+            const store = useStore();
+
+            const movedShips: ILocatedShip[] = yield requestCreator.placeNotLocatedShips(ships);
+
+            movedShips.forEach(ship => {
+                store.locatedShipsStore.createModel({
+                    ...ship,
+                    id: ship.id.toString(),
+                });
+            });
+
+            self.store.forEach(ship => ship.isPlaced = true);
+        }),
     }));
 
 export interface INotLocatedShipsStore extends Instance<typeof NotLocatedShipsStore> { }

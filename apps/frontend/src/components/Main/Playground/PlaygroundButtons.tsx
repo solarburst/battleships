@@ -3,14 +3,15 @@ import Icon from '../Icon';
 
 interface IPlaygroundButtons {
     handleDeleteAll: () => void;
+    handleRandom: () => void;
 }
 
-const PlaygroundButtons = ({ handleDeleteAll }: IPlaygroundButtons) => {
+const PlaygroundButtons = ({ handleDeleteAll, handleRandom }: IPlaygroundButtons) => {
     return (
         <div className="main__playground-buttons">
             <div className="main__playground-buttons-item">
                 <Icon name="random" />
-                <button className="button--clear main__playground-buttons-text">
+                <button onClick={handleRandom} className="button--clear main__playground-buttons-text">
                     Расставить рандомно
                 </button>
             </div>
