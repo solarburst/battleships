@@ -6,6 +6,7 @@ import { GameEntity } from './entities/game.entity';
 import { UsersModule } from '../users/users.module';
 import { ShipsModule } from '../ships/ships.module';
 import { ShotsModule } from '../shots/shots.module';
+import { MessagesModule } from '../messages/messages.module';
 
 @Module({
     imports: [
@@ -13,6 +14,7 @@ import { ShotsModule } from '../shots/shots.module';
         UsersModule,
         forwardRef(() => ShipsModule),
         forwardRef(() => ShotsModule),
+        MessagesModule,
     ],
     providers: [GamesService],
     controllers: [GamesController],

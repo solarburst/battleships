@@ -18,10 +18,6 @@ export const GameModel = types
         secondUserId: types.number,
         firstUserReady: types.optional(types.boolean, false),
         secondUserReady: types.optional(types.boolean, false),
-    })
-    .actions(self => ({
-        // поменять ход
-        // поменять стадию
-    }));
+    });
 
 export interface IGameModel extends Instance<typeof GameModel> { }

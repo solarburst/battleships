@@ -5,6 +5,8 @@ import { ShipResponseDTO } from './dto/ShipResponseDTO';
 import { CreateShotDTO } from './dto/CreateShotDTO';
 import { ShotResponseDTO } from './dto/ShotResponseDTO';
 import { GameInfoResponseDTO } from './dto/GameInfoResponseDTO';
+import { CreateMessageResponseDTO } from './dto/CreateMessageResponseDTO';
+import { CreateMessageDTO } from './dto/CreateMessageDTO';
 
 const instance = axios.create({
     withCredentials: true,
@@ -127,6 +129,18 @@ export class RequestCreator {
 
     public async getEnemyShots(userId: number): Promise<ShotResponseDTO[]> {
         const res = await this.api.get(`/shots/${this.gameId}/${userId}`);
+
+        return res?.data;
+    }
+
+    public async sendMessage(values: CreateMessageDTO): Promise<CreateMessageResponseDTO> {
+        const res = await this.api.post(`/messages/${this.gameId}/${this.userId}`, values);
+
+        return res?.data;
+    }
+
+    public async getMessages(): Promise<CreateMessageResponseDTO[]> {
+        const res = await this.api.get(`/shots/${this.gameId}`);
 
         return res?.data;
     }

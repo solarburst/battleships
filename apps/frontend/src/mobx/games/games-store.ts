@@ -92,6 +92,13 @@ export const GamesStore = types
                 });
             });
 
+            gameInfo.messages.forEach(message => {
+                rootStore.messagesStore.createModel({
+                    ...message,
+                    id: message.id.toString(),
+                });
+            });
+
             console.log(getSnapshot(rootStore));
         }),
         setReady: flow(function *(id: number) {

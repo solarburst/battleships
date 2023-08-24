@@ -1,0 +1,19 @@
+.input {
+    width: 100%;
+    background-color: #080D27;
+    padding: 16px;
+    border: none;
+    border-radius: 10px;
+    color: #FFFFFF;
+    padding-right: 50px;
+
+    &:focus {
+        outline: none;
+    }
+
+    &__icon div {
+        display: flex;
+        align-items: center;
+        margin-left: -40px;
+    }
+}

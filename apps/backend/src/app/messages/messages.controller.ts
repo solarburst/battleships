@@ -14,7 +14,7 @@ export class MessagesController {
         return this.messagesService.createMessage(Number(gameId), Number(userId), message);
     }
 
-    @Post('/:gameId')
+    @Get('/:gameId')
     async getGameMessages(@Param('gameId') gameId: string) {
         return this.messagesService.getGameMessages(Number(gameId));
     }

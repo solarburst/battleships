@@ -1,13 +1,50 @@
-import React from 'react';
+import { useStore } from '../../mobx/store';
+import Icon from '../../components/Main/Icon';
+import React, { KeyboardEvent, useEffect, useRef, useState } from 'react';
+import { observer } from 'mobx-react';
 
-const Chat = () => {
-    // получаем сообщения, отправителя сравниваем с юзером
+const ChatComponent = () => {
+    const store = useStore();
+
+    const [message, setMessage] = useState('');
+
+    const messages = store.messagesStore.messages;
+
+    const user = store.gamesStore.currentUserId;
+
+    const ref = useRef(null);
+
+    const scrollToBottom = () => {
+        ref.current?.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    const handleSubmit = (e: KeyboardEvent) => {
+        if (message && e.key === 'Enter') {
+            store.messagesStore.sendMessage(message);
+            setMessage('');
+        }
+    };
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages]);
 
     return (
-        <div>Chat</div>
+        <div className="chat">
+            <div className="chat__area">
+                {messages.map(message => <div className="chat__area-message" key={message.id}>
+                    <span className={message.userId === Number(user) ? 'user' : 'enemy'}>
+                        {message.userId === Number(user) ? 'Вы: ' : 'Соперник: '}
+                    </span>{message.message}
+                </div>)}
+                <div className="chat__area-end" ref={ref} />
+            </div>
+            <div className="chat__input">
+                <input placeholder="Написать в чат" type="text" className="input" onChange={(e) => setMessage(e.target.value)} value={message} onKeyDown={(e) => handleSubmit(e)} />
+                <Icon name="input" className="input__icon" />
+            </div>
+        </div>
     );
 };
 
-// скорее всего observable
-
-export default Chat;
+export const Chat = observer(ChatComponent);

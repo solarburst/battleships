@@ -30,7 +30,6 @@ export class MessageEntity {
         createdAt: Date;
 
     @Column()
-    @Exclude()
         userId: number;
 
     @Column()

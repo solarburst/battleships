@@ -6,6 +6,7 @@ import { GameDto } from './dto/game.dto';
 import { UsersService } from '../users/users.service';
 import { ShipsService } from '../ships/ships.service';
 import { ShotsService } from '../shots/shots.service';
+import { MessagesService } from '../messages/messages.service';
 
 @Injectable()
 export class GamesService {
@@ -17,6 +18,7 @@ export class GamesService {
         private shipsService: ShipsService,
         @Inject(forwardRef(() => ShotsService))
         private shotsService: ShotsService,
+        private messagesService: MessagesService,
     ) {}
 
     async createGame() {
@@ -129,6 +131,8 @@ export class GamesService {
 
         const shots = await this.shotsService.getShotsByGame(gameId);
 
+        const messages = await this.messagesService.getGameMessages(gameId);
+
         return {
             gameId,
             firstUserId: game.firstUserId,
@@ -140,6 +144,7 @@ export class GamesService {
             ships,
             destroyedShips,
             shots,
+            messages,
         };
     }
 }

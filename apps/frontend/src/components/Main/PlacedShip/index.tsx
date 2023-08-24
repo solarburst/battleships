@@ -17,11 +17,9 @@ const PlacedShipComponent = ({ ship }: IPlacedShipProps) => {
     const gameStarted = store.gamesStore.currentGame?.stage === Stage.GAME;
 
     const handleOnDragStart = () => {
-        // !gameStarted ? store.locatedShipsStore.setMovingShip(ship)
         if (!gameStarted) {
-            store.locatedShipsStore.setMovingShip(ship)
+            store.locatedShipsStore.setMovingShip(ship);
         }
-        // store.locatedShipsStore.setMovingShip(ship);
     };
 
     const handleOnDragEnd = () => {

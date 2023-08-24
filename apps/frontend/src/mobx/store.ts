@@ -3,6 +3,7 @@ import { LocatedShipsStore } from './located-ships/located-ships-store';
 import { NotLocatedShipsStore } from './not-located-ships/not-located-ships-store';
 import { GamesStore } from './games/games-store';
 import { ShotsStore } from './shots/shots-store';
+import { MessagesStore } from './messages/messages-store';
 
 const RootStore = types
     .model({
@@ -10,6 +11,7 @@ const RootStore = types
         notLocatedShipsStore: types.optional(NotLocatedShipsStore, {}),
         gamesStore: types.optional(GamesStore, {}),
         shotsStore: types.optional(ShotsStore, {}),
+        messagesStore: types.optional(MessagesStore, {}),
     });
 
 export interface IRootStore extends Instance<typeof RootStore> { }

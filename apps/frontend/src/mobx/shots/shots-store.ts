@@ -48,7 +48,6 @@ export const ShotsStore = types
             });
 
             shotInfo.ships.forEach(ship => {
-                console.log('setted');
                 rootStore.locatedShipsStore.createModel({
                     ...ship,
                     id: ship.id.toString(),

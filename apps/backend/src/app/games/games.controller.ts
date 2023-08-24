@@ -1,6 +1,5 @@
-import { Body, Controller, Get, Param, Patch, ClassSerializerInterceptor, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Param, ClassSerializerInterceptor, UseInterceptors } from '@nestjs/common';
 import { GamesService } from './games.service';
-import { GameDto } from './dto/game.dto';
 
 @Controller('games')
 @UseInterceptors(ClassSerializerInterceptor)
