@@ -21,13 +21,13 @@ const GamePage = () => {
             </div>
             <Chat />
             {
-                (store.gamesStore.currentGame?.stage === Stage.OVER && store.gamesStore.isMyTurn === true)
+                (store.gamesStore.currentGame?.stage === Stage.OVER)
                     ? <PopupContext.Consumer>
-                        {() => <PopupWrapper type={PopupType.Win}><PopupWin /></PopupWrapper>}
+                        {store.gamesStore.isMyTurn
+                            ? () => <PopupWrapper type={PopupType.Win}><PopupWin /></PopupWrapper>
+                            : () => <PopupWrapper type={PopupType.Lose}><PopupLose /></PopupWrapper>}
                     </PopupContext.Consumer>
-                    : <PopupContext.Consumer>
-                    {() => <PopupWrapper type={PopupType.Lose}><PopupLose /></PopupWrapper>}
-                </PopupContext.Consumer>
+                    : <></>
             }
         </PopupProvider>
     );
