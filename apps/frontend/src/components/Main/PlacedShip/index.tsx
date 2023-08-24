@@ -34,8 +34,8 @@ const PlacedShipComponent = ({ ship }: IPlacedShipProps) => {
         ship: true,
         [`ship--${ship.length}`]: true,
         'ship--vertical': isVertical,
-        [`ship--${ship.x}-x`]: ship.x,
-        [`ship--${ship.y}-y`]: ship.y,
+        [`ship--${ship.x}-x`]: true,
+        [`ship--${ship.y}-y`]: true,
         'ship--blocked': ship.isPlaced && !ship.x && !ship.y,
         'ship--not-draggable': gameStarted,
     });

@@ -23,7 +23,7 @@
     }
 
     &--vertical {
-        transform: rotate(90deg) translateY(calc(($cell-size / 2) * (var(--ship-length) - 1) + 2.5px)) translateX(calc(($cell-size / 2) * (var(--ship-length) - 1)));
+        transform: rotate(90deg) translateY(calc(($cell-size / 2) * (var(--ship-length) - 1) + 2.5px)) translateX(calc(($cell-size / 2) * (var(--ship-length) - 1) - 1px));
     }
 
     &--blocked {
