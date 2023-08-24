@@ -131,7 +131,10 @@ export class GamesService {
 
         const shots = await this.shotsService.getShotsByGame(gameId);
 
-        const messages = await this.messagesService.getGameMessages(gameId);
+        const messages = await this.messagesService.getGameMessages(gameId, {
+            page: 1,
+            limit: 20,
+        });
 
         return {
             gameId,
@@ -144,7 +147,7 @@ export class GamesService {
             ships,
             destroyedShips,
             shots,
-            messages,
+            messages: messages.items.reverse(),
         };
     }
 }

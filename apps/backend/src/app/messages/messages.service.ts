@@ -2,7 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { MessageEntity } from './entities/message.entity';
-import { MessageDto } from './dto/message.dto';
+import { paginate, Pagination } from 'nestjs-typeorm-paginate';
+import { MessageDto, PaginationDto } from './dto/message.dto';
 
 @Injectable()
 export class MessagesService {
@@ -23,9 +24,13 @@ export class MessagesService {
         return newMessage;
     }
 
-    async getGameMessages(gameId: number) {
-        const gameMessages = await this.messagesRepository.find({ where: { gameId }});
+    async getGameMessages(gameId: number, paginationDto: PaginationDto): Promise<Pagination<MessageEntity>> {
+        const { page, limit } = paginationDto;
+        const options = { page, limit };
 
-        return gameMessages;
+        return paginate<MessageEntity>(this.messagesRepository, options, {
+            where: { gameId },
+            order: { id: 'DESC' },
+        });
     }
 }

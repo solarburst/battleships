@@ -27,12 +27,14 @@ const ChatComponent = () => {
 
     useEffect(() => {
         scrollToBottom();
-    }, [messages]);
+    }, [store.messagesStore.messages]);
+
+    console.log('qwe', store.messagesStore.messages.length);
 
     return (
         <div className="chat">
             <div className="chat__area">
-                {messages.map(message => <div className="chat__area-message" key={message.id}>
+                {store.messagesStore.messages.map(message => <div className="chat__area-message" key={message.id}>
                     <span className={message.userId === Number(user) ? 'user' : 'enemy'}>
                         {message.userId === Number(user) ? 'Вы: ' : 'Соперник: '}
                     </span>{message.message}

@@ -140,7 +140,7 @@ export class RequestCreator {
     }
 
     public async getMessages(): Promise<CreateMessageResponseDTO[]> {
-        const res = await this.api.get(`/shots/${this.gameId}`);
+        const res = await this.api.get(`/shots/${this.gameId}/1/20`);
 
         return res?.data;
     }
