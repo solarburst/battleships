@@ -8,7 +8,7 @@ export class MessageDto {
 
 export class PaginationDto {
     @IsPositive()
-        page?: number;
+        offset?: number;
 
     @IsPositive()
         limit?: number;

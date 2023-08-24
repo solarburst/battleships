@@ -24,13 +24,18 @@ export class MessagesService {
         return newMessage;
     }
 
-    async getGameMessages(gameId: number, paginationDto: PaginationDto): Promise<Pagination<MessageEntity>> {
-        const { page, limit } = paginationDto;
-        const options = { page, limit };
+    async getGameMessages(gameId: number, paginationDto: PaginationDto) {
+        const { offset, limit } = paginationDto;
 
-        return paginate<MessageEntity>(this.messagesRepository, options, {
+        const messages = await this.messagesRepository.find({
             where: { gameId },
-            order: { id: 'DESC' },
+            order: {
+                id: 'DESC',
+            },
+            skip: offset,
+            take: limit,
         });
+
+        return messages;
     }
 }

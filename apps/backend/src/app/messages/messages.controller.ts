@@ -14,10 +14,10 @@ export class MessagesController {
         return this.messagesService.createMessage(Number(gameId), Number(userId), message);
     }
 
-    @Get('/:gameId/:page/:limit')
-    async getGameMessages(@Param('gameId') gameId: string, @Param('page') page: string, @Param('limit') limit: string) {
+    @Get('/:gameId/:offset/:limit')
+    async getGameMessages(@Param('gameId') gameId: string, @Param('offset') offset: string, @Param('limit') limit: string) {
         return this.messagesService.getGameMessages(Number(gameId), {
-            page: Number(page),
+            offset: Number(offset),
             limit: Number(limit),
         });
     }

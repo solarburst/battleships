@@ -18,11 +18,10 @@ const ChatComponent = () => {
         ref.current?.scrollIntoView({ behavior: 'smooth' });
     };
 
-    const handleSubmit = (e: KeyboardEvent) => {
-        if (message && e.key === 'Enter') {
-            store.messagesStore.sendMessage(message);
-            setMessage('');
-        }
+    const handleSubmit = (e: SubmitEvent) => {
+        e.preventDefault();
+        store.messagesStore.sendMessage(message);
+        setMessage('');
     };
 
     useEffect(() => {
@@ -42,8 +41,10 @@ const ChatComponent = () => {
                 <div className="chat__area-end" ref={ref} />
             </div>
             <div className="chat__input">
-                <input placeholder="Написать в чат" type="text" className="input" onChange={(e) => setMessage(e.target.value)} value={message} onKeyDown={(e) => handleSubmit(e)} />
-                <Icon name="input" className="input__icon" />
+                <form onSubmit={handleSubmit}>
+                    <input placeholder="Написать в чат" type="text" className="input" onChange={(e) => setMessage(e.target.value)} value={message} />
+                    <Icon name="input" className="input__icon" />
+                </form>
             </div>
         </div>
     );

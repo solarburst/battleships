@@ -24,21 +24,23 @@ export const MessagesStore = types
                 message,
             });
 
-            self.store.set(String(sentMessage.id), MessageModel.create({
+            store.messagesStore.createModel({
                 ...sentMessage,
                 id: sentMessage.id.toString(),
-            }));
+            });
 
             // store.messagesStore.fetchMessages();
         }),
         fetchMessages: flow(function *() {
+            const store = useStore();
+
             const messagesArr: IMessage[] = yield requestCreator.getMessages();
 
             messagesArr?.forEach(message => {
-                self.store.set(String(message.id), MessageModel.create({
+                store.messagesStore.createModel({
                     ...message,
                     id: message.id.toString(),
-                }));
+                });
             });
         }),
     }));

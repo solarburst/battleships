@@ -132,7 +132,7 @@ export class GamesService {
         const shots = await this.shotsService.getShotsByGame(gameId);
 
         const messages = await this.messagesService.getGameMessages(gameId, {
-            page: 1,
+            offset: 0,
             limit: 20,
         });
 
@@ -147,7 +147,7 @@ export class GamesService {
             ships,
             destroyedShips,
             shots,
-            messages: messages.items.reverse(),
+            messages: messages.reverse(),
         };
     }
 }
