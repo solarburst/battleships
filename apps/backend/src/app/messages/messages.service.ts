@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { MessageEntity } from './entities/message.entity';
-import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { MessageDto, PaginationDto } from './dto/message.dto';
 
 @Injectable()

@@ -124,7 +124,6 @@
         "no-plusplus": "off",
         "no-proto": "error",
         "no-restricted-exports": "error",
-        "no-restricted-globals": "error",
         "no-restricted-imports": "error",
         "no-restricted-modules": "error",
         "no-restricted-properties": "error",

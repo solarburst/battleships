@@ -60,7 +60,7 @@ const AppComponent = () => {
 
     return (
         <div onDragOver={handleDragOver} onDrop={handleOnDrop}>
-            {store.gamesStore.currentGame?.stage === Stage.GAME ? <GamePage /> : <HomePage />}
+            {store.gamesStore.currentGame?.stage === Stage.SETUP ? <HomePage /> : <GamePage />}
             <Toast />
         </div>
     );

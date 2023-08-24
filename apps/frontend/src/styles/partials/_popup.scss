@@ -6,7 +6,7 @@
     bottom: 0;
     background-color: rgba(0,0,0,.4);
     display: block;
-    z-index: 1000;
+    z-index: 100000;
 }
 
 .popup__content {
@@ -16,7 +16,7 @@
     top: 47.5%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 10000;
+    z-index: 100000;
     background: $popup-color;
     border-radius: 25px;
     display: flex;
@@ -36,5 +36,31 @@
         font-size: 14px;
         text-align: center;
         color: $text-default;
+    }
+
+    &-win {
+        display: flex;
+
+        &-icon {
+            position: absolute;
+        }
+
+        &-icon:nth-child(1) {
+            position: absolute;
+            left: -30px;
+            top: -30px;
+        }
+
+        &-icon:nth-child(3) {
+            position: absolute;
+            left: 340px;
+            top: -45px;
+        }
+
+        &-inner {
+            display: flex;
+            flex-direction: column;
+            gap: 60px;
+        }
     }
 }

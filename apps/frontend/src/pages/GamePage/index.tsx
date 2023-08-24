@@ -1,11 +1,17 @@
 import Header from '../../components/Header';
-import { PopupProvider } from '../../context/PopupContext';
+import { PopupContext, PopupProvider } from '../../context/PopupContext';
 import React from 'react';
 import Field from '../../components/Main/Playground/Field';
-import { FieldOwner } from '../../utils/interfaces';
+import { FieldOwner, Stage } from '../../utils/interfaces';
 import { Chat } from '../../components/Chat';
+import { useStore } from '../../mobx/store';
+import PopupWrapper, { PopupType } from '../../components/Popup';
+import PopupLose from '../../components/Popup/PopupLose';
+import PopupWin from '../../components/Popup/PopupWin';
 
 const GamePage = () => {
+    const store = useStore();
+
     return (
         <PopupProvider>
             <Header />
@@ -14,6 +20,15 @@ const GamePage = () => {
                 <Field isMyField={false} />
             </div>
             <Chat />
+            {
+                (store.gamesStore.currentGame?.stage === Stage.OVER && store.gamesStore.isMyTurn === true)
+                    ? <PopupContext.Consumer>
+                        {() => <PopupWrapper type={PopupType.Win}><PopupWin /></PopupWrapper>}
+                    </PopupContext.Consumer>
+                    : <PopupContext.Consumer>
+                    {() => <PopupWrapper type={PopupType.Lose}><PopupLose /></PopupWrapper>}
+                </PopupContext.Consumer>
+            }
         </PopupProvider>
     );
 };

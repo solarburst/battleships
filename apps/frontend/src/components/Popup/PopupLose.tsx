@@ -1,18 +1,21 @@
-import { RequestCreator } from '../../api/request-creator';
+import { useStore } from '../../mobx/store';
 import { PopupContext } from '../../context/PopupContext';
 import React, { useContext } from 'react';
 
 const PopupLose = () => {
     const { close } = useContext(PopupContext);
 
-    const requestCreator = RequestCreator.getInstance();
+    const store = useStore();
 
-    // переписать
     const onClickHandler = async () => {
-        const data = await requestCreator.createGame();
+        const data = await store.gamesStore.createGame();
 
-        window.history.replaceState('', '', `/${requestCreator.gameId}/${requestCreator.userId}`);
+        const gameId = data.id;
+        const userId = data.firstUser;
+
+        window.history.replaceState('', '', `/${gameId}/${userId}`);
         close();
+        location.reload();
     };
 
     return (
