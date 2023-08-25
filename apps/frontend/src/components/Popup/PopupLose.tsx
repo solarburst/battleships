@@ -18,7 +18,6 @@ const PopupLose = () => {
         close();
 
         window.location.reload();
-        console.log(getSnapshot(store));
     };
 
     return (

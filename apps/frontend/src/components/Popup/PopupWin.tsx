@@ -19,7 +19,6 @@ const PopupWin = () => {
         close();
 
         window.location.reload();
-        console.log(getSnapshot(store));
     };
 
     return (
