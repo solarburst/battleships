@@ -13,8 +13,6 @@ const PopupGreeting = () => {
         const gameId = data.id;
         const userId = data.firstUser;
 
-        // store.gamesStore.loadGame(String(gameId), String(userId));
-
         window.history.replaceState('', '', `/${gameId}/${userId}`);
         close();
     };

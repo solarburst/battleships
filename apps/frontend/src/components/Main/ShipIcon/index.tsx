@@ -1,6 +1,5 @@
-import React, { CSSProperties } from 'react';
+import React from 'react';
 import Icon from '../Icon';
-import { useStore } from '../../../mobx/store';
 import { observer } from 'mobx-react';
 
 const lengths = [1, 2, 3, 4];

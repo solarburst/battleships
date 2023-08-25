@@ -2,4 +2,21 @@
     display: flex;
     justify-content: space-between;
     margin-top: 64px;
+
+    &__field-info {
+        display: flex;
+        align-items: center;
+    }
+
+    &__field-fleet {
+        padding: 16px 24px 16px 0;
+        color: #FFFFFF;
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    &__field-damage {
+        color: #676B97;
+        font-size: 16px;
+    }
 }

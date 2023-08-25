@@ -3,8 +3,6 @@ import Header from '../../components/Header';
 import { PopupContext, PopupProvider } from '../../context/PopupContext';
 import PopupWrapper, { PopupType } from '../../components/Popup';
 import PopupGreeting from '../../components/Popup/PopupGreeting';
-import { useEffect } from 'react';
-import { useStore } from '../../mobx/store';
 import { BASE_URL } from '../../utils/constants';
 
 export const HomePage = () => {

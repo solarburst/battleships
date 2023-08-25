@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from '@hapi/joi';
 
@@ -10,9 +10,6 @@ import { GamesModule } from './games/games.module';
 import { MessagesModule } from './messages/messages.module';
 import { ShipsModule } from './ships/ships.module';
 import { ShotsModule } from './shots/shots.module';
-import { Stage } from './games/entities/game.entity';
-import { GameMiddlewareCreator } from './games/game.middleware';
-import { ShipsController } from './ships/ships.controller';
 
 @Module({
     imports: [

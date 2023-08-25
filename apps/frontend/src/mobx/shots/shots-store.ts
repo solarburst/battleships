@@ -1,6 +1,6 @@
 import { Instance, flow, getRoot, types } from 'mobx-state-tree';
 import { createBaseStore } from '../base-store';
-import { IShot, IShotField, ShotModel } from './shots-model';
+import { IShot, IShotField, ShotModel, ShotResult } from './shots-model';
 import { useStore } from '../store';
 import { RequestCreator } from '../../api/request-creator';
 import { IGamesStore } from 'mobx/games/games-store';
@@ -16,16 +16,36 @@ export const ShotsStore = types
         get shots() {
             const gamesStore = getRoot(self).gamesStore as IGamesStore;
 
-            const currentUserId = gamesStore.currentUserId;
+            const currentUserId = Number(gamesStore.currentUserId);
 
-            return Array.from(self.store.values()).filter(shot => shot.userId === Number(currentUserId));
+            return Array.from(self.store.values()).filter(shot => shot.userId === currentUserId);
         },
         get enemyShots() {
             const gamesStore = getRoot(self).gamesStore as IGamesStore;
 
-            const currentUserId = gamesStore.currentUserId;
+            const currentUserId = Number(gamesStore.currentUserId);
 
-            return Array.from(self.store.values()).filter(shot => shot.userId !== Number(currentUserId));
+            return Array.from(self.store.values()).filter(shot => shot.userId !== currentUserId);
+        },
+        get damage() {
+            const gamesStore = getRoot(self).gamesStore as IGamesStore;
+
+            const currentUserId = Number(gamesStore.currentUserId);
+
+            return Array.from(self.store.values()).filter(
+                shot => shot.userId === currentUserId
+                && (shot.status === ShotResult.HIT || shot.status === ShotResult.KILL),
+            ).length;
+        },
+        get enemyDamage() {
+            const gamesStore = getRoot(self).gamesStore as IGamesStore;
+
+            const currentUserId = Number(gamesStore.currentUserId);
+
+            return Array.from(self.store.values()).filter(
+                shot => shot.userId !== currentUserId
+                && (shot.status === ShotResult.HIT || shot.status === ShotResult.KILL),
+            ).length;
         },
         getShotByPosition(x: number, y: number, userId: number) {
             return Array.from(self.store.values()).find(shot => shot.x === x && shot.y === y && shot.userId === userId);
@@ -41,10 +61,10 @@ export const ShotsStore = types
             });
 
             shotInfo.shots.forEach(shot => {
-                self.store.set(String(shot.id), ShotModel.create({
+                rootStore.shotsStore.createModel({
                     ...shot,
                     id: shot.id.toString(),
-                }));
+                });
             });
 
             shotInfo.ships.forEach(ship => {
@@ -60,19 +80,17 @@ export const ShotsStore = types
                     id: ship.id.toString(),
                 });
             });
-
-            // rootStore.locatedShipsStore.setShips(shotInfo.ships);
-
-            // rootStore.locatedShipsStore.setShips(shotInfo.destroyedShips);
         }),
         fetchShots: flow(function *() {
+            const rootStore = useStore();
+
             const shotsArr: IShot[] = yield requestCreator.getShots();
 
             shotsArr?.forEach(shot => {
-                self.store.set(String(shot.id), ShotModel.create({
+                rootStore.shotsStore.createModel({
                     ...shot,
                     id: shot.id.toString(),
-                }));
+                });
             });
         }),
     }));

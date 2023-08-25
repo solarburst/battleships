@@ -28,8 +28,6 @@ export const MessagesStore = types
                 ...sentMessage,
                 id: sentMessage.id.toString(),
             });
-
-            // store.messagesStore.fetchMessages();
         }),
         fetchMessages: flow(function *() {
             const store = useStore();

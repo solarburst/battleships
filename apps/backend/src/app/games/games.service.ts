@@ -40,8 +40,6 @@ export class GamesService {
             id: newGame.id,
             isFirstUserTurn: newGame.isFirstUserTurn,
             stage: newGame.stage,
-            // firstUser: firstUser.code,
-            // secondUser: secondUser.code,
             firstUser: firstUser.id,
             secondUser: secondUser.id,
             firstUserReady: false,
@@ -126,8 +124,6 @@ export class GamesService {
         const ships = await this.shipsService.getShipsByUserAndGame(userId, gameId);
 
         const destroyedShips = await this.shipsService.getDestroyedShips(userId, gameId);
-
-        // const shots = await this.shotsService.getShotsByGame(gameId);
 
         const shots = await this.shotsService.getShotsByGame(gameId);
 

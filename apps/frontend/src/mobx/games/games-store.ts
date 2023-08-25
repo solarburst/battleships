@@ -1,4 +1,4 @@
-import { Instance, flow, getSnapshot, types } from 'mobx-state-tree';
+import { Instance, flow, types } from 'mobx-state-tree';
 import { RequestCreator } from '../../api/request-creator';
 import { IGame, GameModel } from './games-model';
 import { useStore } from '../../mobx/store';
@@ -98,8 +98,6 @@ export const GamesStore = types
                     id: message.id.toString(),
                 });
             });
-
-            console.log(getSnapshot(rootStore));
         }),
         setReady: flow(function *(id: number) {
             const rootStore = useStore();
@@ -110,8 +108,6 @@ export const GamesStore = types
                 ...updatedGame,
                 id: updatedGame.id.toString(),
             };
-
-            console.log(getSnapshot(rootStore));
         }),
     }));
 

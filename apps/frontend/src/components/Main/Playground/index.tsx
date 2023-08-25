@@ -1,9 +1,9 @@
-import React, { useDeferredValue } from 'react';
+import React from 'react';
 import { useStore } from '../../../mobx/store';
 import { observer } from 'mobx-react';
 import { PlacedShip } from '../PlacedShip';
 import PlaygroundButtons from './PlaygroundButtons';
-import Field from './Field';
+import { Field } from './Field';
 import { PositionChecker } from '../../../utils/positionChecker';
 
 const PlaygroundComponent = () => {

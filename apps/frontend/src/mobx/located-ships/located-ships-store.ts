@@ -50,11 +50,13 @@ export const LocatedShipsStore = types
             self.store.delete(id);
         },
         setShips(shipsArr: ILocatedShip[]) {
+            const rootStore = useStore();
+
             shipsArr?.forEach(ship => {
-                self.store.set(String(ship.id), LocatedShipModel.create({
+                rootStore.locatedShipsStore.createModel({
                     ...ship,
                     id: ship.id.toString(),
-                }));
+                });
             });
         },
     }));

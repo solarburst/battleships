@@ -2,12 +2,16 @@ import React from 'react';
 import LetterRow from './LetterRow';
 import NumberColumn from './NumberColumn';
 import { FieldCells } from './FieldCells';
+import { useStore } from '../../../mobx/store';
+import { observer } from 'mobx-react';
 
 interface IField {
     isMyField: boolean;
 }
 
-const Field = ({ isMyField }: IField) => {
+const FieldComponent = ({ isMyField }: IField) => {
+    const store = useStore();
+
     return (
         <div className="main__playground-field">
             {<LetterRow />}
@@ -15,8 +19,9 @@ const Field = ({ isMyField }: IField) => {
                 {<NumberColumn />}
                 {<FieldCells isMyField={isMyField} />}
             </div>
+            {store.gamesStore.isMyTurn && isMyField ? <div className="main__playground-field-turn">Ваш ход</div> : null}
         </div>
     );
 };
 
-export default Field;
+export const Field = observer(FieldComponent);

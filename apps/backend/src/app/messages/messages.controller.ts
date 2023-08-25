@@ -15,7 +15,11 @@ export class MessagesController {
     }
 
     @Get('/:gameId/:offset/:limit')
-    async getGameMessages(@Param('gameId') gameId: string, @Param('offset') offset: string, @Param('limit') limit: string) {
+    async getGameMessages(
+        @Param('gameId') gameId: string,
+        @Param('offset') offset: string,
+        @Param('limit') limit: string,
+    ) {
         return this.messagesService.getGameMessages(Number(gameId), {
             offset: Number(offset),
             limit: Number(limit),

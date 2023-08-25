@@ -12,7 +12,7 @@ export function GameMiddlewareCreator(options: Stage): Type<NestMiddleware> {
         async use(req: Request, res: Response, next: NextFunction) {
             const stage = options;
 
-            const bodyGameId = (req.path).match(/(\d+)/)[0];
+            const bodyGameId = (req.path).match(/(\d+)/u)[0];
 
             const game = await this.gamesService.getGameById(Number(bodyGameId));
 

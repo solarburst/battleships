@@ -29,7 +29,7 @@ const FieldCellsComponent = ({ isMyField }: IFieldCells) => {
 
     let count = 0;
 
-    const handleOnDrop = (event: Event, y: number, x: number) => {
+    const handleOnDrop = (event: React.DragEvent, y: number, x: number) => {
         if (ship) {
             event.stopPropagation();
 

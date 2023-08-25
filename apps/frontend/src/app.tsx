@@ -5,7 +5,7 @@ import { useCallback, useEffect } from 'react';
 import { useStore } from './mobx/store';
 import { observer } from 'mobx-react';
 import { Stage } from './utils/interfaces';
-import GamePage from './pages/GamePage';
+import { GamePage } from './pages/GamePage';
 import { initialShips } from './utils/constants';
 
 const AppComponent = () => {
@@ -53,16 +53,15 @@ const AppComponent = () => {
 
     if (store.gamesStore.currentGame) {
         setInterval(async () => {
-            console.log('tick');
             store.gamesStore.loadGame(gameId, userId);
         }, 5000);
     }
 
-    console.log(store.gamesStore.currentGame?.stage);
-
     return (
         <div onDragOver={handleDragOver} onDrop={handleOnDrop}>
-            {store.gamesStore.currentGame?.stage === Stage.GAME || store.gamesStore.currentGame?.stage === Stage.OVER ? <GamePage /> : <HomePage /> }
+            {store.gamesStore.currentGame?.stage === Stage.GAME || store.gamesStore.currentGame?.stage === Stage.OVER
+                ? <GamePage />
+                : <HomePage /> }
             <Toast />
         </div>
     );
