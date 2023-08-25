@@ -68,6 +68,8 @@ const FieldCellsComponent = ({ isMyField }: IFieldCells) => {
         }
     };
 
+    const shots = store.shotsStore.shots(userId);
+
     const memoizedCells = useMemo(() => {
         const cells: ReactElement[] = [];
 
@@ -134,7 +136,7 @@ const FieldCellsComponent = ({ isMyField }: IFieldCells) => {
         }
 
         return cells;
-    }, [hoveredCell, ship, store.shotsStore.shots]);
+    }, [hoveredCell, ship, shots]);
 
     return (
         <div className="main__playground-field-cells">

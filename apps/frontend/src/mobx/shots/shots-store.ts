@@ -13,37 +13,12 @@ export const ShotsStore = types
         createBaseStore<IShotField>(ShotModel),
     )
     .views(self => ({
-        get shots() {
-            const gamesStore = getRoot(self).gamesStore as IGamesStore;
-
-            const currentUserId = Number(gamesStore.currentUserId);
-
+        shots(currentUserId: number) {
             return Array.from(self.store.values()).filter(shot => shot.userId === currentUserId);
         },
-        get enemyShots() {
-            const gamesStore = getRoot(self).gamesStore as IGamesStore;
-
-            const currentUserId = Number(gamesStore.currentUserId);
-
-            return Array.from(self.store.values()).filter(shot => shot.userId !== currentUserId);
-        },
-        get damage() {
-            const gamesStore = getRoot(self).gamesStore as IGamesStore;
-
-            const currentUserId = Number(gamesStore.currentUserId);
-
+        shipsDamageCount(currentUserId: number) {
             return Array.from(self.store.values()).filter(
                 shot => shot.userId === currentUserId
-                && (shot.status === ShotResult.HIT || shot.status === ShotResult.KILL),
-            ).length;
-        },
-        get enemyDamage() {
-            const gamesStore = getRoot(self).gamesStore as IGamesStore;
-
-            const currentUserId = Number(gamesStore.currentUserId);
-
-            return Array.from(self.store.values()).filter(
-                shot => shot.userId !== currentUserId
                 && (shot.status === ShotResult.HIT || shot.status === ShotResult.KILL),
             ).length;
         },

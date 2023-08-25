@@ -14,6 +14,10 @@ import { observer } from 'mobx-react';
 const GamePageComponent = () => {
     const store = useStore();
 
+    const currentUserId = Number(store.gamesStore.currentUserId);
+
+    const enemyId = Number(store.gamesStore.enemyId);
+
     return (
         <PopupProvider>
             <Header />
@@ -22,7 +26,8 @@ const GamePageComponent = () => {
                     <div className="game__field-info">
                         <div className="game__field-fleet">Твой флот</div>
                         <div className="game__field-damage">
-                            Повреждения: {Math.round(store.shotsStore.enemyDamage / MAX_HITS * 100)}%
+                            Повреждения:
+                            {Math.round(store.shotsStore.shipsDamageCount(enemyId) / MAX_HITS * 100)}%
                         </div>
                     </div>
                     <Field isMyField={true} />
@@ -31,7 +36,8 @@ const GamePageComponent = () => {
                     <div className="game__field-info">
                         <div className="game__field-fleet">Флот соперника</div>
                         <div className="game__field-damage">
-                            Повреждения: {Math.round(store.shotsStore.damage / MAX_HITS * 100)}%
+                            Повреждения:
+                            {Math.round(store.shotsStore.shipsDamageCount(currentUserId) / MAX_HITS * 100)}%
                         </div>
                     </div>
                     <Field isMyField={false} />

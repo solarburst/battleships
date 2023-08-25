@@ -127,12 +127,6 @@ export class RequestCreator {
         return res?.data;
     }
 
-    public async getEnemyShots(userId: number): Promise<ShotResponseDTO[]> {
-        const res = await this.api.get(`/shots/${this.gameId}/${userId}`);
-
-        return res?.data;
-    }
-
     public async sendMessage(values: CreateMessageDTO): Promise<CreateMessageResponseDTO> {
         const res = await this.api.post(`/messages/${this.gameId}/${this.userId}`, values);
 

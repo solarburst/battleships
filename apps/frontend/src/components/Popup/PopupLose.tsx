@@ -1,6 +1,7 @@
 import { useStore } from '../../mobx/store';
 import { PopupContext } from '../../context/PopupContext';
 import React, { useContext } from 'react';
+import { getSnapshot } from 'mobx-state-tree';
 
 const PopupLose = () => {
     const { close } = useContext(PopupContext);
@@ -15,7 +16,9 @@ const PopupLose = () => {
 
         window.history.replaceState('', '', `/${gameId}/${userId}`);
         close();
-        location.reload();
+
+        window.location.reload();
+        console.log(getSnapshot(store));
     };
 
     return (

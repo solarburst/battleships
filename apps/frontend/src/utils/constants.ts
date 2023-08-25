@@ -2,9 +2,7 @@ import { INotLocatedShipField } from 'mobx/not-located-ships/not-located-ships-m
 import { Orientation } from './interfaces';
 
 export const FIELD_SIZE = 9;
-export const CELL_SIZE = 36;
-export const BASE_URL = 'http://localhost:4200/';
-export const MAX_HITS = 20;
+export const BASE_URL = 'http://localhost:4200/'
 
 export const initialShips: INotLocatedShipField[] = [
     {
@@ -68,3 +66,5 @@ export const initialShips: INotLocatedShipField[] = [
         isPlaced: false,
     },
 ];
+
+export const MAX_HITS = initialShips.reduce((sum, elem) => sum + elem.length, 0);

@@ -2,6 +2,7 @@ import { useStore } from '../../mobx/store';
 import { PopupContext } from '../../context/PopupContext';
 import React, { useContext } from 'react';
 import Icon from '../../components/Main/Icon';
+import { getSnapshot } from 'mobx-state-tree';
 
 const PopupWin = () => {
     const { close } = useContext(PopupContext);
@@ -16,7 +17,9 @@ const PopupWin = () => {
 
         window.history.replaceState('', '', `/${gameId}/${userId}`);
         close();
-        location.reload();
+
+        window.location.reload();
+        console.log(getSnapshot(store));
     };
 
     return (
